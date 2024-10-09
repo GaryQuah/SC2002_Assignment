@@ -1,10 +1,15 @@
+import java.util.Vector;
+
 public abstract class User{
     //Users must log in to the system using their unique hospital ID and a default password ("password"). 
-    public String m_UserName;
-    public String m_PassWord;
+    private String m_UserName;
+    private String m_PassWord;
 
     //Users will have roles such as Patient, Doctor, Pharmacist or Administrator.
-    public Role m_Role;
+    private Role m_Role;
+
+    //Stores appointment data
+    private Vector<Appointment> m_Appointments;
 
     //Users can change their password after their initial login.
     public User(String m_UserName, Role m_Role){
@@ -20,5 +25,10 @@ public abstract class User{
             return true;
         }
         else return false;
+    }
+
+    public Role getRole()
+    {
+        return this.m_Role;
     }
 }
