@@ -1,5 +1,9 @@
-public class Pharmacist extends User{
-    public Pharmacist(String m_UserName) {
-        super(m_UserName, Role.Pharmacist); // Calls the constructor of the User class
-    }
-}
+#include <string>
+#include "User.h"  // Include the User header
+
+class Pharmacist : public User {
+public:
+    // Constructor that calls the User class constructor
+    Pharmacist(const std::string& userName)
+        : User(userName, Role::Pharmacist) {}  // Use Role::Pharmacist in C++
+};
