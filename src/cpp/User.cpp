@@ -11,7 +11,6 @@ enum class Gender {
     Male, Female, Others
 };
 
-
 class Appointment; // Forward declaration of Appointment class
 
 class User {

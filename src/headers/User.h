@@ -1,6 +1,3 @@
-#ifndef USER_H
-#define USER_H
-
 #include <string>
 #include <vector>
 
@@ -21,7 +18,6 @@ private:
     std::string m_PassWord;
     Role* m_Role;
     std::vector<Appointment*> m_Appointments;
-
 public:
     // Constructor
     User(const std::string userName, Role role);
@@ -35,5 +31,3 @@ public:
     // Virtual destructor
     virtual ~User();
 };
-
-#endif // USER_H
