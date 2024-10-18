@@ -27,6 +27,16 @@ public abstract class User{
         else return false;
     }
 
+    public String getUserID()
+    {
+        return this.m_UserName;
+    }
+
+    public String getPassword()
+    {
+        return this.m_PassWord;
+    }
+
     public Role getRole()
     {
         return this.m_Role;
