@@ -1,4 +1,9 @@
+package view;
 import java.util.Vector;
+
+import models.Appointment;
+import models.User;
+
 import java.util.Scanner;
 
 import java.io.FileWriter;

@@ -1,3 +1,4 @@
+package models;
 public class Appointment {
     private String m_DoctorName;
     private String m_AppointmentDate;

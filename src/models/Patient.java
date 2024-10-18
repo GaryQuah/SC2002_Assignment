@@ -1,3 +1,7 @@
+package models;
+import models.enums.Gender;
+import models.enums.Role;
+
 public class Patient extends User{
     //------------------ Variables -----------------------------
     private String m_PatientID;

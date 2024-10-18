@@ -1,6 +1,7 @@
+package models;
 import java.util.Vector;
 
-import user.Role;
+import models.enums.Role;
 
 public class Doctor extends User {
     //------------------ Variables -----------------------------

@@ -1,4 +1,7 @@
+package models;
 import java.util.Vector;
+
+import models.enums.Role;
 
 public abstract class User{
     //Users must log in to the system using their unique hospital ID and a default password ("password"). 
