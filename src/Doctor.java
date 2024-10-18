@@ -1,5 +1,7 @@
 import java.util.Vector;
 
+import user.Role;
+
 public class Doctor extends User {
     //------------------ Variables -----------------------------
     private Vector<String> m_PatientNames;
