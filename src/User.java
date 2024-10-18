@@ -31,4 +31,9 @@ public abstract class User{
     {
         return this.m_Role;
     }
+
+    public void updatePassword(String newPassword)
+    {
+        this.m_PassWord = newPassword;
+    }
 }

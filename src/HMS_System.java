@@ -6,9 +6,18 @@ public class HMS_System {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Vector<Appointment> AppointmentManager;
+        Vector<User> ListOfUsers;
 
-        System.out.println("Welcome To The HMS System - Please Enter Your Role - Enter Exit To Close The System");
-        String role = sc.nextLine();
+        //Create code here to open up file to retrieve locally stored users
+
+        System.out.println("Welcome To The HMS System - Please Enter Your ID and Password");
+        String ID = sc.nextLine();
+        String Password = sc.nextLine();
+
+        //Get role from users in the system
+        
+        
+        String role = "";
 
         do{
             switch(role){
@@ -28,5 +37,25 @@ public class HMS_System {
                     break;
             }
         }while(role != "Exit");
+    }
+
+    public void PatientMenu()
+    {
+
+    }
+
+    public void DoctorMenu()
+    {
+
+    }
+
+    public void PharmacistMenu()
+    {
+
+    }
+
+    public void AdministratorMenu()
+    {
+
     }
 }
