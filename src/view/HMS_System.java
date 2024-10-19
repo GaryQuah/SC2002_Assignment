@@ -1,7 +1,7 @@
 package view;
 import java.util.Vector;
 
-import models.Appointment;
+import ServiceClasses.Appointment;
 import models.User;
 
 import java.util.Scanner;

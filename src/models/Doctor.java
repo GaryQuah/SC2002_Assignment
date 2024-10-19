@@ -7,9 +7,6 @@ public class Doctor extends User {
     //------------------ Variables -----------------------------
     private Vector<String> m_PatientNames;
 
-
-
-
     //------------------- Functions ---------------------------
 
     //Creates a "Doctor" after passing the user's username. default password is "password", default role is "Doctor"

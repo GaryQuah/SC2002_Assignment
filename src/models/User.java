@@ -1,6 +1,7 @@
 package models;
 import java.util.Vector;
 
+import ServiceClasses.Appointment;
 import models.enums.Role;
 
 public abstract class User{
