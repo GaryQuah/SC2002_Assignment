@@ -1,7 +1,7 @@
 package view;
 import java.util.Vector;
 
-import models.Appointment;
+import ServiceClasses.Appointment;
 import models.User;
 
 import java.util.Scanner;
@@ -11,6 +11,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 
+public class HMSApp {
+    public static void main(String[] args) {
+        // Initialize system and load data
+        // Handle user login and delegate to the appropriate menu
+    }
+}
+
+
+/* 
 public class HMS_System {   
 
     private static final String FILE_PATH = "user_data.csv";
@@ -137,3 +146,4 @@ public class HMS_System {
     }
 }
 }
+*/
