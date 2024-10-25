@@ -2,6 +2,9 @@ package view;
 import java.util.Vector;
 
 import ServiceClasses.Appointment;
+import ServiceClasses.MedicalRecordService;
+import models.MedicalRecord;
+
 import models.User;
 
 import java.util.Scanner;
@@ -10,11 +13,72 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.util.List;
 
 public class HMSApp {
     public static void main(String[] args) {
         // Initialize system and load data
         // Handle user login and delegate to the appropriate menu
+        //corn's part, ignore this
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Add Medical Record");
+            System.out.println("2. View Medical Records");
+            System.out.println("3. Update Medical Record");
+            System.out.println("4. Delete Medical Record");
+            System.out.println("5. Exit");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter Patient ID:");
+                        String patientId = scanner.nextLine();
+                        System.out.println("Enter Doctor ID:");
+                        String doctorId = scanner.nextLine();
+                        System.out.println("Enter Diagnosis:");
+                        String diagnosis = scanner.nextLine();
+                        System.out.println("Enter Treatment:");
+                        String treatment = scanner.nextLine();
+                        System.out.println("Enter Date:");
+                        String date = scanner.nextLine();
+                        MedicalRecord record = new MedicalRecord(patientId, doctorId, diagnosis, treatment, date);
+                        MedicalRecordService.addMedicalRecord(record);
+                        break;
+                    case 2:
+                        List<MedicalRecord> records = MedicalRecordService.getAllMedicalRecords();
+                        for (MedicalRecord rec : records) {
+                            System.out.println(rec.getPatientId() + " " + rec.getDoctorId() + " " + rec.getDiagnosis() + " " + rec.getTreatment() + " " + rec.getDate());
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Enter Patient ID to update:");
+                        String updatePatientId = scanner.nextLine();
+                        System.out.println("Enter new Doctor ID:");
+                        String updateDoctorId = scanner.nextLine();
+                        System.out.println("Enter new Diagnosis:");
+                        String updateDiagnosis = scanner.nextLine();
+                        System.out.println("Enter new Treatment:");
+                        String updateTreatment = scanner.nextLine();
+                        System.out.println("Enter new Date:");
+                        String updateDate = scanner.nextLine();
+                        MedicalRecord updatedRecord = new MedicalRecord(updatePatientId, updateDoctorId, updateDiagnosis, updateTreatment, updateDate);
+                        MedicalRecordService.updateMedicalRecord(updatedRecord);
+                        break;
+                    case 4:
+                        System.out.println("Enter Patient ID to delete:");
+                        String deletePatientId = scanner.nextLine();
+                        MedicalRecordService.deleteMedicalRecord(deletePatientId);
+                        break;
+                    case 5:
+                        System.exit(0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
