@@ -7,22 +7,19 @@ import java.util.regex.Pattern;
 import java.util.List;
 import java.util.Scanner;
 
-public class AdminAddMember 
-{
-    public static void main()
-    {
+public class AdminAddMember {
+    public static void main() {
         boolean b = false;
         int choice, age;
-        String role="";
-        String gender="";
-        String name="";
-        String id="";
+        String role = "";
+        String gender = "";
+        String name = "";
+        String id = "";
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
         // List<String[]> staffData = CsvFunctions.getStaffData();
 
-        while(true)
-        {
+        while (true) {
             System.out.println("Select New Staff Role: ");
             System.out.println("1. Doctor");
             System.out.println("2. Pharmacist");
@@ -31,8 +28,7 @@ public class AdminAddMember
             choice = sc.nextInt();
             sc.nextLine();
 
-            switch(choice)
-            {
+            switch (choice) {
                 case 1:
                     role = "Doctor";
                     break;
@@ -52,8 +48,7 @@ public class AdminAddMember
             break;
         }
 
-        while(true)
-        {
+        while (true) {
             System.out.println("Select New Staff's Gender: ");
             System.out.println("1. Male");
             System.out.println("2. Female");
@@ -61,8 +56,7 @@ public class AdminAddMember
             choice = sc.nextInt();
             sc.nextLine();
 
-            switch(choice)
-            {
+            switch (choice) {
                 case 1:
                     gender = "Male";
                     break;
@@ -79,16 +73,15 @@ public class AdminAddMember
             break;
         }
 
-        do{
+        do {
             System.out.println("Enter 3 Digit Staff's ID: ");
             id = role.charAt(0) + sc.nextLine();
-            if (CsvFunctions.isDuplicateId(id))
-            {
+            if (CsvFunctions.isDuplicateId(id)) {
                 System.out.println("ID Already Exists");
                 continue;
             }
             b = Pattern.matches("[DPA]\\d{3}", id);
-        } while(!b);
+        } while (!b);
 
         System.out.println("Enter New Staff's Age: ");
         age = sc.nextInt();
@@ -97,16 +90,16 @@ public class AdminAddMember
         System.out.println("Enter New Staff's Name: ");
         name = sc.nextLine();
 
-        String[] newStaff = new String[]{id, name, role, gender, Integer.toString(age)};
-        // staffData.add(newStaff);
+        String[] newStaff = new String[] { id, name, role, gender, Integer.toString(age) };
+        staffData.add(newStaff);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             for (String col : newStaff) {
-                    writer.append(col)
-                          .append(",");
-                }
-                writer.append("\n");
-            
+                writer.append(col)
+                        .append(",");
+            }
+            writer.append("\n");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
