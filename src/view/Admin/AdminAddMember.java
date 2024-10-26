@@ -19,7 +19,7 @@ public class AdminAddMember
         String id="";
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = CsvFunctions.getStaffData();
+        // List<String[]> staffData = CsvFunctions.getStaffData();
 
         while(true)
         {
@@ -98,7 +98,7 @@ public class AdminAddMember
         name = sc.nextLine();
 
         String[] newStaff = new String[]{id, name, role, gender, Integer.toString(age)};
-        staffData.add(newStaff);
+        // staffData.add(newStaff);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             for (String col : newStaff) {

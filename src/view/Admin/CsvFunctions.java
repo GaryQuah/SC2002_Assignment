@@ -20,6 +20,7 @@ public class CsvFunctions {
 
     public static void startUp(String FILE_PATH) 
     {
+        staffData.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) 
         {
             String line;
@@ -44,7 +45,7 @@ public class CsvFunctions {
     
     public static void printStaffData()
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         System.out.println("**********************************************************************");
         for (String[] row : staffData) 
         {
@@ -54,11 +55,12 @@ public class CsvFunctions {
             }
             System.out.println();
         }
+        System.out.println("**********************************************************************");
     }
 
     public static void filterBy(int index, String filter)
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         System.out.println("****************************************");
         for (String[] row : staffData) 
         {
@@ -67,11 +69,12 @@ public class CsvFunctions {
                 System.out.println(row[0] + " " + row[1] + " " + row[2] + " " + row[3] + " " + row[4]);
             }
         }
+        System.out.println("****************************************");
     }
 
     public static String getUserById(String id)
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         for (String[] row : staffData) 
         {
             if (row[0].equals(id)) 
@@ -84,7 +87,7 @@ public class CsvFunctions {
 
     public static String getUserByName(String name)
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         for (String[] row : staffData) 
         {
             if (row[1].equals(name)) 
@@ -97,7 +100,7 @@ public class CsvFunctions {
 
     public static boolean isDuplicateId(String id)
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         for (String[] row : staffData) 
         {
             if (row[0].equals(id)) 
@@ -110,7 +113,7 @@ public class CsvFunctions {
 
     public static boolean isDuplicateName(String name)
     {
-        loadIfNotExist();
+        startUp(FILE_PATH);
         for (String[] row : staffData) 
         {
             if (row[1].equals(name)) 
