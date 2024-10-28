@@ -4,63 +4,51 @@ import java.util.List;
 
 import ServiceClasses.Appointment;
 import ServiceClasses.AppointmentManager;
-import ServiceClasses.MedicalRecordService;
 import models.enums.Gender;
 import models.enums.Role;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 public class Patient extends User {
-    // ------------------ variables -----------------------------
-    private String emailAddress;
-    private String phoneNumber;
-    private MedicalRecord medicalRecord;
-    private AppointmentManager appointmentManager = new AppointmentManager();
+    // ------------------ Variables -----------------------------
+    private String m_PatientID;
+    private String m_Name;
+    private String m_DateOfBirth;
+    private Gender m_Gender;
+    private String m_EmailAddress;
+    private int m_PhoneNumber;
+    // private String m_BloodType;
+    // private List<MedicalRecord> m_MedicalRecords; // update this
 
     // ------------------- Functions ---------------------------
 
+    AppointmentManager appointmentManager = new AppointmentManager();
+
     // Creates a "Patient" after passing the user's username. default password is
     // "password", default role is "Patient"
-    public Patient(String userName, MedicalRecord medicalRecord) {
-        super(userName, Role.Patient);
-        this.medicalRecord = medicalRecord;
-        this.emailAddress = medicalRecord.getEmailAddress(); // initialize with medical record email
-        this.phoneNumber = medicalRecord.getPhoneNumber(); // initialize with medical record phone number
+    public Patient(String m_UserName) {
+        super(m_UserName, Role.Patient); // Calls the constructor of the User class
+
     }
 
-    // ------------------ setters ---------------------
-
-    public void updateEmailAddress(String newEmail) {
-        this.emailAddress = newEmail;
-        medicalRecord.setEmailAddress(newEmail); // sync with medical record
+    // Patients can update non-medical personal information such as email address
+    // and contact number.
+    public void updateEmail(String m_EmailString) {
+        this.m_EmailAddress = m_EmailString;
     }
 
-    public void updatePhoneNumber(String newPhoneNumber) {
-        this.phoneNumber = newPhoneNumber;
-        medicalRecord.setPhoneNumber(newPhoneNumber); // sync with medical record
-    }
-    // ------------------ getters ---------------------
-
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void updatePhoneNumber(int m_PhoneNumber) {
+        this.m_PhoneNumber = m_PhoneNumber;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    // ------------------ Appointment Management ------------------
-
+    // check appointment manager methods...
+    // Schedule appointment
+    // choose doctor, date, available time slot
     public void scheduleAppointment(String doctorName, String appointmentDate,
             String timeSlot, String appointmentType, int appointmentID) {
 
-        String patientName = medicalRecord.getName();
-
-        boolean isSlotAvailable = appointmentManager.ScheduleAppointment(doctorName, patientName, appointmentDate,
-                timeSlot,
+        boolean isSlotAvailable = appointmentManager.ScheduleAppointment(doctorName, m_Name, appointmentDate, timeSlot,
                 appointmentType);
         if (isSlotAvailable) {
             System.out.println("Appointment scheduled successfully.");
@@ -73,10 +61,7 @@ public class Patient extends User {
     // cancel patient appointment
     public void cancelPatientAppointment(String doctorName, String appointmentDate,
             String timeSlot) {
-
-        String patientName = medicalRecord.getName();
-
-        boolean isCancelled = appointmentManager.CancelAppointment(doctorName, patientName, appointmentDate, timeSlot);
+        boolean isCancelled = appointmentManager.CancelAppointment(doctorName, m_Name, appointmentDate, timeSlot);
         if (isCancelled) {
             System.out.println("Appointment cancelled.");
         } else {
@@ -87,18 +72,12 @@ public class Patient extends User {
     // reschedule patient appointment
     public void reschedulePatientAppointment(String doctorName, String newAppointmentDate,
             String newTimeSlot, String appointmentType, String oldAppointmentDate, String oldTimeSlot) {
-        String patientName = medicalRecord.getName();
-
-        appointmentManager.ReScheduleAppointment(doctorName, patientName, newAppointmentDate, newTimeSlot,
-                appointmentType,
+        appointmentManager.ReScheduleAppointment(doctorName, m_Name, newAppointmentDate, newTimeSlot, appointmentType,
                 oldAppointmentDate, oldTimeSlot);
     }
 
-    // get patient past appointments
     public void getPastPatientAppointments() {
-        String patientName = medicalRecord.getName();
-
-        Vector<Appointment> pastAppointments = appointmentManager.getPastAppointments(patientName);
+        Vector<Appointment> pastAppointments = appointmentManager.getPastAppointments(m_Name);
 
         if (pastAppointments.isEmpty()) {
             System.out.println("No past apppointments found.");
@@ -111,48 +90,33 @@ public class Patient extends User {
 
     // view scheduled appointments
     public void viewPatientScheduledAppointments() {
-        String patientName = medicalRecord.getName();
-
-        appointmentManager.ViewPatientAppointments(patientName);
+        appointmentManager.ViewPatientAppointments(m_Name);
     }
 
     public void viewAvailableAppointments(String doctorName) {
         appointmentManager.ViewAvailableDates(doctorName);
     }
 
-    // view medical records
-    public void ViewMedicalRecord() {
-        try {
-            List<MedicalRecord> allMedicalRecords = MedicalRecordService.getAllMedicalRecords();
-            System.out.println("------ Medical Records ------");
-            boolean recordFound = false;
+    /*
+     * // To view medical records
+     * // shift this to view
+     * public void ViewMedicalRecord() {
+     * System.out.println("Name: " + m_Name);
+     * System.out.println("Patient ID: " + m_PatientID);
+     * System.out.println("Date of Birth: " + m_DateOfBirth);
+     * System.out.println("Gender: " + m_Gender);
+     * System.out.println("Contact Number: " + m_PhoneNumber);
+     * System.out.println("Email: " + m_EmailAddress);
+     * System.out.println("Blood Type: " + m_BloodType);
+     * System.out.println("------ Medical History ------");
+     * 
+     * for (MedicalRecord record : m_MedicalRecords) {
+     * // print records
+     * }
+     * 
+     * }
+     */
 
-            for (MedicalRecord record : allMedicalRecords) {
-                if (record.getPatientId().equals(medicalRecord.getPatientId())) {
-                    printRecord(record);
-                    recordFound = true;
-                }
-            }
-            if (!recordFound) {
-                System.out.println("No medical records found for this patient.");
-            }
-
-        } catch (IOException e) {
-            System.out.println("Error reading medical records: " + e.getMessage());
-
-        }
-
-    }
-
-    public void printRecord(MedicalRecord medicalRecord) {
-        System.out.println("Name: " + medicalRecord.getName());
-        System.out.println("Patient ID: " + medicalRecord.getPatientId());
-        System.out.println("Date of Birth: " + medicalRecord.getDateOfBirth());
-        System.out.println("Gender: " + medicalRecord.getGender());
-        System.out.println("Contact Number: " + medicalRecord.getPhoneNumber());
-        System.out.println("Email: " + medicalRecord.getEmailAddress());
-        System.out.println("Blood Type: " + medicalRecord.getBloodType());
-        System.out.println("------ Medical History ------");
-    }
-
+    // Patients are not allowed to modify the past diagnoses, prescribed
+    // medications, treatments or blood type..
 }

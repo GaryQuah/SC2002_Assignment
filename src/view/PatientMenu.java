@@ -12,6 +12,9 @@ public class PatientMenu {
         int choice;
         Scanner sc = new Scanner(System.in);
 
+        // example for testing
+        Patient patient = new Patient("john_doe");
+
         do {
             System.out.println("--------------------------------");
             System.out.println("Patient Menu");
