@@ -4,17 +4,20 @@ import java.util.List;
 
 import ServiceClasses.Appointment;
 import ServiceClasses.AppointmentManager;
+import ServiceClasses.MedicalRecordService;
 import models.enums.Gender;
 import models.enums.Role;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 public class Patient extends User {
-    // ------------------ Variables -----------------------------
+    // ------------------ variables -----------------------------
     private String emailAddress;
-    private int phoneNumber;
-    private MedicalRecord medicalRecord; // Reference to MedicalRecord
+    private String phoneNumber;
+    private MedicalRecord medicalRecord;
     private AppointmentManager appointmentManager = new AppointmentManager();
 
     // ------------------- Functions ---------------------------
@@ -25,7 +28,7 @@ public class Patient extends User {
         super(userName, Role.Patient);
         this.medicalRecord = medicalRecord;
         this.emailAddress = medicalRecord.getEmailAddress(); // initialize with medical record email
-        this.phoneNumber = Integer.parseInt(medicalRecord.getPhoneNumber()); // initialize phone number
+        this.phoneNumber = medicalRecord.getPhoneNumber(); // initialize with medical record phone number
     }
 
     // ------------------ setters ---------------------
@@ -35,13 +38,13 @@ public class Patient extends User {
         medicalRecord.setEmailAddress(newEmail); // sync with medical record
     }
 
-    public void updatePhoneNumber(int newPhoneNumber) {
+    public void updatePhoneNumber(String newPhoneNumber) {
         this.phoneNumber = newPhoneNumber;
-        medicalRecord.setPhoneNumber(String.valueOf(newPhoneNumber)); // sync with medical record
+        medicalRecord.setPhoneNumber(newPhoneNumber); // sync with medical record
     }
     // ------------------ getters ---------------------
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -117,26 +120,39 @@ public class Patient extends User {
         appointmentManager.ViewAvailableDates(doctorName);
     }
 
-    /*
-     * // To view medical records
-     * // shift this to view
-     * public void ViewMedicalRecord() {
-     * System.out.println("Name: " + m_Name);
-     * System.out.println("Patient ID: " + m_PatientID);
-     * System.out.println("Date of Birth: " + m_DateOfBirth);
-     * System.out.println("Gender: " + m_Gender);
-     * System.out.println("Contact Number: " + m_PhoneNumber);
-     * System.out.println("Email: " + m_EmailAddress);
-     * System.out.println("Blood Type: " + m_BloodType);
-     * System.out.println("------ Medical History ------");
-     * 
-     * for (MedicalRecord record : m_MedicalRecords) {
-     * // print records
-     * }
-     * 
-     * }
-     */
+    // view medical records
+    public void ViewMedicalRecord() {
+        try {
+            List<MedicalRecord> allMedicalRecords = MedicalRecordService.getAllMedicalRecords();
+            System.out.println("------ Medical Records ------");
+            boolean recordFound = false;
 
-    // Patients are not allowed to modify the past diagnoses, prescribed
-    // medications, treatments or blood type..
+            for (MedicalRecord record : allMedicalRecords) {
+                if (record.getPatientId().equals(medicalRecord.getPatientId())) {
+                    printRecord(record);
+                    recordFound = true;
+                }
+            }
+            if (!recordFound) {
+                System.out.println("No medical records found for this patient.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading medical records: " + e.getMessage());
+
+        }
+
+    }
+
+    public void printRecord(MedicalRecord medicalRecord) {
+        System.out.println("Name: " + medicalRecord.getName());
+        System.out.println("Patient ID: " + medicalRecord.getPatientId());
+        System.out.println("Date of Birth: " + medicalRecord.getDateOfBirth());
+        System.out.println("Gender: " + medicalRecord.getGender());
+        System.out.println("Contact Number: " + medicalRecord.getPhoneNumber());
+        System.out.println("Email: " + medicalRecord.getEmailAddress());
+        System.out.println("Blood Type: " + medicalRecord.getBloodType());
+        System.out.println("------ Medical History ------");
+    }
+
 }
