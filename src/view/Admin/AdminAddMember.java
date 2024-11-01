@@ -17,7 +17,7 @@ public class AdminAddMember {
         String id = "";
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        // List<String[]> staffData = CsvFunctions.getStaffData();
+        List<String[]> staffData = CsvFunctions.getStaffData();
 
         while (true) {
             System.out.println("Select New Staff Role: ");

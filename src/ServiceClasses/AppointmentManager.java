@@ -7,6 +7,17 @@ import models.Doctor;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
+     // Singleton instance
+    private static final AppointmentManager instance = new AppointmentManager();
+    
+    public static AppointmentManager getInstance() {
+        return instance;
+    }
+
+    // Private constructor to prevent instantiation
+    private AppointmentManager() {
+    }
+
     private int newAppointmentID = 0;
 
     private Vector<Appointment> AppointmentList = new Vector<Appointment>();
