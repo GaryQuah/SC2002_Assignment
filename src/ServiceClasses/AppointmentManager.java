@@ -7,6 +7,17 @@ import models.Doctor;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
+     // Singleton instance
+    private static final AppointmentManager instance = new AppointmentManager();
+    
+    public static AppointmentManager getInstance() {
+        return instance;
+    }
+
+    // Private constructor to prevent instantiation
+    private AppointmentManager() {
+    }
+
     private int newAppointmentID = 0;
 
     private Vector<Appointment> AppointmentList = new Vector<Appointment>();
@@ -180,5 +191,15 @@ public class AppointmentManager {
     public void recordAppointmentOutcome() // Update appointments medical record here
     {
 
+    }
+
+    public void ViewAllAppointmentsByStatus(int accepted) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
+        for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
+                                                         // dosent have an appointment on the date and
+        {
+            if (AppointmentList.elementAt(i).appointmentStatus() == accepted) {
+                System.out.println(AppointmentList.elementAt(i));
+            }
+        }   
     }
 }

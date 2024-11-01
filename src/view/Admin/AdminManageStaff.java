@@ -98,7 +98,10 @@ public class AdminManageStaff {
                 AdminUpdateMember.main();
                 break;
             case 4:
+                System.out.println("--------------------------------");
                 System.out.println("Remove Staff Members");
+                System.out.println("--------------------------------");
+                AdminRemoveMember.main();
                 break;
             default:
                 System.out.println("Invalid Choice");

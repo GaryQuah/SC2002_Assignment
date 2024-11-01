@@ -166,7 +166,6 @@ public class AdminUpdateMember {
                     System.out.println("Invalid Choice");
                     break;
             }
-
             staffData.set(staffData.indexOf(staff), staff);
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
                 for (String[] row : staffData) {
@@ -176,7 +175,6 @@ public class AdminUpdateMember {
                     }
                     writer.append("\n");
                 }
-                
             } catch (IOException e) {
                 e.printStackTrace();
             }
