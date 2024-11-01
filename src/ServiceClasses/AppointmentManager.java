@@ -181,4 +181,14 @@ public class AppointmentManager {
     {
 
     }
+
+    public void ViewAllAppointmentsByStatus(int accepted) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
+        for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
+                                                         // dosent have an appointment on the date and
+        {
+            if (AppointmentList.elementAt(i).appointmentStatus() == accepted) {
+                System.out.println(AppointmentList.elementAt(i));
+            }
+        }   
+    }
 }
