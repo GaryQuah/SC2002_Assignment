@@ -1,4 +1,4 @@
-package ServiceClasses;
+package ServiceClasses.Appointment;
 
 import ServiceClasses.inventory.Prescription;
 
@@ -9,7 +9,7 @@ public class Appointment {
     private String m_PatientName;
     private String m_AppointmentDate; // String keep it as DDMMYY
     private String m_TimeSlot;
-    private int m_Accepted; // 0 = unaccepted , 1 = accepted , -1 = declined, 2 = completed.
+    private AppointmentStatus m_AppointmentStatus; // 0 = unaccepted , 1 = accepted , -1 = declined, 2 = completed.
     private String m_AppointmentType;
     private int m_AppointmentID;
 
@@ -42,7 +42,7 @@ public class Appointment {
         this.m_DoctorName = m_DoctorName;
         this.m_TimeSlot = m_TimeSlot;
         this.m_AppointmentType = m_AppointmentType;
-        m_Accepted = 0;
+        m_AppointmentStatus = AppointmentStatus.UNACCEPTED;
         // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
         // 128 bit ID we can use this, for simplicity we shall use int values.
         this.m_AppointmentID = m_AppointmentID;
@@ -59,17 +59,15 @@ public class Appointment {
 
 
     // Methods
-    public boolean UpdateAppointmentStatus(String m_DoctorName, int m_Status) // Add a checker here with doctor name in
-                                                                              // case wrong doctor tries to access the
-                                                                              // appointment
+    public boolean UpdateAppointmentStatus(AppointmentStatus m_Status) 
     {
         if (this.m_DoctorName.equals(m_DoctorName)) {
-            m_Accepted = m_Status;
+            m_AppointmentStatus = m_Status;
             System.out.println(
-                    "Successfully updated the appointment of ID " + this.m_AppointmentID + " to " + m_Accepted);
+                    "Successfully updated the appointment of ID " + this.m_AppointmentID + " to " + m_AppointmentStatus);
             return true;
         }
-        System.out.println("Failed to update the appointment of ID " + this.m_AppointmentID + " to " + m_Accepted
+        System.out.println("Failed to update the appointment of ID " + this.m_AppointmentID + " to " + m_AppointmentStatus
                 + " -- Wrong doctor name for this appointment.");
         return false;
     }
@@ -91,8 +89,8 @@ public class Appointment {
         return m_TimeSlot;
     }
 
-    public int appointmentStatus() {
-        return m_Accepted;
+    public AppointmentStatus appointmentStatus() {
+        return m_AppointmentStatus;
     }
 
     public int getAppointmentID() {
@@ -107,6 +105,6 @@ public class Appointment {
         return ("Appointment ID : " + m_AppointmentID + " Doctor : " + m_DoctorName + " Patient : " + m_PatientName
                 + " Date : " + m_AppointmentDate +
                 " Time Slot : " + m_TimeSlot + " Appointment Type : " + m_AppointmentType + " Accepted : "
-                + m_Accepted);
+                + m_AppointmentStatus);
     }
 }

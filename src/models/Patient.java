@@ -2,13 +2,14 @@ package models;
 
 import java.util.List;
 
-import ServiceClasses.Appointment;
-import ServiceClasses.AppointmentManager;
 import models.enums.Gender;
 import models.enums.Role;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import ServiceClasses.Appointment.Appointment;
+import ServiceClasses.Appointment.AppointmentManager;
 
 public class Patient extends User {
     // ------------------ Variables -----------------------------

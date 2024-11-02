@@ -3,9 +3,9 @@ package ServiceClasses.inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ServiceClasses.Appointment.AppointmentManager;
 import models.User;
 import models.enums.Role;
-import ServiceClasses.AppointmentManager;
 
 
 public class InventoryControl implements InventoryInterface {

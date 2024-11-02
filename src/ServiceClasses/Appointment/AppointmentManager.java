@@ -1,4 +1,4 @@
-package ServiceClasses;
+package ServiceClasses.Appointment;
 
 import java.util.Vector;
 
@@ -54,7 +54,7 @@ public class AppointmentManager {
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
                 // If the appointment exists in the system but is rejected, return as available
                 // for scheduling, if not return that the appointment exists.
-                if (AppointmentList.get(i).appointmentStatus() == -1)
+                if (AppointmentList.get(i).appointmentStatus() == AppointmentStatus.DECLINED)
                     return -1;
 
                 return i;
@@ -174,11 +174,9 @@ public class AppointmentManager {
         }
     }
 
-    // Lets doctor update the status of an appointment. 0 is pending, 1 is accepted,
-    // -1 is decline
-    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, int m_AppointmentStatus) {
-        for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments for the appointment id
-                                                         // and doctor name is same
+    // Lets doctor update the status of an appointment. 0 is pending, 1 is accepted, -1 is decline, 2 is completed
+    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, AppointmentStatus m_AppointmentStatus) {
+        for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments for the appointment id and doctor name is same
         {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
@@ -198,16 +196,17 @@ public class AppointmentManager {
 
     }
 
-    public void ViewAllAppointmentsByStatus(int accepted) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
+    public void ViewAllAppointmentsByStatus(AppointmentStatus status) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
                                                          // dosent have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).appointmentStatus() == accepted) {
+            if (AppointmentList.elementAt(i).appointmentStatus() == status) {
                 System.out.println(AppointmentList.elementAt(i));
             }
         }   
     }
 
+    //Get Appointment by ID : View all Appointment information
     public Appointment getAppointmentByID(int AppointmentID)
     {
         for (Appointment appointment : AppointmentList) {
@@ -218,6 +217,7 @@ public class AppointmentManager {
         return null;
     }
 
+    //Sets Medication, consultationNotes, Medicine Dispense Status
     public void completeAppointment(int AppointmentID){
         // if (!isDoctor(user)) return; //Check whether user is Doctor
         Appointment appointment = getAppointmentByID(AppointmentID);
