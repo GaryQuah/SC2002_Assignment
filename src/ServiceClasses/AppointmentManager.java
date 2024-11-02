@@ -1,6 +1,11 @@
 package ServiceClasses;
 
 import java.util.Vector;
+
+import ServiceClasses.inventory.InventoryControl;
+import ServiceClasses.inventory.Prescription;
+import input.Scan;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import models.Doctor;
@@ -202,4 +207,54 @@ public class AppointmentManager {
             }
         }   
     }
+
+    public Appointment getAppointmentByID(int AppointmentID)
+    {
+        for (Appointment appointment : AppointmentList) {
+            if (appointment.getAppointmentID() == AppointmentID) {
+                return appointment;
+            }
+        }
+        return null;
+    }
+
+    public void completeAppointment(int AppointmentID){
+        // if (!isDoctor(user)) return; //Check whether user is Doctor
+        Appointment appointment = getAppointmentByID(AppointmentID);
+        System.out.println("Please enter type of service: ");
+        appointment.setTypeOfService(Scan.scan.nextLine());
+        System.out.println("Please enter consultation notes: ");
+        appointment.setConsultationNotes(Scan.scan.nextLine());
+        appointment.setMedication(InventoryControl.instance.selectMedication());
+        appointment.setDispenseStatus("PENDING");
+    }
+
+    public void updateDispenseStatus(int AppointmentID){
+        Appointment appointment = getAppointmentByID(AppointmentID);
+        String status = InventoryControl.instance.dispenseMedicine(appointment.getMedicationMap());
+        appointment.setDispenseStatus(status);    
+    }
+
+    /*
+     * Pseudocode:
+     * Doctor: 
+     * 1. show accepted appointments
+     * 2. select one accepted appointment ==> set to Complete
+     * 3. call CompleteAppoinment Function (set Type of Service, Consultation Notes, 
+     *    Medications, DispenseStatus)
+     * 4. Doctor end.
+     * 
+     * Pharmacist:
+     * 1. show a list of appointments dispense status = PENDING
+     * 2. select one Pending Appoinment 
+     * 3. call DispenseMedicine method. if true, set dipsense status = complete.
+     * 4. Pharmacist end.
+     */
+
+    /*
+     * Code needed:
+     * 1. show a list of ACCEPTED appoinments. select by entering index.
+     * 2. show a list of dispense status = PENDING. select by entering the index.
+     */
+    
 }

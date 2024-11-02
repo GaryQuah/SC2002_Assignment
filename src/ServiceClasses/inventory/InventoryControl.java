@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import models.User;
 import models.enums.Role;
+import ServiceClasses.AppointmentManager;
 
 
 public class InventoryControl implements InventoryInterface {
-
     private static ArrayList<Prescription> inventory = new ArrayList<>();
 
     public static InventoryControl instance = new InventoryControl();
@@ -90,14 +90,18 @@ public class InventoryControl implements InventoryInterface {
         inventoryManager.addMedicine(inventory);  
     }
 
-    public HashMap<String, Integer> selectMedication(User user){
-        if(!isDoctor(user)) return null;
+    public HashMap<String, Integer> selectMedication(){
         return inventoryManager.selectMedication(inventory);
 
+        // apt.
+
+
+        
+        
+        // something here = apt.
     }
 
-    public void dispenseMedicine(User user, HashMap<String, Integer> medicationMap){
-        if(!isPharmacist(user)) return;
+    public String dispenseMedicine(HashMap<String, Integer> medicationMap){
         for (String prescriptionID : medicationMap.keySet()) {
             Prescription prescription = getPrescriptionByID(prescriptionID);
             int amount = medicationMap.get(prescriptionID); // Get the quantity to dispense for this prescription
@@ -109,11 +113,14 @@ public class InventoryControl implements InventoryInterface {
                 prescription.setStockLevel(prescription.getStockLevel() - amount);
                 System.out.println(amount + " units of " + itemName + " dispensed.");
                 prescription.checkStatus(); 
+                return "DISPENSED";
                 } else {
                     System.out.println("Insufficient stock for " + itemName + ".");
                     prescription.setStockStatus(StockStatus.LOWSTOCK);
+                    return "PENDING RESTOCK";
                 }      
         }
+        return null;
     }
 
     public void showInventory(){

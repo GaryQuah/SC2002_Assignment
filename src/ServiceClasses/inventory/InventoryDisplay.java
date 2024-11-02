@@ -1,7 +1,6 @@
 package ServiceClasses.inventory;
 
 import java.util.ArrayList;
-
 public class InventoryDisplay {
 
     public void header() {
@@ -59,6 +58,8 @@ public class InventoryDisplay {
         System.out.printf("%-15s |", prescription.getItemID());
         System.out.printf(" %-20s\n", prescription.getItemName());
     }
+
+    
 
     public void printPrescriptionsDoctor(ArrayList<Prescription> prescriptions) {
         if (prescriptions.size() == 0) {

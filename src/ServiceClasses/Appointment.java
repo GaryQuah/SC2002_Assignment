@@ -1,13 +1,39 @@
 package ServiceClasses;
 
+import ServiceClasses.inventory.Prescription;
+
+import java.util.HashMap;
+
 public class Appointment {
     private String m_DoctorName;
     private String m_PatientName;
     private String m_AppointmentDate; // String keep it as DDMMYY
     private String m_TimeSlot;
-    private int m_Accepted; // 0 = unaccepted , 1 = accepted , -1 = declined.
+    private int m_Accepted; // 0 = unaccepted , 1 = accepted , -1 = declined, 2 = completed.
     private String m_AppointmentType;
     private int m_AppointmentID;
+
+    // For Completed Appointment
+    private HashMap<String, Integer> medicationMap;
+    private String dispenseStatus;
+    private String consultationNotes;
+
+
+    public String getDispenseStatus() {
+        return dispenseStatus;
+    }
+
+    public void setDispenseStatus(String dispenseStatus) {
+        this.dispenseStatus = dispenseStatus;
+    }
+
+    public String getConsultationNotes() {
+        return consultationNotes;
+    }
+
+    public void setConsultationNotes(String consultationNotes) {
+        this.consultationNotes = consultationNotes;
+    }
 
     // Constructor
     public Appointment(String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
@@ -21,6 +47,16 @@ public class Appointment {
         // 128 bit ID we can use this, for simplicity we shall use int values.
         this.m_AppointmentID = m_AppointmentID;
     }
+
+    public void setMeidcation(HashMap<String, Integer> medicationMap)
+    {
+        this.medicationMap = medicationMap;
+    }
+
+    public HashMap<String, Integer> getMedicationMap() {
+        return medicationMap;
+    }
+
 
     // Methods
     public boolean UpdateAppointmentStatus(String m_DoctorName, int m_Status) // Add a checker here with doctor name in
