@@ -3,17 +3,21 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import models.MedicalRecord;
 import models.Patient;
 
 public class PatientMenu {
-    // private static List<Patient> patientList = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // rename function
+        // function needs to receive patient object
+
         int choice;
         Scanner sc = new Scanner(System.in);
 
         // example for testing
-        Patient patient = new Patient("john_doe");
+        MedicalRecord medicalRecord = new MedicalRecord(null,null,);
+        Patient patient = new Patient("john_doe", medicalRecord);
 
         do {
             System.out.println("--------------------------------");
@@ -34,15 +38,15 @@ public class PatientMenu {
 
             switch (choice) {
                 case 1:
+                    patient.ViewMedicalRecord();
                     break;
 
                 case 2: {
                     System.out.println("Please enter new email: ");
                     String newEmail = sc.nextLine();
-                    patient.updateEmail(newEmail);
+                    patient.updateEmailAddress(newEmail);
                     System.out.print("Enter new phone number: ");
-                    int newPhone = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    String newPhone = sc.nextLine();
                     patient.updatePhoneNumber(newPhone);
                     System.out.println("Personal information updated successfully.");
 
@@ -87,12 +91,10 @@ public class PatientMenu {
                     System.out.print("Enter appointment type: ");
                     String newType = sc.nextLine();
 
-                    patient.reschedulePatientAppointment(rescheduleDoctorName, newDate, newTimeSlot, newType, oldDate,
-                            oldTimeSlot);
-
+                    patient.reschedulePatientAppointment(rescheduleDoctorName, newDate, newTimeSlot, newType, oldDate,oldTimeSlot);
                     break;
-                }
-
+                        }
+        
                 case 6: {
                     System.out.print("Enter doctor name: ");
                     String cancelDoctorName = sc.nextLine();
@@ -101,26 +103,26 @@ public class PatientMenu {
                     System.out.print("Enter time slot (HH:mm): ");
                     String cancelTimeSlot = sc.nextLine();
                     patient.cancelPatientAppointment(cancelDoctorName, cancelDate, cancelTimeSlot);
-
+        
                     break;
-                }
-
+                        }
+        
                 case 7:
                     patient.viewPatientScheduledAppointments();
                     break;
-
+        
                 case 8:
                     patient.getPastPatientAppointments();
                     break;
-
+        
                 case 9:
                     System.out.println("Logging out...");
                     break;
-
+        
                 default:
                     System.out.println("Invalid choice. Please try again.");
+                    }
+                } while (choice != 9);
+        
             }
-        } while (choice != 9);
-
-    }
 }
