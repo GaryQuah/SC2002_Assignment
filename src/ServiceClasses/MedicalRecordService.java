@@ -10,7 +10,8 @@ public class MedicalRecordService {
     // Create a new medical record
     public static void addMedicalRecord(MedicalRecord record) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH, true)) {
-            writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + "," + record.getTreatment() + "," + record.getDate() + "\n");
+            writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + ","
+                    + record.getTreatment() + "," + record.getDate() + "\n");
         }
     }
 
@@ -33,9 +34,12 @@ public class MedicalRecordService {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             for (MedicalRecord record : records) {
                 if (record.getPatientId().equals(updatedRecord.getPatientId())) {
-                    writer.write(updatedRecord.getPatientId() + "," + updatedRecord.getDoctorId() + "," + updatedRecord.getDiagnosis() + "," + updatedRecord.getTreatment() + "," + updatedRecord.getDate() + "\n");
+                    writer.write(updatedRecord.getPatientId() + "," + updatedRecord.getDoctorId() + ","
+                            + updatedRecord.getDiagnosis() + "," + updatedRecord.getTreatment() + ","
+                            + updatedRecord.getDate() + "\n");
                 } else {
-                    writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + "," + record.getTreatment() + "," + record.getDate() + "\n");
+                    writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + ","
+                            + record.getTreatment() + "," + record.getDate() + "\n");
                 }
             }
         }
@@ -47,7 +51,8 @@ public class MedicalRecordService {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             for (MedicalRecord record : records) {
                 if (!record.getPatientId().equals(patientId)) {
-                    writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + "," + record.getTreatment() + "," + record.getDate() + "\n");
+                    writer.write(record.getPatientId() + "," + record.getDoctorId() + "," + record.getDiagnosis() + ","
+                            + record.getTreatment() + "," + record.getDate() + "\n");
                 }
             }
         }

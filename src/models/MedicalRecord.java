@@ -16,20 +16,13 @@ public class MedicalRecord {
     private String dateOfBirth;
 
     // Constructor
-    public MedicalRecord(String patientId, String doctorId, String diagnosis, String treatment, String date,
-            String name, Gender gender, String emailAddress,
-            String phoneNumber, String bloodType, String dateOfBirth) {
+    public MedicalRecord(String patientId, String doctorId, String diagnosis, String treatment, String date) {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.diagnosis = diagnosis;
         this.treatment = treatment;
         this.date = date;
-        this.name = name;
-        this.gender = gender;
-        this.emailAddress = emailAddress;
-        this.phoneNumber = phoneNumber;
-        this.bloodType = bloodType;
-        this.dateOfBirth = dateOfBirth;
+
     }
 
     // Getters and Setters
