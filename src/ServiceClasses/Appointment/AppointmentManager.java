@@ -2,7 +2,7 @@ package ServiceClasses.Appointment;
 
 import java.util.Vector;
 
-import ServiceClasses.CSVManager.CSVManager;
+import ServiceClasses.CSVManager.*;
 import ServiceClasses.inventory.InventoryControl;
 import ServiceClasses.inventory.Prescription;
 import input.Scan;
@@ -13,6 +13,7 @@ import models.Doctor;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
+    
     // Singleton instance
     private static AppointmentManager instance;
 
@@ -169,7 +170,7 @@ public class AppointmentManager {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
                                                          // dosent have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).getPatientName().equals(m_patientName)) {
+            if (AppointmentList.elementAt(i).getDoctorName().equals(m_patientName)) {
                 LocalDate appointmentDate = LocalDate.parse(AppointmentList.elementAt(i).getAppointmentDate(),
                         formatter);
                 if (!appointmentDate.isBefore(today)) {
@@ -180,15 +181,14 @@ public class AppointmentManager {
     }
 
     // Lets doctor update the status of an appointment. 0 is pending, 1 is accepted,
-    // -1 is decline, 2 is completed
-    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID,
-            AppointmentStatus m_AppointmentStatus) {
+    // -1 is decline
+    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, AppointmentStatus m_AppointmentStatus) {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments for the appointment id
                                                          // and doctor name is same
         {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
-                AppointmentList.get(i).UpdateAppointmentStatus(m_doctorName, m_AppointmentStatus);
+                AppointmentList.get(i).UpdateAppointmentStatus(m_AppointmentStatus);
                 System.out.println(
                         "Doctor :" + m_doctorName + "Successfully Accepted the appointment ID of " + m_appointmentID);
                 return true;
@@ -204,66 +204,21 @@ public class AppointmentManager {
 
     }
 
-    public void ViewAllAppointmentsByStatus(AppointmentStatus status) { // Sort by appointment status - for admin :
-                                                                        // Appointment Outcome Record (for completed
-                                                                        // appointments)
+    public void ViewAllAppointmentsByStatus(AppointmentStatus m_AppointmentStatus) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
                                                          // dosent have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).appointmentStatus() == status) {
+            if (AppointmentList.elementAt(i).appointmentStatus() == AppointmentStatus.ACCEPTED) {
                 System.out.println(AppointmentList.elementAt(i));
             }
+        }   
+    }
+
+    public void ViewAllAppointments() 
+    {
+        for (int i = 0; i < AppointmentList.size(); ++i) 
+        {
+            System.out.println(AppointmentList.elementAt(i));
         }
     }
-
-    // Get Appointment by ID : View all Appointment information
-    public Appointment getAppointmentByID(int AppointmentID) {
-        for (Appointment appointment : AppointmentList) {
-            if (appointment.getAppointmentID() == AppointmentID) {
-                return appointment;
-            }
-        }
-        return null;
-    }
-
-    // Sets Medication, consultationNotes, Medicine Dispense Status
-    public void completeAppointment(int AppointmentID) {
-        // if (!isDoctor(user)) return; //Check whether user is Doctor
-        Appointment appointment = getAppointmentByID(AppointmentID);
-        System.out.println("Please enter type of service: ");
-        appointment.setTypeOfService(Scan.scan.nextLine());
-        System.out.println("Please enter consultation notes: ");
-        appointment.setConsultationNotes(Scan.scan.nextLine());
-        appointment.setMedication(InventoryControl.instance.selectMedication());
-        appointment.setDispenseStatus("PENDING");
-    }
-
-    public void updateDispenseStatus(int AppointmentID) {
-        Appointment appointment = getAppointmentByID(AppointmentID);
-        String status = InventoryControl.instance.dispenseMedicine(appointment.getMedicationMap());
-        appointment.setDispenseStatus(status);
-    }
-
-    /*
-     * Pseudocode:
-     * Doctor:
-     * 1. show accepted appointments
-     * 2. select one accepted appointment ==> set to Complete
-     * 3. call CompleteAppoinment Function (set Type of Service, Consultation Notes,
-     * Medications, DispenseStatus)
-     * 4. Doctor end.
-     * 
-     * Pharmacist:
-     * 1. show a list of appointments dispense status = PENDING
-     * 2. select one Pending Appoinment
-     * 3. call DispenseMedicine method. if true, set dipsense status = complete.
-     * 4. Pharmacist end.
-     */
-
-    /*
-     * Code needed:
-     * 1. show a list of ACCEPTED appoinments. select by entering index.
-     * 2. show a list of dispense status = PENDING. select by entering the index.
-     */
-
 }
