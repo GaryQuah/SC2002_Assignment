@@ -11,7 +11,15 @@ import models.enums.Role;
 public class InventoryControl implements InventoryInterface {
     private static ArrayList<Prescription> inventory = new ArrayList<>();
 
-    public static InventoryControl instance = new InventoryControl();
+    private static InventoryControl instance;
+
+    public static InventoryControl getInstance() {
+
+         if (instance == null) {
+            instance = new InventoryControl();
+        }
+        return instance;
+    }
 
     public static void start() {
         inventory.addAll(inventoryParse.parse("src\\data\\Medicine_List.csv"));
