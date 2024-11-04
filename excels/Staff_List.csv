@@ -1,5 +1,5 @@
-,Name,Role,Gender,Age
-D001,John Smith,Doctor,Male,45
-D002,Emily Clarke,Doctor,Female,38
-P001,Mark Lee,Pharmacist,Male,29
-A001,Sarah Lee,Administrator,Female,40
+,Name,Role,Gender,Age,Username,Password
+D001,John Smith,Doctor,Male,45,JohnS,password
+D002,Emily Clarke,Doctor,Female,38,EmilyC,password
+P001,Mark Lee,Pharmacist,Male,29,MarkL,password
+A001,Sarah Lee,Administrator,Female,40,SarahL,password

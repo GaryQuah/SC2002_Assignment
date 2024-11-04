@@ -213,4 +213,12 @@ public class AppointmentManager {
             }
         }   
     }
+
+    public void ViewAllAppointments() 
+    {
+        for (int i = 0; i < AppointmentList.size(); ++i) 
+        {
+            System.out.println(AppointmentList.elementAt(i));
+        }
+    }
 }

@@ -6,8 +6,10 @@ import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.MedicalRecordService;
+
 import models.enums.Gender;
 import models.enums.Role;
+import models.enums.BloodType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,16 +21,28 @@ public class Patient extends User {
     private String emailAddress;
     private String phoneNumber;
     private MedicalRecord medicalRecord;
-
+    // 
+    private int patientID;
+    private String patientName;
+    private String dateOfBirth;
+    private BloodType bloodType;
+    private String ContactInformation;
     // ------------------- Functions ---------------------------
 
     // Creates a "Patient" after passing the user's username. default password is
     // "password", default role is "Patient"
-    public Patient(String userName, MedicalRecord medicalRecord) {
-        super(userName, Role.Patient);
+    public Patient(String userName, MedicalRecord medicalRecord , int patientID, String patientName, String DOB, 
+                    Gender gender, BloodType bloodType, String ContactInformation) {
+        super(userName, Role.Patient, gender);
         this.medicalRecord = medicalRecord;
         this.emailAddress = medicalRecord.getEmailAddress(); // initialize with medical record email
         this.phoneNumber = medicalRecord.getPhoneNumber(); // initialize with medical record phone number
+
+        this.patientID = patientID;
+        this.patientName = patientName;
+        this.dateOfBirth = DOB;
+        this.bloodType = bloodType;
+        this.ContactInformation = ContactInformation;
     }
 
     // ------------------ setters ---------------------
