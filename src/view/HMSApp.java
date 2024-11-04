@@ -1,8 +1,8 @@
 package view;
 import java.util.Vector;
 
-import ServiceClasses.Appointment;
 import ServiceClasses.MedicalRecordService;
+import ServiceClasses.Appointment.Appointment;
 import models.MedicalRecord;
 
 import models.User;
