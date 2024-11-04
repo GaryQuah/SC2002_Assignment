@@ -3,13 +3,16 @@ package models;
 import java.util.Vector;
 
 import ServiceClasses.Appointment.Appointment;
+
 import models.enums.Role;
+import models.enums.Gender;
 
 public abstract class User {
     // Users must log in to the system using their unique hospital ID and a default
     // password ("password").
     private String m_UserName;
     private String m_PassWord;
+    private Gender m_Gender;
 
     // Users will have roles such as Patient, Doctor, Pharmacist or Administrator.
     private Role m_Role;
@@ -18,10 +21,11 @@ public abstract class User {
     private Vector<Appointment> m_Appointments;
 
     // Users can change their password after their initial login.
-    public User(String m_UserName, Role m_Role) {
+    public User(String m_UserName, Role m_Role, Gender m_Gender) {
         this.m_UserName = m_UserName;
         this.m_Role = m_Role;
         this.m_PassWord = "password";
+        this.m_Gender = m_Gender;
     }
 
     public boolean ValidateUser(String m_UserName, String m_PassWord) {
