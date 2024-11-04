@@ -8,8 +8,14 @@ import java.util.List;
 import java.util.Vector;
 
 import models.Administrator;
+import models.Doctor;
 import models.Patient;
+import models.Pharmacist;
 import models.User;
+
+import models.enums.BloodType;
+import models.enums.Gender;
+import models.enums.Role;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,8 +29,8 @@ public class Login {
     private static List<String[]> staffData = new ArrayList<>();
 
     //rivate Login(Vector<User> m_UserList) { // On class instantiation, load user list into the main file.
-    private static void main(){
-        Vector<User> m_UserList;
+    public static void main(String[] args) {
+        Vector<User> m_UserList = new Vector<User>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(PATIENT_FILE_PATH))) {
             String line;
@@ -39,7 +45,8 @@ public class Login {
         for (String[] row : patientData) {
             if (row.length >= 7) { // Ensure there are enough fields
                 //Patient ID, Name, DOB, Gender, BloodType, ContactInfo, Username, Password
-                Patient patient = new Patient(row[0], row[1], row[2], row[3], row[4] , row[5] , row[6]);
+                //public Patient(int patientID, String patientName, String DOB, Gender gender, BloodType bloodType, String ContactInformation, String userName, String password)
+                Patient patient = new Patient(Integer.parseInt(row[0]), row[1], row[2],Gender.valueOf(row[3]), BloodType.valueOf(row[4]), row[5] , row[6], row[7]);
                 m_UserList.add(patient);
             }
         }
@@ -59,16 +66,16 @@ public class Login {
             if (row.length >= 7) { 
                 switch (row[2]) { //2nd Row is roles in .csv
                     case "Doctor":
-                        Doctor doctor = new Doctor(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+                    //public Doctor(String username, String password, String staffId, String name, Role role, Gender gender, int age)
+                        Doctor doctor = new Doctor(row[0], row[1], row[2], row[3], Role.valueOf(row[4]), Gender.valueOf(row[5]), Integer.parseInt(row[6]));
                         m_UserList.add(doctor);
                         break;
                     case "Pharmacist":
-                        Pharmacist pharmacist = new Pharmacist(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+                        Pharmacist pharmacist = new Pharmacist(row[0], row[1], row[2], row[3], Role.valueOf(row[4]), Gender.valueOf(row[5]), Integer.parseInt(row[6]));
                         m_UserList.add(pharmacist);
                         break;
                     case "Administrator":
-                        Administrator admin = new Administrator(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
-                    default:
+                        Administrator admin = new Administrator(row[0], row[1], row[2], row[3], Role.valueOf(row[4]), Gender.valueOf(row[5]), Integer.parseInt(row[6]));
                     m_UserList.add(admin);
                     System.out.println("Error - Invalid CSV row read");
                         break;

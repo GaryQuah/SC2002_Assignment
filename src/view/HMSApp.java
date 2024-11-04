@@ -9,13 +9,11 @@ import models.MedicalRecord;
 import models.User;
 import java.util.Scanner;
 
-import view.AppStartup;
 
 public class HMSApp {
     public static void main(String[] args) {
         Vector<User> m_UserList = new Vector<User>();
 
-        AppStartup start;
         // Initialize system and load data
         // Handle user login and delegate to the appropriate menu
 
