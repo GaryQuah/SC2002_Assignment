@@ -8,12 +8,6 @@ public class MedicalRecord {
     private String diagnosis;
     private String treatment;
     private String date;
-    private String name;
-    private Gender gender;
-    private String emailAddress;
-    private String phoneNumber;
-    private String bloodType;
-    private String dateOfBirth;
 
     // Constructor
     public MedicalRecord(String patientId, String doctorId, String diagnosis, String treatment, String date) {
@@ -26,53 +20,6 @@ public class MedicalRecord {
     }
 
     // Getters and Setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getBloodType() {
-        return bloodType;
-    }
-
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
 
     public String getPatientId() {
         return patientId;

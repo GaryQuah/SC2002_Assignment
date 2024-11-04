@@ -35,7 +35,7 @@ public class AppStartup {
 
         for (String[] row : patientData) {
             if (row.length >= 5) { // Ensure there are enough fields
-                Patient patient = new Patient(row[0], row[1], row[2], row[3], row[4]);
+                Patient patient = new Patient(row[0], row[1], row[2], row[3], row[4], row[5]);
                 m_UserList.add(patient);
             }
         }
@@ -68,5 +68,5 @@ public class AppStartup {
             }
         }
     }
-    
+
 }

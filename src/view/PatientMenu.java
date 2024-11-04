@@ -10,14 +10,12 @@ import models.Patient;
 public class PatientMenu {
 
     public static void main(String[] args) { // rename function
-        // function needs to receive patient object
 
         int choice;
         Scanner sc = new Scanner(System.in);
 
         // example for testing
-        MedicalRecord medicalRecord = new MedicalRecord(null,null,);
-        Patient patient = new Patient("john_doe", medicalRecord);
+        Patient patient = new Patient("john_doe",);
 
         do {
             System.out.println("--------------------------------");
@@ -42,12 +40,9 @@ public class PatientMenu {
                     break;
 
                 case 2: {
-                    System.out.println("Please enter new email: ");
-                    String newEmail = sc.nextLine();
-                    patient.updateEmailAddress(newEmail);
-                    System.out.print("Enter new phone number: ");
-                    String newPhone = sc.nextLine();
-                    patient.updatePhoneNumber(newPhone);
+                    System.out.println("Please enter new contact information: ");
+                    String newContactInfo = sc.nextLine();
+                    patient.updateContactInfo(newContactInfo);
                     System.out.println("Personal information updated successfully.");
 
                     break;
@@ -112,7 +107,7 @@ public class PatientMenu {
                     break;
         
                 case 8:
-                    patient.getPastPatientAppointments(); // update to past patient records 
+                    patient.getPastPatientAppointments(); // update to past patient appoointment records 
                     break;
         
                 case 9:
