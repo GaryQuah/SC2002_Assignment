@@ -28,8 +28,8 @@ public class Patient extends User {
     // Creates a "Patient" after passing the user's username. default password is
     // "password", default role is "Patient"
     public Patient(int patientID, String patientName, String DOB,
-            Gender gender, BloodType bloodType, String ContactInformation, String userName) {
-        super(userName, Role.Patient, gender);
+            Gender gender, BloodType bloodType, String ContactInformation, String userName, String password) {
+        super(userName, password, Role.Patient, gender);
         this.ContactInformation = ContactInformation;
         this.patientID = patientID;
         this.gender = gender;
