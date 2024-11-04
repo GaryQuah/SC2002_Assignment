@@ -1,16 +1,27 @@
-package ServiceClasses;
+package ServiceClasses.Appointment;
 
 import java.util.Vector;
+
+import ServiceClasses.CSVManager.*;
+import ServiceClasses.inventory.InventoryControl;
+import ServiceClasses.inventory.Prescription;
+import input.Scan;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import models.Doctor;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
-     // Singleton instance
-    private static final AppointmentManager instance = new AppointmentManager();
     
+    // Singleton instance
+    private static AppointmentManager instance;
+
     public static AppointmentManager getInstance() {
+
+         if (instance == null) {
+            instance = new AppointmentManager();
+        }
         return instance;
     }
 
@@ -49,7 +60,7 @@ public class AppointmentManager {
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
                 // If the appointment exists in the system but is rejected, return as available
                 // for scheduling, if not return that the appointment exists.
-                if (AppointmentList.get(i).appointmentStatus() == -1)
+                if (AppointmentList.get(i).appointmentStatus() == AppointmentStatus.DECLINED)
                     return -1;
 
                 return i;
@@ -171,13 +182,13 @@ public class AppointmentManager {
 
     // Lets doctor update the status of an appointment. 0 is pending, 1 is accepted,
     // -1 is decline
-    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, int m_AppointmentStatus) {
+    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, AppointmentStatus m_AppointmentStatus) {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments for the appointment id
                                                          // and doctor name is same
         {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
-                AppointmentList.get(i).UpdateAppointmentStatus(m_doctorName, m_AppointmentStatus);
+                AppointmentList.get(i).UpdateAppointmentStatus(m_AppointmentStatus);
                 System.out.println(
                         "Doctor :" + m_doctorName + "Successfully Accepted the appointment ID of " + m_appointmentID);
                 return true;
@@ -197,7 +208,7 @@ public class AppointmentManager {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
                                                          // dosent have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).appointmentStatus() == accepted) {
+            if (AppointmentList.elementAt(i).appointmentStatus() == AppointmentStatus.ACCEPTED) {
                 System.out.println(AppointmentList.elementAt(i));
             }
         }   

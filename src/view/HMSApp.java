@@ -1,22 +1,21 @@
 package view;
 import java.util.Vector;
 
+
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
 import models.MedicalRecord;
 
 import models.User;
-
 import java.util.Scanner;
 
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.util.List;
+import view.AppStartup;
 
 public class HMSApp {
     public static void main(String[] args) {
+        Vector<User> m_UserList = new Vector<User>();
+
+        AppStartup start;
         // Initialize system and load data
         // Handle user login and delegate to the appropriate menu
 
