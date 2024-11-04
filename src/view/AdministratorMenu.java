@@ -11,10 +11,14 @@ import java.util.Arrays;
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.CSVManager.StaffManager;
+import ServiceClasses.inventory.InventoryControl;
+import models.Administrator;
+import models.User;
 
 public class AdministratorMenu 
 {
     private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
+    private static InventoryControl inventoryControl = InventoryControl.getInstance();
     public static void main(String[] args) 
     {
         int choice;
@@ -39,7 +43,7 @@ public class AdministratorMenu
                     ViewAppointmentDetails();
                     break;
                 case 3:                    
-                    System.out.println("View & Manage Medication Inventory");
+                    AdminManageInventory();
                     break;
                 case 4:
                     System.out.println("Approve Replenishment Requests");
@@ -442,7 +446,7 @@ public class AdministratorMenu
                 appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.DECLINED);
                 break;
             case 4:
-                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.PENDING);
+                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.UNACCEPTED);
                 break;
             case 5:
                 appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.COMPLETED);
@@ -453,4 +457,43 @@ public class AdministratorMenu
         }
     }
 
+    public static void AdminManageInventory()
+    {
+        System.out.println("--------------------------------");
+        System.out.println("View And Manage Inventory");
+        System.out.println("--------------------------------");
+        System.out.println("1. View Inventory");
+        System.out.println("2. Edit Medication");
+        System.out.println("3. Edit Low Stock Alert Level");
+        System.out.println("4. Approve Replenishment Requests");
+        User admin = new Administrator("admin");
+        InventoryControl.start();
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch(choice)
+        {
+            case 1:
+                inventoryControl.showInventory();
+                InventoryControl.close();
+                break;
+            case 2:
+                inventoryControl.addPrescription(admin);
+                InventoryControl.close();
+                break;
+            case 3:
+                inventoryControl.edit(admin);
+                InventoryControl.close();
+                break;
+            // case 4:
+            //     inventoryControl.removeMedicine();
+            //     break;
+            // case 5:
+            //     inventoryControl.approveReplenishmentRequest();
+            //     break;
+            default:
+                System.out.println("Invalid Choice");
+                break;
+        }
+    }
 }
