@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
 import java.util.Arrays;
 
 import ServiceClasses.Appointment.AppointmentManager;
@@ -14,6 +15,8 @@ import ServiceClasses.CSVManager.StaffManager;
 import ServiceClasses.inventory.InventoryControl;
 import models.Administrator;
 import models.User;
+import models.enums.Gender;
+import models.enums.Role;
 
 public class AdministratorMenu 
 {
@@ -21,6 +24,7 @@ public class AdministratorMenu
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
     public static void main(String[] args) 
     {
+        InventoryControl.start();
         int choice;
         Scanner sc = new Scanner(System.in);
         do
@@ -61,6 +65,7 @@ public class AdministratorMenu
         {
             System.out.println("Exiting System...");
         }
+        InventoryControl.close();
     }
 
     public static void AdminManageStaff()
@@ -466,8 +471,7 @@ public class AdministratorMenu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        User admin = new Administrator("admin");
-        InventoryControl.start();
+        User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();
@@ -475,21 +479,15 @@ public class AdministratorMenu
         {
             case 1:
                 inventoryControl.showInventory();
-                InventoryControl.close();
                 break;
             case 2:
                 inventoryControl.addPrescription(admin);
-                InventoryControl.close();
                 break;
             case 3:
                 inventoryControl.edit(admin);
-                InventoryControl.close();
                 break;
             // case 4:
             //     inventoryControl.removeMedicine();
-            //     break;
-            // case 5:
-            //     inventoryControl.approveReplenishmentRequest();
             //     break;
             default:
                 System.out.println("Invalid Choice");
