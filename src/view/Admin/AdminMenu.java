@@ -28,6 +28,7 @@ public class AdminMenu
                     break;
                 case 2:
                     System.out.println("View Appointment Details");
+                    AdminViewAppointment.main(args);;
                     break;
                 case 3:                    
                     System.out.println("View & Manage Medication Inventory");

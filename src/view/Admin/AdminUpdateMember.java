@@ -66,6 +66,7 @@ public class AdminUpdateMember {
                     {
                         staff = staffData.get(staffData.indexOf(row));
                     }
+                    System.out.println(staff);
                 }
             }
             else if (choice == 2)
@@ -109,7 +110,7 @@ public class AdminUpdateMember {
                 case 2:
                     System.out.println("Enter New Staff Name: ");
                     String newName = sc.nextLine();
-                    staff[1] = newName;
+                    staff[1] = newName; 
                     break;
                 case 3:
                     System.out.println("Select New Staff Role: ");
