@@ -112,7 +112,7 @@ public class PatientMenu {
                     break;
         
                 case 8:
-                    patient.getPastPatientAppointments();
+                    patient.getPastPatientAppointments(); // update to past patient records 
                     break;
         
                 case 9:
