@@ -14,6 +14,7 @@ import ServiceClasses.CSVManager.StaffManager;
 
 public class AdministratorMenu 
 {
+    private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
     public static void main(String[] args) 
     {
         int choice;
@@ -35,7 +36,7 @@ public class AdministratorMenu
                     AdminManageStaff();
                     break;
                 case 2:
-                    System.out.println("View Appointment Details");
+                    ViewAppointmentDetails();
                     break;
                 case 3:                    
                     System.out.println("View & Manage Medication Inventory");
@@ -417,9 +418,39 @@ public class AdministratorMenu
     }       
 
     public static void ViewAppointmentDetails()
-    {
-        AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
-        AppointmentStatus appointmentStatus = AppointmentStatus.ACCEPTED;
-        appointmentManager.ViewAllAppointmentsByStatus(appointmentStatus);
+    {   
+        System.out.println("--------------------------------");
+        System.out.println("View Appointment Details");
+        System.out.println("--------------------------------");
+        System.out.println("1. View All Appointments");
+        System.out.println("2. View Accepted Appointments");
+        System.out.println("3. View Declined Appointments");
+        System.out.println("4. View Pending Appointments");
+        System.out.println("4. View Completed Appointments");
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch(choice)
+        {
+            case 1:
+                appointmentManager.ViewAllAppointments();
+                break;
+            case 2:
+                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.ACCEPTED);
+                break;
+            case 3:
+                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.DECLINED);
+                break;
+            case 4:
+                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.PENDING);
+                break;
+            case 5:
+                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.COMPLETED);
+                break;
+            default:
+                System.out.println("Invalid Choice");
+                break;
+        }
     }
+
 }
