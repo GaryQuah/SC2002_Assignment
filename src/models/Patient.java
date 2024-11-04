@@ -23,6 +23,10 @@ public class Patient extends User {
     private String dateOfBirth;
     private BloodType bloodType;
     private Gender gender;
+
+    private String emergencyContactName;
+    private String emergencyContactRelation;
+    private String emergencyContactNumber;
     // ------------------- Functions ---------------------------
 
     // Creates a "Patient" after passing the user's username. default password is
@@ -44,7 +48,18 @@ public class Patient extends User {
         this.contactInformation = newContactInfo;
     }
 
+    public void updateEmergencyContact(String name, String relation, String number) {
+        this.emergencyContactName = name;
+        this.emergencyContactRelation = relation;
+        this.emergencyContactNumber = number;
+    }
+
     // ------------------ getters ---------------------
+
+    public String getEmergencyContactInfo() {
+        return "Name: " + emergencyContactName + ", Relation: " + emergencyContactRelation + ", Contact Number: "
+                + emergencyContactNumber;
+    }
 
     public String getContactInfo() {
         return this.contactInformation;

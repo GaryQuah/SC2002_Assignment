@@ -48,11 +48,33 @@ public class PatientMenu {
                 break;
 
                 case 2: {
+
+                System.out.println("Update Personal Information");
+                System.out.println("1. Update Contact Information");
+                System.out.println("2. Update Emergency Contact Information");
+                System.out.print("Choose an option: ");
+                int updateChoice = sc.nextInt();
+                sc.nextLine(); // consume newline
+
+                    if(updateChoice==1){
                     System.out.println("Please enter new contact information: ");
                     String newContactInfo = sc.nextLine();
                     patient.updateContactInfo(newContactInfo);
                     System.out.println("Personal information updated successfully.");
 
+                    }
+                    else if (updateChoice==2){
+                        System.out.println("Please enter emergency contact name: ");
+                        String emergencyName=sc.nextLine();
+                        System.out.println("Please enter emergency contact relation: ");
+                        String emergencyRelation=sc.nextLine();
+                        System.out.println("Please enter emergency contact number: ");
+                        String emergencyNumber=sc.nextLine();
+                        patient.updateEmergencyContact(emergencyName, emergencyRelation, emergencyNumber);
+                    }
+                    else{
+                        System.out.println("Invalid choice. Returning to main menu.");
+                    }
                     break;
                 }
 
