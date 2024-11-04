@@ -2,6 +2,7 @@ package ServiceClasses.Appointment;
 
 import java.util.Vector;
 
+import ServiceClasses.CSVManager.CSVManager;
 import ServiceClasses.inventory.InventoryControl;
 import ServiceClasses.inventory.Prescription;
 import input.Scan;
@@ -13,9 +14,13 @@ import models.Doctor;
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
     // Singleton instance
-    private static final AppointmentManager instance = new AppointmentManager();
+    private static AppointmentManager instance;
 
     public static AppointmentManager getInstance() {
+
+         if (instance == null) {
+            instance = new AppointmentManager();
+        }
         return instance;
     }
 
