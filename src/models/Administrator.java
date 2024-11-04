@@ -5,7 +5,7 @@ import models.User;
 import java.util.Vector;
 import ServiceClasses.Appointment;
 import ServiceClasses.AppointmentManager;
-import ServiceClasses.StaffManager;
+import ServiceClasses.CSVManager.StaffManager;
 
 public class Administrator extends User
 {
