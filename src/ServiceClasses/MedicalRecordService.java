@@ -1,6 +1,8 @@
 package ServiceClasses;
 
 import models.MedicalRecord;
+import models.Patient;
+
 import java.io.*;
 import java.util.*;
 
@@ -56,5 +58,35 @@ public class MedicalRecordService {
                 }
             }
         }
+    }
+
+    // view medical records for a specific patient
+    public static void viewMedicalRecord(Patient patient) throws IOException {
+        List<MedicalRecord> records = getAllMedicalRecords();
+        System.out.println("------ Medical Records ------");
+
+        boolean recordFound = false;
+
+        System.out.println("------ Medical History ------");
+
+        // Print all records associated with this patient
+        for (MedicalRecord record : records) {
+            if (record.getPatientId().equals(patient.getPatientID())) {
+                printRecord(record);
+                recordFound = true;
+            }
+        }
+
+        if (!recordFound) {
+            System.out.println("No medical records found for this patient.");
+        }
+    }
+
+    // print a single medical record
+    private static void printRecord(MedicalRecord record) {
+        System.out.println("Diagnosis: " + record.getDiagnosis());
+        System.out.println("Treatment: " + record.getTreatment());
+        System.out.println("Date: " + record.getDate());
+        System.out.println("----------------------------");
     }
 }

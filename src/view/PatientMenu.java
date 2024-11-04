@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ServiceClasses.MedicalRecordService;
+import ServiceClasses.Appointment.AppointmentManager;
 import models.MedicalRecord;
 import models.Patient;
 
@@ -36,8 +38,14 @@ public class PatientMenu {
 
             switch (choice) {
                 case 1:
-                    patient.ViewMedicalRecord();
-                    break;
+                System.out.println("Name: " + patient.getPatientName());
+                System.out.println("Patient ID: " + patient.getPatientID());
+                System.out.println("Date of Birth: " + patient.getDateOfBirth());
+                System.out.println("Gender: " + patient.getGender());
+                System.out.println("Contact Information: " + patient.getContactInfo());
+                System.out.println("Blood Type: " + patient.getBloodType());
+                MedicalRecordService.viewMedicalRecord(patient);
+                break;
 
                 case 2: {
                     System.out.println("Please enter new contact information: ");
@@ -51,13 +59,12 @@ public class PatientMenu {
                 case 3: {
                     System.out.print("Enter doctor name: ");
                     String doctorName = sc.nextLine();
-                    patient.viewAvailableAppointments(doctorName);
+                    AppointmentManager.getInstance().ViewAvailableDates(doctorName);
                     break;
                 }
 
                 case 4: {
-                    System.out.print("Enter patient's name: ");
-                    String patientName = sc.nextLine();
+                
                     System.out.print("Enter doctor name: ");
                     String doctorName = sc.nextLine();
                     System.out.print("Enter appointment date (yyyy-mm-dd): ");
@@ -65,10 +72,10 @@ public class PatientMenu {
                     System.out.print("Enter time slot (HH:mm): ");
                     String timeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
-                    int type = sc.nextInt();
+                    String type = sc.nextLine();
                     sc.nextLine(); // consume newline
 
-                    patient.scheduleAppointment(doctorName, patientName, date, timeSlot, type);
+                    AppointmentManager.getInstance().ScheduleAppointment(doctorName, patient.getPatientName(),date,timeSlot,type);                    
                     break;
                 }
 
@@ -85,8 +92,9 @@ public class PatientMenu {
                     String newTimeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
                     String newType = sc.nextLine();
-
-                    patient.reschedulePatientAppointment(rescheduleDoctorName, newDate, newTimeSlot, newType, oldDate,oldTimeSlot);
+                    AppointmentManager.getInstance().ReScheduleAppointment(rescheduleDoctorName, patient.getPatientName(), newDate, newTimeSlot,
+                    newType,
+                    oldDate, oldTimeSlot);                    
                     break;
                         }
         
@@ -97,17 +105,16 @@ public class PatientMenu {
                     String cancelDate = sc.nextLine();
                     System.out.print("Enter time slot (HH:mm): ");
                     String cancelTimeSlot = sc.nextLine();
-                    patient.cancelPatientAppointment(cancelDoctorName, cancelDate, cancelTimeSlot);
-        
+                    AppointmentManager.getInstance().CancelAppointment(cancelDoctorName, patient.getPatientName(),cancelDate, cancelTimeSlot);        
                     break;
                         }
         
                 case 7:
-                    patient.viewPatientScheduledAppointments();
+                    AppointmentManager.getInstance().ViewPatientAppointments(patient.getPatientName());
                     break;
         
                 case 8:
-                    patient.getPastPatientAppointments(); // update to past patient appoointment records 
+                 // update to past patient appoointment records 
                     break;
         
                 case 9:
