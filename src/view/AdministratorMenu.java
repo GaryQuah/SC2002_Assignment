@@ -6,14 +6,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
 import java.util.Arrays;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
-import ServiceClasses.CSVManager.StaffManager;
+import ServiceClasses.CSVManager.StaffDataService;
+import ServiceClasses.CSVManager.StaffFileHandler;
+import ServiceClasses.CSVManager.StaffViewer;
 import ServiceClasses.inventory.InventoryControl;
 import models.Administrator;
 import models.User;
+import models.enums.Gender;
+import models.enums.Role;
 
 public class AdministratorMenu 
 {
@@ -21,6 +26,7 @@ public class AdministratorMenu
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
     public static void main(String[] args) 
     {
+        InventoryControl.start();
         int choice;
         Scanner sc = new Scanner(System.in);
         do
@@ -61,6 +67,7 @@ public class AdministratorMenu
         {
             System.out.println("Exiting System...");
         }
+        InventoryControl.close();
     }
 
     public static void AdminManageStaff()
@@ -91,7 +98,7 @@ public class AdministratorMenu
                 switch(filterChoice)
                 {
                     case 1:
-                        StaffManager.printStaffData();
+                        StaffViewer.printStaffData();
                         break;
                     case 2:
                         System.out.println("--------------------------------");
@@ -104,13 +111,13 @@ public class AdministratorMenu
                         switch(roleChoice)
                         {
                             case 1:
-                                StaffManager.printFilterBy(2, "Doctor");
+                                StaffViewer.printFilterBy(2, "Doctor");
                                 break;
                             case 2:
-                                StaffManager.printFilterBy(2, "Pharmacist");  
+                                StaffViewer.printFilterBy(2, "Pharmacist");  
                                  break;
                             case 3:
-                                StaffManager.printFilterBy(2, "Administrator");  
+                                StaffViewer.printFilterBy(2, "Administrator");  
                                 break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -127,10 +134,10 @@ public class AdministratorMenu
                         switch(genderChoice)
                         {
                             case 1:
-                                StaffManager.printFilterBy(3, "Male");
+                                StaffViewer.printFilterBy(3, "Male");
                                 break;
                             case 2:
-                                StaffManager.printFilterBy(3, "Female");
+                                StaffViewer.printFilterBy(3, "Female");
                                 break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -142,7 +149,7 @@ public class AdministratorMenu
                         System.out.println("Enter Age");
                         System.out.println("--------------------------------");
                         int age = sc.nextInt();
-                        StaffManager.printFilterBy(4, Integer.toString(age));
+                        StaffViewer.printFilterBy(4, Integer.toString(age));
                         break;
                     default:
                         System.out.println("Invalid Choice");
@@ -183,7 +190,7 @@ public class AdministratorMenu
         String id = "";
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffManager.getStaffData();
+        List<String[]> staffData = StaffFileHandler.getStaffData();
 
         while (true) {
             System.out.println("Select New Staff Role: ");
@@ -242,7 +249,7 @@ public class AdministratorMenu
         do {
             System.out.println("Enter 3 Digit Staff's ID: ");
             id = role.charAt(0) + sc.nextLine();
-            if (StaffManager.getUserById(id) != null) {
+            if (StaffFileHandler.getUserById(id) != null) {
                 System.out.println("ID Already Exists");
                 continue;
             }
@@ -275,7 +282,7 @@ public class AdministratorMenu
     {
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffManager.getStaffData();
+        List<String[]> staffData = StaffFileHandler.getStaffData();
         String name = "";
         String id = "";
         boolean found = false;
@@ -283,7 +290,7 @@ public class AdministratorMenu
 
         System.out.println("Enter Staff ID: ");
         id = sc.nextLine();
-        found = (StaffManager.getUserById(id) != null);
+        found = (StaffFileHandler.getUserById(id) != null);
         if (!found)
         {
             System.out.println("User ID Not Found");
@@ -293,7 +300,7 @@ public class AdministratorMenu
         if (found)
         {
             System.out.println("Current Staff Details:");
-            System.out.println(Arrays.toString(StaffManager.getUserById(id)));
+            System.out.println(Arrays.toString(StaffFileHandler.getUserById(id)));
             for (String[] row : staffData) 
             {
                 if (row[0].equals(id)) 
@@ -394,7 +401,7 @@ public class AdministratorMenu
         String id = "";
         String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffManager.getStaffData();
+        List<String[]> staffData = StaffFileHandler.getStaffData();
 
         System.out.println("1. Enter Staff ID");
         System.out.println("2. Exit");
@@ -406,7 +413,7 @@ public class AdministratorMenu
             case 1:
                 System.out.println("Enter Staff ID: ");
                 id = sc.nextLine();
-                if (StaffManager.getUserById(id) == null)
+                if (StaffFileHandler.getUserById(id) == null)
                 {
                     System.out.println("User ID Not Found");
                     return;
@@ -418,7 +425,7 @@ public class AdministratorMenu
                 System.out.println("Invalid Choice");
                 return;
         }
-        StaffManager.removeStaffById(id);
+        StaffDataService.removeStaffById(id);
     }       
 
     public static void ViewAppointmentDetails()
@@ -437,19 +444,19 @@ public class AdministratorMenu
         switch(choice)
         {
             case 1:
-                appointmentManager.ViewAllAppointments();
+                appointmentManager.getAppointmentViewer().ViewAllAppointments();
                 break;
             case 2:
-                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.ACCEPTED);
+                appointmentManager.getAppointmentViewer().ViewAllAppointmentsByStatus(AppointmentStatus.ACCEPTED);
                 break;
             case 3:
-                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.DECLINED);
+                appointmentManager.getAppointmentViewer().ViewAllAppointmentsByStatus(AppointmentStatus.DECLINED);
                 break;
             case 4:
-                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.UNACCEPTED);
+                appointmentManager.getAppointmentViewer().ViewAllAppointmentsByStatus(AppointmentStatus.UNACCEPTED);
                 break;
             case 5:
-                appointmentManager.ViewAllAppointmentsByStatus(AppointmentStatus.COMPLETED);
+                appointmentManager.getAppointmentViewer().ViewAllAppointmentsByStatus(AppointmentStatus.COMPLETED);
                 break;
             default:
                 System.out.println("Invalid Choice");
@@ -466,8 +473,7 @@ public class AdministratorMenu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        User admin = new Administrator("admin");
-        InventoryControl.start();
+        User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();
@@ -475,21 +481,15 @@ public class AdministratorMenu
         {
             case 1:
                 inventoryControl.showInventory();
-                InventoryControl.close();
                 break;
             case 2:
                 inventoryControl.addPrescription(admin);
-                InventoryControl.close();
                 break;
             case 3:
                 inventoryControl.edit(admin);
-                InventoryControl.close();
                 break;
             // case 4:
             //     inventoryControl.removeMedicine();
-            //     break;
-            // case 5:
-            //     inventoryControl.approveReplenishmentRequest();
             //     break;
             default:
                 System.out.println("Invalid Choice");
