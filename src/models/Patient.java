@@ -38,6 +38,14 @@ public class Patient extends User {
         this.bloodType = bloodType;
     }
 
+    //For testing - to remove
+    public Patient(String name)
+    {
+        super("Name", "Pw", Role.Patient, Gender.Others);
+
+        this.patientName = name;
+    }
+
     // ------------------ setters ---------------------
 
     public void updateContactInfo(String newContactInfo) {
@@ -55,7 +63,7 @@ public class Patient extends User {
     public void scheduleAppointment(String doctorName, String appointmentDate,
             String timeSlot, String appointmentType, int appointmentID) {
 
-        boolean isSlotAvailable = AppointmentManager.getInstance().ScheduleAppointment(doctorName, patientName,
+        boolean isSlotAvailable = AppointmentManager.getInstance().getAppointmentScheduler().ScheduleAppointment(doctorName, patientName,
                 appointmentDate,
                 timeSlot,
                 appointmentType);
@@ -71,7 +79,7 @@ public class Patient extends User {
     public void cancelPatientAppointment(String doctorName, String appointmentDate,
             String timeSlot) {
 
-        boolean isCancelled = AppointmentManager.getInstance().CancelAppointment(doctorName, patientName,
+        boolean isCancelled = AppointmentManager.getInstance().getAppointmentScheduler().CancelAppointment(doctorName, patientName,
                 appointmentDate, timeSlot);
         if (isCancelled) {
             System.out.println("Appointment cancelled.");
@@ -83,7 +91,7 @@ public class Patient extends User {
     // reschedule patient appointment
     public void reschedulePatientAppointment(String doctorName, String newAppointmentDate,
             String newTimeSlot, String appointmentType, String oldAppointmentDate, String oldTimeSlot) {
-        AppointmentManager.getInstance().ReScheduleAppointment(doctorName, patientName, newAppointmentDate, newTimeSlot,
+        AppointmentManager.getInstance().getAppointmentScheduler().ReScheduleAppointment(doctorName, patientName, newAppointmentDate, newTimeSlot,
                 appointmentType,
                 oldAppointmentDate, oldTimeSlot);
     }
@@ -91,7 +99,7 @@ public class Patient extends User {
     // get patient past appointments
     public void getPastPatientAppointments() {
 
-        Vector<Appointment> pastAppointments = AppointmentManager.getInstance().getPastAppointments(patientName);
+        Vector<Appointment> pastAppointments = AppointmentManager.getInstance().getAppointmentRetriever().retrievePastAppointments(patientName);
 
         if (pastAppointments.isEmpty()) {
             System.out.println("No past apppointments found.");
@@ -105,11 +113,11 @@ public class Patient extends User {
     // view scheduled appointments
     public void viewPatientScheduledAppointments() {
 
-        AppointmentManager.getInstance().ViewPatientAppointments(patientName);
+        AppointmentManager.getInstance().getAppointmentViewer().ViewPatientAppointments(patientName);
     }
 
     public void viewAvailableAppointments(String doctorName) {
-        AppointmentManager.getInstance().ViewAvailableDates(doctorName);
+        AppointmentManager.getInstance().getAppointmentViewer().ViewAvailableDates(doctorName);
     }
 
     // view medical records
