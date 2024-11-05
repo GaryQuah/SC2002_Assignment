@@ -2,19 +2,6 @@ package ServiceClasses.Appointment;
 
 import java.util.Vector;
 
-import ServiceClasses.CSVManager.*;
-import ServiceClasses.inventory.InventoryControl;
-import ServiceClasses.inventory.Prescription;
-import input.Scan;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import models.Doctor;
-
-import ServiceClasses.Appointment.AppointmentScheduler;
-import ServiceClasses.Appointment.AppointmentStatusUpdater;
-import ServiceClasses.Appointment.AppointmentViewer;
-
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
     

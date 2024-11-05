@@ -30,9 +30,6 @@ public class AppointmentScheduler {
         return -1;
     }
 
-    
-
-   
 
     // Public Methods
     // Schedules an appointment - returns true if successfully scheduled an
