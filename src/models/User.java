@@ -21,8 +21,9 @@ public abstract class User {
     private Vector<Appointment> m_Appointments;
 
     // Users can change their password after their initial login.
-    public User(String m_UserName, Role m_Role, Gender m_Gender) {
+    public User(String m_UserName, String m_PassWord, Role m_Role, Gender m_Gender) {
         this.m_UserName = m_UserName;
+        this.m_PassWord = m_PassWord;
         this.m_Role = m_Role;
         this.m_PassWord = "password";
         this.m_Gender = m_Gender;

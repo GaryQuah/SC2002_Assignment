@@ -4,7 +4,6 @@ import java.util.List;
 
 import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Appointment.AppointmentManager;
-import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.MedicalRecordService;
 
 import models.enums.Gender;
@@ -12,66 +11,49 @@ import models.enums.Role;
 import models.enums.BloodType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Vector;
 
 public class Patient extends User {
     // ------------------ variables -----------------------------
-    private String emailAddress;
-    private String phoneNumber;
+    private String ContactInformation;
     private MedicalRecord medicalRecord;
-    // 
     private int patientID;
     private String patientName;
     private String dateOfBirth;
     private BloodType bloodType;
-    private String ContactInformation;
+    private Gender gender;
     // ------------------- Functions ---------------------------
 
     // Creates a "Patient" after passing the user's username. default password is
     // "password", default role is "Patient"
-    public Patient(String userName, MedicalRecord medicalRecord , int patientID, String patientName, String DOB, 
-                    Gender gender, BloodType bloodType, String ContactInformation) {
-        super(userName, Role.Patient, gender);
-        this.medicalRecord = medicalRecord;
-        this.emailAddress = medicalRecord.getEmailAddress(); // initialize with medical record email
-        this.phoneNumber = medicalRecord.getPhoneNumber(); // initialize with medical record phone number
-
+    public Patient(int patientID, String patientName, String DOB,
+            Gender gender, BloodType bloodType, String ContactInformation, String userName, String password) {
+        super(userName, password, Role.Patient, gender);
+        this.ContactInformation = ContactInformation;
         this.patientID = patientID;
+        this.gender = gender;
         this.patientName = patientName;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
-        this.ContactInformation = ContactInformation;
     }
 
     // ------------------ setters ---------------------
 
-    public void updateEmailAddress(String newEmail) {
-        this.emailAddress = newEmail;
-        medicalRecord.setEmailAddress(newEmail); // sync with medical record
+    public void updateContactInfo(String newContactInfo) {
+        this.ContactInformation = newContactInfo;
     }
 
-    public void updatePhoneNumber(String newPhoneNumber) {
-        this.phoneNumber = newPhoneNumber;
-        medicalRecord.setPhoneNumber(newPhoneNumber); // sync with medical record
-    }
     // ------------------ getters ---------------------
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getContactInfo() {
+        return this.ContactInformation;
     }
 
     // ------------------ Appointment Management ------------------
 
     public void scheduleAppointment(String doctorName, String appointmentDate,
             String timeSlot, String appointmentType, int appointmentID) {
-
-        String patientName = medicalRecord.getName();
 
         boolean isSlotAvailable = AppointmentManager.getInstance().ScheduleAppointment(doctorName, patientName,
                 appointmentDate,
@@ -89,8 +71,6 @@ public class Patient extends User {
     public void cancelPatientAppointment(String doctorName, String appointmentDate,
             String timeSlot) {
 
-        String patientName = medicalRecord.getName();
-
         boolean isCancelled = AppointmentManager.getInstance().CancelAppointment(doctorName, patientName,
                 appointmentDate, timeSlot);
         if (isCancelled) {
@@ -103,8 +83,6 @@ public class Patient extends User {
     // reschedule patient appointment
     public void reschedulePatientAppointment(String doctorName, String newAppointmentDate,
             String newTimeSlot, String appointmentType, String oldAppointmentDate, String oldTimeSlot) {
-        String patientName = medicalRecord.getName();
-
         AppointmentManager.getInstance().ReScheduleAppointment(doctorName, patientName, newAppointmentDate, newTimeSlot,
                 appointmentType,
                 oldAppointmentDate, oldTimeSlot);
@@ -112,7 +90,6 @@ public class Patient extends User {
 
     // get patient past appointments
     public void getPastPatientAppointments() {
-        String patientName = medicalRecord.getName();
 
         Vector<Appointment> pastAppointments = AppointmentManager.getInstance().getPastAppointments(patientName);
 
@@ -127,7 +104,6 @@ public class Patient extends User {
 
     // view scheduled appointments
     public void viewPatientScheduledAppointments() {
-        String patientName = medicalRecord.getName();
 
         AppointmentManager.getInstance().ViewPatientAppointments(patientName);
     }
@@ -143,6 +119,15 @@ public class Patient extends User {
             System.out.println("------ Medical Records ------");
             boolean recordFound = false;
 
+            // print out patient details once
+            System.out.println("Name: " + patientName);
+            System.out.println("Patient ID: " + patientID);
+            System.out.println("Date of Birth: " + dateOfBirth);
+            System.out.println("Gender: " + gender);
+            System.out.println("Contact Information: " + ContactInformation);
+            System.out.println("Blood Type: " + bloodType);
+
+            // print out all records
             for (MedicalRecord record : allMedicalRecords) {
                 if (record.getPatientId().equals(medicalRecord.getPatientId())) {
                     printRecord(record);
@@ -153,6 +138,8 @@ public class Patient extends User {
                 System.out.println("No medical records found for this patient.");
             }
 
+            System.out.println("------ Medical History ------");
+
         } catch (IOException e) {
             System.out.println("Error reading medical records: " + e.getMessage());
 
@@ -161,14 +148,8 @@ public class Patient extends User {
     }
 
     public void printRecord(MedicalRecord medicalRecord) {
-        System.out.println("Name: " + medicalRecord.getName());
-        System.out.println("Patient ID: " + medicalRecord.getPatientId());
-        System.out.println("Date of Birth: " + medicalRecord.getDateOfBirth());
-        System.out.println("Gender: " + medicalRecord.getGender());
-        System.out.println("Contact Number: " + medicalRecord.getPhoneNumber());
-        System.out.println("Email: " + medicalRecord.getEmailAddress());
-        System.out.println("Blood Type: " + medicalRecord.getBloodType());
-        System.out.println("------ Medical History ------");
+        System.out.println("Blood Type: " + medicalRecord.getDiagnosis());
+        System.out.println("Blood Type: " + medicalRecord.getTreatment());
     }
 
 }
