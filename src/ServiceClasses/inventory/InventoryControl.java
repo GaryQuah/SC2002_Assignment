@@ -2,8 +2,6 @@ package ServiceClasses.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ServiceClasses.Appointment.AppointmentManager;
 import models.User;
 import models.enums.Role;
 
@@ -27,6 +25,7 @@ public class InventoryControl implements InventoryInterface {
 
     public static void close() {
         inventoryParse.write("src\\data\\Medicine_List.csv", inventory);
+        inventory.clear();
     }
 
     private Boolean isDoctor(User user){
