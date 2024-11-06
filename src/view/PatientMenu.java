@@ -19,18 +19,20 @@ public class PatientMenu {
         int choice;
         Scanner sc = new Scanner(System.in);
 
-        // Assuming you have imported the necessary enums for Gender and BloodType
-
-        int patientID = 101;
-        String patientName = "John Doe";
-        String DOB = "01/01/1980"; // Date of birth as a string, e.g., in "MM/DD/YYYY" format
-        Gender gender = Gender.Male; // Replace with Gender.FEMALE if applicable
-        BloodType bloodType = BloodType.O_POSITIVE; // Replace with appropriate blood type
+        // for testing
+        int patientID = 1;
+        String patientName = "John";
+        String DOB = "01/01/2000";
+        Gender gender = Gender.Male;
+        BloodType bloodType = BloodType.O_POSITIVE;
         String contactInformation = "123-456-7890";
-        String userName = "johndoe123";
+        String userName = "john123";
+        String password = "idk";
 
-        // Create a new Patient object
-        Patient patient = new Patient(patientID, patientName, DOB, gender, bloodType, contactInformation, userName);
+        Patient patient = new Patient(patientID, patientName, DOB, gender, bloodType, contactInformation, userName,
+                password);
+
+        AppointmentManager appointmentManager = AppointmentManager.getInstance();
 
         do {
             System.out.println("--------------------------------");
@@ -98,7 +100,7 @@ public class PatientMenu {
                 case 3: {
                     System.out.print("Enter doctor name: ");
                     String doctorName = sc.nextLine();
-                    AppointmentManager.getInstance().ViewAvailableDates(doctorName);
+                    appointmentManager.getAppointmentViewer().ViewAvailableDates(doctorName);
                     break;
                 }
 
@@ -114,8 +116,13 @@ public class PatientMenu {
                     String type = sc.nextLine();
                     sc.nextLine(); // consume newline
 
-                    AppointmentManager.getInstance().ScheduleAppointment(doctorName, patient.getPatientName(), date,
-                            timeSlot, type);
+                    boolean success = appointmentManager.getAppointmentScheduler().ScheduleAppointment(
+                            doctorName, patient.getPatientName(), date, timeSlot, type);
+
+                    if (success)
+                        System.out.println("Appointment has been successfully scheduled.");
+                    else
+                        System.out.println("Appointment failed to be scheduled.");
                     break;
                 }
 
@@ -132,10 +139,15 @@ public class PatientMenu {
                     String newTimeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
                     String newType = sc.nextLine();
-                    AppointmentManager.getInstance().ReScheduleAppointment(rescheduleDoctorName,
-                            patient.getPatientName(), newDate, newTimeSlot,
-                            newType,
-                            oldDate, oldTimeSlot);
+                    boolean rescheduleSuccess = appointmentManager.getAppointmentScheduler().ReScheduleAppointment(
+                            rescheduleDoctorName, patient.getPatientName(), newDate, newTimeSlot, newType, oldDate,
+                            oldTimeSlot);
+
+                    if (rescheduleSuccess) {
+                        System.out.println("Appointment rescheduled successfully.");
+                    } else {
+                        System.out.println("Failed to reschedule appointment.");
+                    }
                     break;
                 }
 
@@ -146,13 +158,19 @@ public class PatientMenu {
                     String cancelDate = sc.nextLine();
                     System.out.print("Enter time slot (HH:mm): ");
                     String cancelTimeSlot = sc.nextLine();
-                    AppointmentManager.getInstance().CancelAppointment(cancelDoctorName, patient.getPatientName(),
-                            cancelDate, cancelTimeSlot);
+                    boolean cancelSuccess = appointmentManager.getAppointmentScheduler().CancelAppointment(
+                            cancelDoctorName, patient.getPatientName(), cancelDate, cancelTimeSlot);
+
+                    if (cancelSuccess) {
+                        System.out.println("Appointment cancelled successfully.");
+                    } else {
+                        System.out.println("Failed to cancel appointment.");
+                    }
                     break;
                 }
 
                 case 7:
-                    AppointmentManager.getInstance().ViewPatientAppointments(patient.getPatientName());
+                    appointmentManager.getAppointmentViewer().ViewPatientAppointments(patient.getPatientName());
                     break;
 
                 case 8:

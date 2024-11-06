@@ -21,15 +21,23 @@ public class Patient extends User {
 
     // Creates a "Patient" after passing the user's username. default password is
     // "password", default role is "Patient"
+
     public Patient(int patientID, String patientName, String DOB,
-            Gender gender, BloodType bloodType, String contactInformation, String userName) {
-        super(userName, Role.Patient, gender);
+            Gender gender, BloodType bloodType, String contactInformation, String userName, String password) {
+        super(userName, password, Role.Patient, gender);
         this.contactInformation = contactInformation;
         this.patientID = patientID;
         this.gender = gender;
         this.patientName = patientName;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
+    }
+
+    // For testing - to remove
+    public Patient(String name) {
+        super("Name", "Pw", Role.Patient, Gender.Others);
+
+        this.patientName = name;
     }
 
     // ------------------ setters ---------------------

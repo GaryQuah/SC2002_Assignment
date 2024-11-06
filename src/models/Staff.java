@@ -11,7 +11,7 @@ public class Staff extends User{
     private int m_age;
 
     public Staff(String username, String password, String staffId, String name, Role role, Gender gender, int age) {
-        super(username, role, gender); // Calls the constructor of the User class
+        super(username, password, role, gender); // Calls the constructor of the User class
         this.m_staffID = staffId;
         this.m_name = name;
         this.m_gender = gender;
