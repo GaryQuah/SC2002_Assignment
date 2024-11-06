@@ -1,18 +1,8 @@
 package models;
 
-import java.util.List;
-
-import ServiceClasses.Appointment.Appointment;
-import ServiceClasses.Appointment.AppointmentManager;
-import ServiceClasses.MedicalRecordService;
-
 import models.enums.Gender;
 import models.enums.Role;
 import models.enums.BloodType;
-
-import java.io.IOException;
-
-import java.util.Vector;
 
 public class Patient extends User {
     // ------------------ variables -----------------------------
