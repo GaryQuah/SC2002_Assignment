@@ -42,6 +42,7 @@ public class Appointment {
         this.m_AppointmentDate = m_AppointmentDate;
         this.m_DoctorName = m_DoctorName;
         this.m_TimeSlot = m_TimeSlot;
+        this.m_PatientName = m_PatientName;
         this.m_AppointmentType = m_AppointmentType;
         m_AppointmentStatus = AppointmentStatus.UNACCEPTED;
         // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique

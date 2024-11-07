@@ -53,31 +53,39 @@ public class AppointmentViewer {
 
     // View appointments that have the doctors name in them
     public void ViewDoctorAppointments(String m_doctorName) {
+        int appointmentCount = 0;
+
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
                                                          // dosent have an appointment on the date and
         {
             if (AppointmentList.elementAt(i).getDoctorName().equals(m_doctorName)) {
                 System.out.println(AppointmentList.elementAt(i));
+                appointmentCount++;
             }
         }
+
+        if (appointmentCount == 0)
+            System.out.println("No appoints have been scheduled for the doctor " + m_doctorName);
     }
 
     // View appointments that have the patients name in them
     // view schedules appointments minus past appointments
     public void ViewPatientAppointments(String m_patientName) {
-        LocalDate today = LocalDate.now(); // Get today's date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        int appointmentCount = 0;
 
-        for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
-                                                         // dosent have an appointment on the date and
+        for (int i = 0; i < AppointmentList.size(); ++i)
         {
-            if (AppointmentList.elementAt(i).getDoctorName().equals(m_patientName)) {
-                LocalDate appointmentDate = LocalDate.parse(AppointmentList.elementAt(i).getAppointmentDate(),
-                        formatter);
-                if (!appointmentDate.isBefore(today)) {
-                    System.out.println(AppointmentList.elementAt(i));
-                }
+            if (AppointmentList.elementAt(i).getPatientName().equals(m_patientName))
+            {
+                System.out.println(AppointmentList.elementAt(i));
+                appointmentCount++;
             }
+        }
+
+        if (appointmentCount == 0)
+        {
+            System.out.println("No appoints have been scheduled for the patient " + m_patientName);
+            ViewAllAppointments();
         }
     }
 

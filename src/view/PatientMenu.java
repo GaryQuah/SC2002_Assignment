@@ -140,8 +140,8 @@ public class PatientMenu {
                     System.out.print("Enter appointment type: ");
                     String newType = sc.nextLine();
                     boolean rescheduleSuccess = appointmentManager.getAppointmentScheduler().ReScheduleAppointment(
-                            rescheduleDoctorName, patient.getPatientName(), newDate, newTimeSlot, newType, oldDate,
-                            oldTimeSlot);
+                            rescheduleDoctorName, patient.getPatientName(), oldDate, oldTimeSlot, newType, newDate,
+                            newTimeSlot);
 
                     if (rescheduleSuccess) {
                         System.out.println("Appointment rescheduled successfully.");
