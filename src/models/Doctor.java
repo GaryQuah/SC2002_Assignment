@@ -12,7 +12,7 @@ public class Doctor extends Staff {
 
     //Creates a "Doctor" after passing the user's username. default password is "password", default role is "Doctor"
     // ID, name, role, gender, age, username, password
-    public Doctor(int staffId, String name, Role role, Gender gender, int age, String username, String password) {
+    public Doctor(String staffId, String name, Role role, Gender gender, int age, String username, String password) {
         super(staffId, name, role, gender, age, username, password);
     }
 

@@ -20,7 +20,7 @@ public class PatientMenu {
         Scanner sc = new Scanner(System.in);
 
         // for testing
-        int patientID = 1;
+        String patientID = "P0000";
         String patientName = "John";
         String DOB = "01/01/2000";
         Gender gender = Gender.Male;

@@ -9,7 +9,7 @@ import models.enums.Role;
 public class Administrator extends Staff
 {
 
-    public Administrator(int staffId, String name, Role role, Gender gender, int age, String username, String password) {
+    public Administrator(String staffId, String name, Role role, Gender gender, int age, String username, String password) {
         super(staffId, name, role, gender, age, username, password);
     }
 

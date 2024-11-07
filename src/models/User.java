@@ -10,28 +10,26 @@ import models.enums.Gender;
 public abstract class User {
     // Users must log in to the system using their unique hospital ID and a default
     // password ("password").
-    private int m_UserID;
+    private String m_UserID;
     private String m_Name;
     private Gender m_Gender;
     private String m_UserName;
     private String m_PassWord;
     private Role m_Role;
 
-    private static int maxID = 0;
+    //private static int maxID = 0;
     // Users will have roles such as Patient, Doctor, Pharmacist or Administrator.
 
     // Stores appointment data
     private Vector<Appointment> m_Appointments;
 
-    public User(int userID, String name, Gender gender, String userName, String passWord, Role role) {
+    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) {
         m_UserID = userID;
         m_Name = name;
         m_Gender = gender;
         m_UserName = userName;
         m_PassWord = passWord;
         m_Role = role;
-
-        if (userID > maxID) { maxID = userID; } //goes up to infinity
     }
 
     public boolean ValidateUser(String m_UserName, String m_PassWord) {
@@ -46,7 +44,7 @@ public abstract class User {
         return this.m_Name;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return this.m_UserID;
     }
 
@@ -64,11 +62,6 @@ public abstract class User {
 
     public void updatePassword(String newPassword) {
         this.m_PassWord = newPassword;
-    }
-
-    public int getMaxID()
-    {
-        return maxID;
     }
 
     public abstract String toString();
