@@ -53,8 +53,8 @@ public class PatientMenu {
 
             switch (choice) {
                 case 1:
-                    System.out.println("Name: " + patient.getPatientName());
-                    System.out.println("Patient ID: " + patient.getPatientID());
+                    System.out.println("Name: " + patient.getUserID());
+                    System.out.println("Patient ID: " + patient.getUserID());
                     System.out.println("Date of Birth: " + patient.getDateOfBirth());
                     System.out.println("Gender: " + patient.getGender());
                     System.out.println("Contact Information: " + patient.getContactInfo());
@@ -117,7 +117,7 @@ public class PatientMenu {
                     sc.nextLine(); // consume newline
 
                     boolean success = appointmentManager.getAppointmentScheduler().ScheduleAppointment(
-                            doctorName, patient.getPatientName(), date, timeSlot, type);
+                            doctorName, patient.getName(), date, timeSlot, type);
 
                     if (success)
                         System.out.println("Appointment has been successfully scheduled.");
@@ -140,7 +140,7 @@ public class PatientMenu {
                     System.out.print("Enter appointment type: ");
                     String newType = sc.nextLine();
                     boolean rescheduleSuccess = appointmentManager.getAppointmentScheduler().ReScheduleAppointment(
-                            rescheduleDoctorName, patient.getPatientName(), oldDate, oldTimeSlot, newType, newDate,
+                            rescheduleDoctorName, patient.getName(), oldDate, oldTimeSlot, newType, newDate,
                             newTimeSlot);
 
                     if (rescheduleSuccess) {
@@ -159,7 +159,7 @@ public class PatientMenu {
                     System.out.print("Enter time slot (HH:mm): ");
                     String cancelTimeSlot = sc.nextLine();
                     boolean cancelSuccess = appointmentManager.getAppointmentScheduler().CancelAppointment(
-                            cancelDoctorName, patient.getPatientName(), cancelDate, cancelTimeSlot);
+                            cancelDoctorName, patient.getName(), cancelDate, cancelTimeSlot);
 
                     if (cancelSuccess) {
                         System.out.println("Appointment cancelled successfully.");
@@ -170,7 +170,7 @@ public class PatientMenu {
                 }
 
                 case 7:
-                    appointmentManager.getAppointmentViewer().ViewPatientAppointments(patient.getPatientName());
+                    appointmentManager.getAppointmentViewer().ViewPatientAppointments(patient.getName());
                     break;
 
                 case 8:

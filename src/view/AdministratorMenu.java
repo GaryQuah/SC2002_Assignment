@@ -473,7 +473,8 @@ public class AdministratorMenu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
+        //User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
+        User admin = new Administrator(5 , "Joel" , Role.Doctor, Gender.Male, 40, "JohnS" , "password");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();

@@ -71,7 +71,7 @@ public class MedicalRecordService {
 
         // Print all records associated with this patient
         for (MedicalRecord record : records) {
-            if (record.getPatientId().equals(patient.getPatientID())) {
+            if (record.getPatientId().equals(patient.getUserID())) {
                 printRecord(record);
                 recordFound = true;
             }

@@ -5,16 +5,15 @@ import models.enums.Gender;
 
 public class Staff extends User{
 
-    private String m_staffID;
-    private String m_name;
-    private Gender m_gender;
     private int m_age;
 
-    public Staff(String username, String password, String staffId, String name, Role role, Gender gender, int age) {
-        super(username, password, role, gender); // Calls the constructor of the User class
-        this.m_staffID = staffId;
-        this.m_name = name;
-        this.m_gender = gender;
+    public Staff(int  staffID, String staffName, Role role, Gender gender, int age, String username, String password) {
+        super(staffID, staffName, gender, username , password , role);
+        //this.m_staffID = staffID;
         this.m_age = age;
+    }
+
+    public String toString() {
+        return "Staff ID : " + getUserID() + ", Name : " + getName() + ", Role " + getRole() +  ", Gender : " + getGender() + ", Age : " + m_age;
     }
 }
