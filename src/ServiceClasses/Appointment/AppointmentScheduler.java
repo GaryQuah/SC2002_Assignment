@@ -1,11 +1,16 @@
 package ServiceClasses.Appointment;
 
+import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import java.util.Vector;
 
 public class AppointmentScheduler {
     private Vector<Appointment> AppointmentList = new Vector<Appointment>();
+    private final String dateFormat = "yyyy-MM-dd";
+    private final String timeFormat = "HH:mm";
 
     public AppointmentScheduler(Vector<Appointment> AppointmentList)
     {
@@ -35,6 +40,26 @@ public class AppointmentScheduler {
         return -1;
     }
 
+    private boolean isValidDate(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+        try {
+            LocalDate.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private boolean isValidTime(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
+        try {
+            LocalTime.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
 
     // Public Methods
     // Schedules an appointment - returns true if successfully scheduled an
@@ -42,6 +67,18 @@ public class AppointmentScheduler {
     // appointment at that time slot & date
     public boolean ScheduleAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot,
             String m_appointmentType) {
+        if (!isValidDate(m_date) && !isValidTime(m_timeSlot)) {
+            System.out.println("Invalid date and time format input! Please provide a proper format");
+            return false;
+        }
+        else if (!isValidDate(m_date)){
+            System.out.println("Invalid date! Please provide a proper format for date following : " + dateFormat);
+        }
+        else if (!isValidTime(m_timeSlot)){
+            System.out.println("Invalid time! Please provide a proper format for time following : " + timeFormat);
+        }
+
+
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
 
         if (indexChecker == -1) {
