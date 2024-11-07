@@ -1,10 +1,14 @@
-package view;
+package view.HMS;
 import java.util.Vector;
 
 
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
+import ServiceClasses.Database.StaffFileHandler;
 import models.MedicalRecord;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import models.User;
 import java.util.Scanner;
@@ -12,9 +16,9 @@ import java.util.Scanner;
 
 public class HMSApp {
     public static void main(String[] args) {
-        Vector<User> m_UserList = new Vector<User>();
-
         // Initialize system and load data
+        List<String[]> m_UserList = StaffFileHandler.getStaffData();
+        System.out.println(Arrays.toString(m_UserList.get(1)));
         // Handle user login and delegate to the appropriate menu
 
         //////////////////////// corn's part, ignore this
@@ -79,6 +83,7 @@ public class HMSApp {
         // }
         //////////////////////// corn's part, ignore this
     }
+    
 }
 
 
