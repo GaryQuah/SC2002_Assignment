@@ -14,6 +14,6 @@ public class Staff extends User{
     }
 
     public String toString() {
-        return "Staff ID : " + getUserID() + ", Name : " + getName() + ", Role " + getRole() +  ", Gender : " + getGender() + ", Age : " + m_age;
+        return "Staff ID : " + this.getUserID() + ", Name : " + getName() + ", Role " + getRole() +  ", Gender : " + getGender() + ", Age : " + m_age;
     }
 }

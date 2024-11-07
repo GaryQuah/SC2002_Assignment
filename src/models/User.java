@@ -6,6 +6,7 @@ import ServiceClasses.Appointment.Appointment;
 
 import models.enums.Role;
 import models.enums.Gender;
+import models.UserIDManager;
 
 public abstract class User {
     // Users must log in to the system using their unique hospital ID and a default
@@ -22,7 +23,6 @@ public abstract class User {
 
     // Stores appointment data
     private Vector<Appointment> m_Appointments;
-
     public User(String userID, String name, Gender gender, String userName, String passWord, Role role) {
         m_UserID = userID;
         m_Name = name;
@@ -30,6 +30,12 @@ public abstract class User {
         m_UserName = userName;
         m_PassWord = passWord;
         m_Role = role;
+
+        //Extracts the userID from
+        String numericString = userID.replaceAll("[^0-9]", "");
+        int numericValue = Integer.parseInt(numericString);
+
+        UserIDManager.getInstance().updateID(m_Role, numericValue);
     }
 
     public boolean ValidateUser(String m_UserName, String m_PassWord) {
