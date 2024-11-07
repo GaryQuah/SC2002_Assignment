@@ -59,7 +59,7 @@ public class Login {
             if (row.length >= 7) { // Ensure there are enough fields
                 //Patient ID, Name, DOB, Gender, BloodType, ContactInfo, Username, Password
                 //public Patient(int patientID, String patientName, String DOB, Gender gender, BloodType bloodType, String ContactInformation, String userName, String password)
-                Patient patient = new Patient(Integer.parseInt(row[0]), row[1], row[2],Gender.valueOf(row[3]), BloodType.valueOf(row[4]), row[5] , row[6], row[7]);
+                Patient patient = new Patient(row[0], row[1], row[2],Gender.valueOf(row[3]), BloodType.valueOf(row[4]), row[5] , row[6], row[7]);
                 m_UserList.add(patient);
             }
         }
@@ -90,17 +90,17 @@ public class Login {
                     case "Doctor":
                     //public Doctor(String username, String password, String staffId, String name, Role role, Gender gender, int age)
                         System.out.println("Doctor ID : " + Integer.parseInt(row[0]));
-                        Doctor doctor = new Doctor(Integer.parseInt(row[0]), row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
+                        Doctor doctor = new Doctor(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
                         m_UserList.add(doctor);
                         System.out.println("Created Doctor : " + doctor);
                         break;
                     case "Pharmacist":
-                        Pharmacist pharmacist = new Pharmacist(Integer.parseInt(row[0]), row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
+                        Pharmacist pharmacist = new Pharmacist(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
                         m_UserList.add(pharmacist);
                         System.out.println("Created Pharmacist : " + pharmacist);
                         break;
                     case "Administrator":
-                        Administrator admin = new Administrator(Integer.parseInt(row[0]), row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
+                        Administrator admin = new Administrator(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]), Integer.parseInt(row[4]) , row[5], row[6]);
                         m_UserList.add(admin);
                         System.out.println("Created Administrator : " + admin);
                         break;
