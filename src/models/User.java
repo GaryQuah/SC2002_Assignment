@@ -23,7 +23,8 @@ public abstract class User {
 
     // Stores appointment data
     private Vector<Appointment> m_Appointments;
-    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) {
+    //When creating a user, the ID field would be UserIDManager.getInstance().getNewID(m_Role);
+    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) { 
         m_UserID = userID;
         m_Name = name;
         m_Gender = gender;

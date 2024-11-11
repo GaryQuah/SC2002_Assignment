@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.Database.StaffFileHandler;
 import ServiceClasses.SignUp.PTSignup;
@@ -141,10 +142,10 @@ public class HMSApp {
                     }
                 }
                 else{
-                    if (StaffFileHandler.checkLogin(currentUserID, currentUserPassword))
+                    if (DataBaseManager.getInstance().getStaffFileHandler().checkLogin(currentUserID, currentUserPassword))
                     {
                         succesfulLogin = true;
-                        role = StaffFileHandler.getRoleById(currentUserID);
+                        role = DataBaseManager.getInstance().getStaffFileHandler().getRoleById(currentUserID);
                         System.out.println(role);
                     }
                     else

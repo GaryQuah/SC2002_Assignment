@@ -12,8 +12,6 @@ import ServiceClasses.Database.FileHandler;
 
 public class StaffFileHandler extends FileHandler
 {
-    private static final String FILE_PATH = "src/data/Staff_List.csv";
-
     public StaffFileHandler () {
         super("src/data/Patient_List.csv");
     }
@@ -45,11 +43,10 @@ public class StaffFileHandler extends FileHandler
         return null;
     }
 
-    public static String getRoleById(String id)
+    public String getRoleById(String id)
     {
         // get the latest staff data from csv file
-        staffData = getStaffData();
-        for (String[] row : staffData) 
+        for (String[] row : getData()) 
         {
             if (row[0].equals(id)) 
             {
@@ -59,8 +56,9 @@ public class StaffFileHandler extends FileHandler
         return null;
     }
 
-    public static boolean checkLogin(String currentUserID, String currentUserPassword)
+    public boolean checkLogin(String currentUserID, String currentUserPassword)
     {
+        System.out.println("here");
         // get the latest staff data from csv file
         String[] staffData = getUserById(currentUserID);
 

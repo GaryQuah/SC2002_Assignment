@@ -15,6 +15,7 @@ public abstract class FileHandler {
 
     public List<String[]> getDataArray()
     {
+        getData();
         return dataArray;
     }
 
@@ -44,7 +45,7 @@ public abstract class FileHandler {
 
     public void save(List<String[]> newData)
     {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             for (String[] row : newData) {
                 for (String column : row) {
                     writer.append(column)
