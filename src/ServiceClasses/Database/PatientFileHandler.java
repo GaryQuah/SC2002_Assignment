@@ -8,7 +8,7 @@ import ServiceClasses.Database.FileHandler;
 
 public class PatientFileHandler extends FileHandler
 {
-    private PatientFileHandler() {
+    public PatientFileHandler() {
         super("src/data/Patient_List.csv");
     }
 

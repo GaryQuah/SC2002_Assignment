@@ -14,7 +14,7 @@ public class StaffFileHandler extends FileHandler
 {
     private static final String FILE_PATH = "src/data/Staff_List.csv";
 
-    private StaffFileHandler () {
+    public StaffFileHandler () {
         super("src/data/Patient_List.csv");
     }
 
