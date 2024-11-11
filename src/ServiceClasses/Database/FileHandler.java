@@ -42,10 +42,10 @@ public abstract class FileHandler {
         return dataArray;
     }
 
-    public void save(List<String[]> patientData)
+    public void save()
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            for (String[] row : patientData) {
+            for (String[] row : dataArray) {
                 for (String column : row) {
                     writer.append(column)
                             .append(",");
