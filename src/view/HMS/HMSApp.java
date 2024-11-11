@@ -4,24 +4,29 @@ import java.util.Vector;
 
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
+import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.Database.StaffFileHandler;
+import ServiceClasses.SignUp.PTSignup;
 import models.MedicalRecord;
+import models.Patient;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import models.User;
+import view.AdministratorMenu;
+
 import java.util.Scanner;
 
 
 public class HMSApp {
     public static void main(String[] args) {
         // Initialize system and load data
-        List<String[]> m_UserList = StaffFileHandler.getStaffData();
-        System.out.println(Arrays.toString(m_UserList.get(1)));
+        // List<String[]> m_UserList = StaffFileHandler.getStaffData();
         // Handle user login and delegate to the appropriate menu
 
-        //////////////////////// corn's part, ignore this
+        ////////////////////// corn's part, ignore this
         // Scanner scanner = new Scanner(System.in);
 
         // while (true) {
@@ -81,137 +86,128 @@ public class HMSApp {
         //         e.printStackTrace();
         //     }
         // }
-        //////////////////////// corn's part, ignore this
-    }
-    
-}
+        ////////////////////// corn's part, ignore this
+        // private static final String FILE_PATH = "user_data.csv";
 
-
-/* 
-public class HMS_System {   
-
-    private static final String FILE_PATH = "user_data.csv";
-
-    // Method to store user ID and password in CSV format
-    public static void storeUserData(String userId, String password) throws IOException {
-        try (FileWriter writer = new FileWriter(FILE_PATH, true)) {
-            // Write userId and password, separated by a comma
-            writer.append(userId)
-                  .append(",")
-                  .append(password)
-                  .append("\n");
-        }
-        System.out.println("User data stored successfully.");
-    }
-
-    public class CSVUserDataRetrieval {
-
-        private static final String FILE_PATH = "user_data.csv";
-    
-        // Method to retrieve and print user ID and password from the CSV file
-        public static void retrieveUserData() throws IOException {
-            try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Split each line by comma to get userId and password
-                    String[] userData = line.split(",");
-                    String userId = userData[0];
-                    String password = userData[1];
-                    System.out.println("User ID: " + userId + ", Password: " + password);
-                }
-            }
-        }
-
-    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Vector<Appointment> AppointmentManager;
-        Vector<User> ListOfUsers = new Vector<>();;
+        Vector<User> ListOfUsers = new Vector<>();
+        List<String[]> staffData = new ArrayList<>();
+        List<String[]> patientData = new ArrayList<>();
+        String role = "";
 
         String currentUserID;
         String currentUserPassword;
 
         //Create code here to open up file to retrieve locally stored users
 
-        int choice = -1;
-        while(choice != 1 || choice != 2)
+        int choice = 1;
+        while(choice == 1 || choice == 2)
         {
-            System.out.println("Welcome To The HMS System - Key In Your User ID Followed By Your User Password");
-            currentUserID = sc.nextLine();
-            currentUserPassword = sc.nextLine();
-
             boolean succesfulLogin = false;
 
-            while (succesfulLogin == false) {
-                System.out.println("Key In A User ID Followed By Your User Password");
+            System.out.println("Welcome To The HMS System");
+            System.out.println("1. LOGIN");
+            System.out.println("2. REGISTER");
+            choice = sc.nextInt();
+            sc.nextLine();
+            
+
+            // REGISTER
+            if (choice == 2)
+            {
+                System.out.println(choice);
+                PTSignup.main(null);
+            }
+            // LOGIN
+            else if (choice == 1)
+            {
+                System.out.println("Welcome To The HMS System - Key In Your User ID Followed By Your User Password");
                 currentUserID = sc.nextLine();
                 currentUserPassword = sc.nextLine();
 
-                for (int i = 0; i < ListOfUsers.size(); i++) {
-                    if (ListOfUsers.get(i).getUserID().equals(currentUserID)) {
-                        if(ListOfUsers.get(i).getUserID().equals(currentUserPassword)) //Check if password is succesfully entered. 
-                        {
-                            succesfulLogin = true;
-                            break; //Break out - Succesfully login 
-                        }
-                        System.out.println("Invalid Password Entered");
-                        break; //Break out - Invalid Password 
+                // get the first 2 alphabet of currentUserID to check if user is a patient or staff
+                String firstLetter = currentUserID.substring(0, 2);
+                if (firstLetter.equals("PT")) 
+                {
+                    if (PatientFileHandler.checkLogin(currentUserID, currentUserPassword))
+                    {
+                        succesfulLogin = true;
+                        role = "Patient";
+                    }
+                    else
+                    {
+                        succesfulLogin = false;
                     }
                 }
+                else{
+                    if (StaffFileHandler.checkLogin(currentUserID, currentUserPassword))
+                    {
+                        succesfulLogin = true;
+                        role = StaffFileHandler.getRoleById(currentUserID);
+                        System.out.println(role);
+                    }
+                    else
+                    {
+                        succesfulLogin = false;
+                    }
+                }
+
+                do{
+                    switch(role){
+                        case "Patient":
+                            System.out.println("Patient Menu");
+                            break;
+                        case "Doctor":
+                            System.out.println("Doctor Menu");
+                            break;
+                        case "Pharmacist":
+                            System.out.println("Pharmacist Menu");
+                            break;
+                        case "Administrator":
+                            AdministratorMenu.main(args);
+                            break;
+                        case "Exit":
+                            System.out.println("Thank You For Using The System. See You Again Soon.");
+                            break;
+                        default:
+                            role = "Exit";
+                            break;
+                    }
+                }while(role != "Exit");
+            }
+            else {
+                System.out.println("Invalid Choice");
             }
         }
-        //Get role from users in the system
+    }
+    
+
+
+
+    public class HMS_System {   
+
         
-        
-        String role = "";
 
-        do{
-            switch(role){
-                case "Patient":
-                    break;
-                case "Doctor":
-                    break;
-                case "Pharmacist":
-                    break;
-                case "Administrator":
-                    break;
-                case "Exit":
-                    System.out.println("Thank You For Using The System. See You Again Soon.");
-                    break;
-                default:
-                    System.out.println("Inavlid Role Entered. Please key in a valid role");
-                    break;
-            }
-        }while(role != "Exit");
+        // public void PatientMenu()
+        // {
 
-        //At the end of the main code, store the user data into excel
-        try {
-            // Example to store user data
-            storeUserData("user123", "password123");
-            storeUserData("user456", "password456");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        // }
 
-    public void PatientMenu()
-    {
+        // public void DoctorMenu()
+        // {
 
-    }
+        // }
 
-    public void DoctorMenu()
-    {
+        // public void PharmacistMenu()
+        // {
 
-    }
+        // }
 
-    public void PharmacistMenu()
-    {
+        // public void AdministratorMenu()
+        // {
 
-    }
-
-    public void AdministratorMenu()
-    {
-
+        // }
     }
 }
-}
-*/
+

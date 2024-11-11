@@ -77,4 +77,28 @@ public class PatientFileHandler
         }
         return null;
     }
+
+    public static boolean checkLogin(String currentUserID, String currentUserPassword)
+    {
+        // get the latest patient data from csv file
+        String[] patientData = getUserById(currentUserID);
+
+        if (patientData == null) 
+        {
+            System.out.println("Invalid User ID");
+            return false;
+        }
+        else
+        {
+            if (patientData[7].equals(currentUserPassword))
+            {
+                return true;
+            }
+            else
+            {
+                System.out.println("Invalid Password");
+                return false;
+            }
+        }
+    }
 }

@@ -77,4 +77,45 @@ public class StaffFileHandler
         }
         return null;
     }
+
+    public static String getRoleById(String id)
+    {
+        // get the latest staff data from csv file
+        staffData = getStaffData();
+        for (String[] row : staffData) 
+        {
+            if (row[0].equals(id)) 
+            {
+                return row[2];
+            }
+        }
+        return null;
+    }
+
+    public static boolean checkLogin(String currentUserID, String currentUserPassword)
+    {
+        // get the latest staff data from csv file
+        String[] staffData = getUserById(currentUserID);
+
+        if (staffData == null) 
+        {
+            System.out.println("Invalid User ID");
+            return false;
+        }
+        else
+        {
+            System.out.println("here");
+            if (staffData[6].equals(currentUserPassword))
+            {
+                System.out.println("here1");
+                return true;
+            }
+            else
+            {
+                System.out.println("here2");
+                System.out.println("Invalid Password");
+                return false;
+            }
+        }
+    }
 }
