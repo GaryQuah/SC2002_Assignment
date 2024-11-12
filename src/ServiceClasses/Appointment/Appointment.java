@@ -1,7 +1,5 @@
 package ServiceClasses.Appointment;
 
-import ServiceClasses.inventory.Prescription;
-
 import java.util.HashMap;
 
 public class Appointment {
@@ -17,8 +15,6 @@ public class Appointment {
     private HashMap<String, Integer> medicationMap;
     private String dispenseStatus;
     private String consultationNotes;
-
-    private static int m_maxID = 1;
 
     public String getDispenseStatus() {
         return dispenseStatus;
@@ -37,7 +33,8 @@ public class Appointment {
     }
 
     // Constructor
-    public Appointment(String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
+    //When creating a new appointment, get the AppointmentManager to provide the new MaxID.
+    public Appointment(int m_AppointmentID, String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
             String m_AppointmentType) {
         this.m_AppointmentDate = m_AppointmentDate;
         this.m_DoctorName = m_DoctorName;
@@ -47,8 +44,20 @@ public class Appointment {
         m_AppointmentStatus = AppointmentStatus.UNACCEPTED;
         // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
         // 128 bit ID we can use this, for simplicity we shall use int values.
-        this.m_AppointmentID = m_maxID;
-        m_maxID++;
+        this.m_AppointmentID = m_AppointmentID;
+    }
+
+    public Appointment(int m_AppointmentID, String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
+                       String m_AppointmentType, AppointmentStatus m_AppointmentStatus) {
+        this.m_AppointmentDate = m_AppointmentDate;
+        this.m_DoctorName = m_DoctorName;
+        this.m_TimeSlot = m_TimeSlot;
+        this.m_PatientName = m_PatientName;
+        this.m_AppointmentType = m_AppointmentType;
+        this.m_AppointmentStatus = m_AppointmentStatus;
+        // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
+        // 128 bit ID we can use this, for simplicity we shall use int values.
+        this.m_AppointmentID = m_AppointmentID;
     }
 
     public void setMeidcation(HashMap<String, Integer> medicationMap)
@@ -59,7 +68,6 @@ public class Appointment {
     public HashMap<String, Integer> getMedicationMap() {
         return medicationMap;
     }
-
 
     // Methods
     public boolean UpdateAppointmentStatus(AppointmentStatus m_Status) 
@@ -92,7 +100,7 @@ public class Appointment {
         return m_TimeSlot;
     }
 
-    public AppointmentStatus appointmentStatus() {
+    public AppointmentStatus getAppointmentStatus() {
         return m_AppointmentStatus;
     }
 

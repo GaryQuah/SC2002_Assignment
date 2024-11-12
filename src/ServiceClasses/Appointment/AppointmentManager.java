@@ -1,13 +1,14 @@
 package ServiceClasses.Appointment;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
     
-    private int newAppointmentID = 0;
     // Singleton instance
     private static AppointmentManager instance;
+    private int MaxID = 0;
 
     public static AppointmentManager getInstance() {
 
@@ -22,7 +23,7 @@ public class AppointmentManager {
     {
     }
 
-    private Vector<Appointment> AppointmentList = new Vector<Appointment>();
+    private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
     private AppointmentScheduler appointmentScheduler = new AppointmentScheduler(AppointmentList);
     private AppointmentStatusUpdater appointmentStatusUpdater = new AppointmentStatusUpdater(AppointmentList);
@@ -48,4 +49,21 @@ public class AppointmentManager {
     {
         return appointmentRetriever;
     }
+
+    public int getNewID(){
+        return MaxID++;
+    }
+
+    public void updateMaxID(int comp)
+    {
+        if (comp > instance.MaxID)
+            instance.MaxID = comp;
+    }
+
+
+    public ArrayList<Appointment> getAppointmentList()
+    {
+        return AppointmentList;
+    }
+
 }

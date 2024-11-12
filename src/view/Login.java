@@ -30,7 +30,7 @@ public class Login {
     private static List<String[]> patientData = new ArrayList<>();
     private static List<String[]> staffData = new ArrayList<>();
 
-    //rivate Login(Vector<User> m_UserList) { // On class instantiation, load user list into the main file.
+    //Private Login(Vector<User> m_UserList) { // On class instantiation, load user list into the main file.
     public static void main(String[] args) {
         Vector<User> m_UserList = new Vector<User>();
         System.out.println(m_UserList.size());

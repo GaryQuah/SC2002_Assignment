@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.crypto.Data;
+
 public class StaffDataService 
 {
     private static List<String[]> staffData = new ArrayList<>();
@@ -15,9 +17,9 @@ public class StaffDataService
     // Add Staff into CSV
     public void addStaff(String m_StaffID, String m_StaffName, String m_StaffRole, String m_StaffGender, int m_StaffAge) 
     {
-        staffData = StaffFileHandler.getStaffData();
+        staffData = DataBaseManager.getInstance().getStaffFileHandler().getData();
         staffData.add(new String[] { m_StaffID, m_StaffName, m_StaffRole, m_StaffGender, Integer.toString(m_StaffAge) });
-        StaffFileHandler.save(staffData);           
+        DataBaseManager.getInstance().getStaffFileHandler().save(staffData);
     }
 
     // Remove staff by ID
@@ -25,15 +27,15 @@ public class StaffDataService
     {
         List<String[]> temp = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        staffData = StaffFileHandler.getStaffData();
-        if(StaffFileHandler.getUserById(m_StaffID) == null)
+        staffData = DataBaseManager.getInstance().getStaffFileHandler().getData();
+        if(DataBaseManager.getInstance().getStaffFileHandler().getUserById(m_StaffID) == null)
         {
             System.out.println("Staff ID     Not Found");
             return;
         }
 
         System.out.println("Remove This Staff?");
-        System.out.println(Arrays.toString(StaffFileHandler.getUserById(m_StaffID)));
+        System.out.println(Arrays.toString(DataBaseManager.getInstance().getStaffFileHandler().getUserById(m_StaffID)));
         System.out.println("1. Yes");
         System.out.println("2. No");
         int choice = sc.nextInt();
@@ -53,7 +55,7 @@ public class StaffDataService
                 break;
         }
         staffData.removeAll(temp);
-        StaffFileHandler.save(staffData);
+        DataBaseManager.getInstance().getStaffFileHandler().save(staffData);
     }
 
     /*
@@ -63,7 +65,7 @@ public class StaffDataService
      */
     public void editStaffInformation(int modificationType, String id, String editVal)
     {
-        String[] staff = StaffFileHandler.getUserById(id);
+        String[] staff = DataBaseManager.getInstance().getStaffFileHandler().getUserById(id);
         switch(modificationType)
         {
             // edit staff's Name
@@ -89,6 +91,6 @@ public class StaffDataService
                 System.out.println("Invalid Choice");
                 return;
         }
-        StaffFileHandler.save(staffData);
+        DataBaseManager.getInstance().getStaffFileHandler().save(staffData);
     }
 }

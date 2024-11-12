@@ -1,40 +1,38 @@
 package ServiceClasses.Appointment;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class AppointmentViewer {
-   
-    private Vector<Appointment> AppointmentList;
-   
-    public AppointmentViewer(Vector<Appointment> AppointmentList)
+
+    private ArrayList<Appointment> AppointmentList = new ArrayList<>();
+
+    public AppointmentViewer(ArrayList<Appointment> AppointmentList)
     {
         this.AppointmentList = AppointmentList;
     }
 
-    public void ViewAllAppointmentsByStatus(AppointmentStatus m_AppointmentStatus) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments) 
+    public void ViewAllAppointmentsByStatus(AppointmentStatus m_AppointmentStatus) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments)
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
-                                                         // dosent have an appointment on the date and
+        // doesn't have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).appointmentStatus() == AppointmentStatus.ACCEPTED) {
-                System.out.println(AppointmentList.elementAt(i));
+            if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.ACCEPTED) {
+                System.out.println(AppointmentList.get(i));
             }
-        }   
+        }
     }
 
     // View available dates - prints out all the available date and time slots. if
     // no appointment, prints out message that the doctor is free.
     public void ViewAvailableDates(String m_doctorName) {
-        Vector<String> unAvailableDates = new Vector<String>();
-        Vector<String> unAvailableTimeSlots = new Vector<String>();
+        ArrayList<String> unAvailableDates = new ArrayList<String>();
+        ArrayList<String> unAvailableTimeSlots = new ArrayList<String>();
 
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
-                                                         // dosent have an appointment on the date and
+        // doesn't have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).getDoctorName().equals(m_doctorName)) {
-                unAvailableDates.add(AppointmentList.elementAt(i).getAppointmentDate());
-                unAvailableTimeSlots.add(AppointmentList.elementAt(i).getTimeSlot());
+            if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)) {
+                unAvailableDates.add(AppointmentList.get(i).getAppointmentDate());
+                unAvailableTimeSlots.add(AppointmentList.get(i).getTimeSlot());
             }
         }
 
@@ -43,7 +41,7 @@ public class AppointmentViewer {
 
             for (int i = 0; i < unAvailableDates.size(); ++i) {
                 System.out.println(
-                        "Date : " + unAvailableDates.elementAt(i) + " Time : " + unAvailableTimeSlots.elementAt(i));
+                        "Date : " + unAvailableDates.get(i) + " Time : " + unAvailableTimeSlots.get(i));
             }
         } else {
             System.out
@@ -51,56 +49,56 @@ public class AppointmentViewer {
         }
     }
 
-    // View appointments that have the doctors name in them
+    // View appointments that have the doctor's name in them
     public void ViewDoctorAppointments(String m_doctorName) {
         int appointmentCount = 0;
 
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
-                                                         // dosent have an appointment on the date and
+        // doesn't have an appointment on the date and
         {
-            if (AppointmentList.elementAt(i).getDoctorName().equals(m_doctorName)) {
-                System.out.println(AppointmentList.elementAt(i));
+            if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)) {
+                System.out.println(AppointmentList.get(i));
                 appointmentCount++;
             }
         }
 
         if (appointmentCount == 0)
-            System.out.println("No appoints have been scheduled for the doctor " + m_doctorName);
+            System.out.println("No appointments have been scheduled for the doctor " + m_doctorName);
     }
 
-    // View appointments that have the patients name in them
-    // view schedules appointments minus past appointments
+    // View appointments that have the patient's name in them
+    // view scheduled appointments minus past appointments
     public void ViewPatientAppointments(String m_patientName) {
         int appointmentCount = 0;
 
         for (int i = 0; i < AppointmentList.size(); ++i)
         {
-            if (AppointmentList.elementAt(i).getPatientName().equals(m_patientName))
+            if (AppointmentList.get(i).getPatientName().equals(m_patientName))
             {
-                System.out.println(AppointmentList.elementAt(i));
+                System.out.println(AppointmentList.get(i));
                 appointmentCount++;
             }
         }
 
         if (appointmentCount == 0)
         {
-            System.out.println("No appoints have been scheduled for the patient " + m_patientName);
+            System.out.println("No appointments have been scheduled for the patient " + m_patientName);
             ViewAllAppointments();
         }
     }
 
-    public void ViewAllAppointments() 
+    public void ViewAllAppointments()
     {
-        for (int i = 0; i < AppointmentList.size(); ++i) 
+        for (int i = 0; i < AppointmentList.size(); ++i)
         {
-            System.out.println(AppointmentList.elementAt(i));
+            System.out.println(AppointmentList.get(i));
         }
     }
 
-     // to view past appointment of patient
-     /* 
-     public Vector<Appointment> getPastAppointments(String patientName) {
-        Vector<Appointment> pastAppointments = new Vector<>();
+    // to view past appointments of a patient
+     /*
+     public ArrayList<Appointment> getPastAppointments(String patientName) {
+        ArrayList<Appointment> pastAppointments = new ArrayList<>();
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -113,5 +111,5 @@ public class AppointmentViewer {
             }
         }
         return pastAppointments;
-    }*/
+    } */
 }

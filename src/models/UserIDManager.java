@@ -43,7 +43,7 @@ public class UserIDManager{
 
         // Increment the ID and store it for the specific role.
         //int newID = maxIDs.get(role) + 1;
-        int newID = maxIDs.get(role) + 0; // Previously was +1, but since in the user constructor we are doing a check which increments logically should be 0
+        int newID = maxIDs.get(role) + 1; // Previously was +1, but since in the user constructor we are doing a check which increments logically should be 0
 
         maxIDs.put(role, newID);
 

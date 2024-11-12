@@ -23,7 +23,8 @@ public abstract class User implements IUserManagement{
 
     // Stores appointment data
     private Vector<Appointment> m_Appointments;
-    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) {
+    //When creating a user, the ID field would be UserIDManager.getInstance().getNewID(m_Role);
+    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) { 
         m_UserID = userID;
         m_Name = name;
         m_Gender = gender;
@@ -58,6 +59,10 @@ public abstract class User implements IUserManagement{
         return this.m_PassWord;
     }
 
+    public String getUsername() {
+        return this.m_UserName;
+    }
+
     public Role getRole() {
         return this.m_Role;
     }
@@ -68,6 +73,18 @@ public abstract class User implements IUserManagement{
 
     public void updatePassword(String newPassword) {
         this.m_PassWord = newPassword;
+    }
+
+    public void setName(String newName) {
+        this.m_Name = newName;
+    }
+
+    public void setRole(Role newRole) {
+        this.m_Role = newRole;
+    }
+
+    public void setGender(Gender newGender) {
+        this.m_Gender = newGender;
     }
 
     public abstract String toString();

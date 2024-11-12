@@ -7,15 +7,21 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import javax.xml.crypto.Data;
+
 import java.util.Arrays;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.StaffDataService;
 import ServiceClasses.Database.StaffFileHandler;
 import ServiceClasses.Database.StaffViewer;
 import ServiceClasses.inventory.InventoryControl;
 import models.Administrator;
+import models.Doctor;
+import models.Pharmacist;
+import models.Staff;
 import models.User;
 import models.enums.Gender;
 import models.enums.Role;
@@ -98,7 +104,7 @@ public class AdministratorMenu
                 switch(filterChoice)
                 {
                     case 1:
-                        StaffViewer.printStaffData();
+                        DataBaseManager.getInstance().getStaffFileHandler().printStaffData();
                         break;
                     case 2:
                         System.out.println("--------------------------------");
@@ -111,14 +117,14 @@ public class AdministratorMenu
                         switch(roleChoice)
                         {
                             case 1:
-                                StaffViewer.printFilterBy(2, "Doctor");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Doctor");
                                 break;
                             case 2:
-                                StaffViewer.printFilterBy(2, "Pharmacist");  
-                                 break;
-                            case 3:
-                                StaffViewer.printFilterBy(2, "Administrator");  
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Pharmacist");
                                 break;
+                            case 3:
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Administrator");
+                            break;
                             default:
                                 System.out.println("Invalid Choice");
                                 break;
@@ -134,10 +140,10 @@ public class AdministratorMenu
                         switch(genderChoice)
                         {
                             case 1:
-                                StaffViewer.printFilterBy(3, "Male");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Male");
                                 break;
                             case 2:
-                                StaffViewer.printFilterBy(3, "Female");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Female");
                                 break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -149,7 +155,7 @@ public class AdministratorMenu
                         System.out.println("Enter Age");
                         System.out.println("--------------------------------");
                         int age = sc.nextInt();
-                        StaffViewer.printFilterBy(4, Integer.toString(age));
+                        DataBaseManager.getInstance().getStaffFileHandler().printFilterByAge(Integer.toString(age));
                         break;
                     default:
                         System.out.println("Invalid Choice");
@@ -188,9 +194,7 @@ public class AdministratorMenu
         String gender = "";
         String name = "";
         String id = "";
-        String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffFileHandler.getStaffData();
 
         while (true) {
             System.out.println("Select New Staff Role: ");
@@ -249,10 +253,10 @@ public class AdministratorMenu
         do {
             System.out.println("Enter 3 Digit Staff's ID: ");
             id = role.charAt(0) + sc.nextLine();
-            if (StaffFileHandler.getUserById(id) != null) {
-                System.out.println("ID Already Exists");
-                continue;
-            }
+            // if (DataBaseManager.getInstance().getStaffFileHandler().getUserById(id) != null) {
+            //     System.out.println("ID Already Exists");
+            //     continue;
+            // }
             b = Pattern.matches("[DPA]\\d{3}", id);
         } while (!b);
 
@@ -263,145 +267,137 @@ public class AdministratorMenu
         System.out.println("Enter New Staff's Name: ");
         name = sc.nextLine();
 
-        String[] newStaff = new String[] { id, name, role, gender, Integer.toString(age) };
-        staffData.add(newStaff);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            for (String col : newStaff) {
-                writer.append(col)
-                        .append(",");
-            }
-            writer.append("\n");
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        Staff newStaff = null;
+        switch (role) {
+            case "Doctor":
+                newStaff = new Doctor(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
+                break;
+            case "Pharmacist":
+                newStaff = new Pharmacist(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                break;
+            case "Administrator":
+                newStaff = new Administrator(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                break;
+            default:
+                System.out.println("Invalid role selected.");
+                return;  // Exit if invalid role
         }
+        DataBaseManager.getInstance().getStaffFileHandler().addStaff(newStaff);
+        System.out.println("Staff " + id + " has been added.");
     }
 
-    public static void AdminUpdateMember()
-    {
-        String FILE_PATH = "src/data/Staff_List.csv";
+    public static void AdminUpdateMember() {
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffFileHandler.getStaffData();
-        String name = "";
         String id = "";
         boolean found = false;
-        String[] staff = new String[5];
-
+        Staff updatedStaff = null;
+    
+        // Request and validate Staff ID
         System.out.println("Enter Staff ID: ");
         id = sc.nextLine();
-        found = (StaffFileHandler.getUserById(id) != null);
-        if (!found)
-        {
+    
+        // Fetch the current staff by ID
+        Staff currentStaff = DataBaseManager.getInstance().getStaffFileHandler().getUserById(id);
+        if (currentStaff == null) {
             System.out.println("User ID Not Found");
             return;
         }
-
-        if (found)
-        {
-            System.out.println("Current Staff Details:");
-            System.out.println(Arrays.toString(StaffFileHandler.getUserById(id)));
-            for (String[] row : staffData) 
-            {
-                if (row[0].equals(id)) 
-                {
-                    staff = staffData.get(staffData.indexOf(row));
+    
+        // Display current staff details
+        System.out.println("Current Staff Details:");
+        System.out.println("ID: " + currentStaff.getUserID());
+        System.out.println("Name: " + currentStaff.getName());
+        System.out.println("Role: " + currentStaff.getRole());
+        System.out.println("Gender: " + currentStaff.getGender());
+        System.out.println("Age: " + currentStaff.getAge());
+    
+        // Create a copy of the current staff to modify
+        updatedStaff = new Staff(currentStaff.getUserID(), currentStaff.getName(), currentStaff.getRole(),
+                                 currentStaff.getGender(), currentStaff.getAge(), currentStaff.getUsername(), currentStaff.getPassword());
+    
+        // Request which detail to update
+        System.out.println("Select Details To Update:");
+        System.out.println("1. Staff Name");
+        System.out.println("2. Staff Role");
+        System.out.println("3. Staff Gender");
+        System.out.println("4. Staff Age");
+        int updateChoice = sc.nextInt();
+        sc.nextLine();
+    
+        // Update based on choice
+        switch (updateChoice) {
+            case 1:
+                System.out.println("Enter New Staff Name: ");
+                String newName = sc.nextLine();
+                updatedStaff.setName(newName); // Update name
+                break;
+            case 2:
+                System.out.println("Select New Staff Role: ");
+                System.out.println("1. Doctor");
+                System.out.println("2. Pharmacist");
+                System.out.println("3. Administrator");
+                int roleChoice = sc.nextInt();
+                sc.nextLine();
+                Role newRole;
+                switch (roleChoice) {
+                    case 1:
+                        newRole = Role.Doctor;
+                        break;
+                    case 2:
+                        newRole = Role.Pharmacist;
+                        break;
+                    case 3:
+                        newRole = Role.Administrator;
+                        break;
+                    default:
+                        System.out.println("Invalid Choice");
+                        return;
                 }
-            }
-            
-
-            System.out.println("Select Details To Update:");
-            System.out.println("1. Staff Name");
-            System.out.println("2. Staff Role");
-            System.out.println("3. Staff Gender");
-            System.out.println("4. Staff Age");
-            int updateChoice = sc.nextInt();
-            sc.nextLine();
-
-            switch(updateChoice)
-            {
-                case 1:
-                    System.out.println("Enter New Staff Name: ");
-                    String newName = sc.nextLine();
-                    staff[1] = newName; 
-                    break;
-                case 2:
-                    System.out.println("Select New Staff Role: ");
-                    System.out.println("1. Doctor");
-                    System.out.println("2. Pharmacist");
-                    System.out.println("3. Administrator");
-                    int roleChoice = sc.nextInt();
-                    sc.nextLine();
-                    String newRole;
-                    switch(roleChoice)
-                    {
-                        case 1:
-                            newRole = "Doctor";
-                            break;
-                        case 2:
-                            newRole = "Pharmacist";
-                            break;
-                        case 3:
-                            newRole = "Administrator";
-                            break;
-                        default:
-                            System.out.println("Invalid Choice");
-                            return;
-                    }
-                    staff[2] = newRole;
-                    break;
-                case 3:
-                    System.out.println("Select New Staff Gender: ");
-                    System.out.println("1. Male");
-                    System.out.println("2. Female");
-                    int genderChoice = sc.nextInt();
-                    sc.nextLine();
-                    String newGender;
-                    switch(genderChoice)
-                    {
-                        case 1:
-                            newGender = "Male";
-                            break;
-                        case 2:
-                            newGender = "Female";
-                            break;
-                        default:
-                            System.out.println("Invalid Choice");
-                            return;
-                    }
-                    staff[3] = newGender;
-                    break;
-                case 4:
-                    System.out.println("Enter New Staff Age: ");
-                    String newAge = sc.nextLine();
-                    staff[4] = newAge;
-                    break;
-                default:
-                    System.out.println("Invalid Choice");
-                    break;
-            }
-            staffData.set(staffData.indexOf(staff), staff);
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-                for (String[] row : staffData) {
-                    for (String column : row) {
-                        writer.append(column)
-                              .append(",");
-                    }
-                    writer.append("\n");
+                updatedStaff.setRole(newRole); // Update role
+                break;
+            case 3:
+                System.out.println("Select New Staff Gender: ");
+                System.out.println("1. Male");
+                System.out.println("2. Female");
+                int genderChoice = sc.nextInt();
+                sc.nextLine();
+                Gender newGender;
+                switch (genderChoice) {
+                    case 1:
+                        newGender = Gender.Male;
+                        break;
+                    case 2:
+                        newGender = Gender.Female;
+                        break;
+                    default:
+                        System.out.println("Invalid Choice");
+                        return;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                updatedStaff.setGender(newGender); // Update gender
+                break;
+            case 4:
+                System.out.println("Enter New Staff Age: ");
+                int newAge = sc.nextInt();
+                sc.nextLine();
+                updatedStaff.setAge(newAge); // Update age
+                break;
+            default:
+                System.out.println("Invalid Choice");
+                return;
         }
+    
+        // Call editStaff method from StaffFileHandler to update the staff in the database
+        DataBaseManager.getInstance().getStaffFileHandler().editStaff(id, updatedStaff);
+    
+        System.out.println("Staff member updated successfully.");
     }
+    
 
     public static void AdminRemoveMember()
     {
         int choice;  
         String id = "";
-        String FILE_PATH = "src/data/Staff_List.csv";
         Scanner sc = new Scanner(System.in);
-        List<String[]> staffData = StaffFileHandler.getStaffData();
 
         System.out.println("1. Enter Staff ID");
         System.out.println("2. Exit");
@@ -413,11 +409,12 @@ public class AdministratorMenu
             case 1:
                 System.out.println("Enter Staff ID: ");
                 id = sc.nextLine();
-                if (StaffFileHandler.getUserById(id) == null)
+                if (DataBaseManager.getInstance().getStaffFileHandler().getUserById(id) == null)
                 {
                     System.out.println("User ID Not Found");
                     return;
                 }
+                DataBaseManager.getInstance().getStaffFileHandler().deleteStaff(id);
                 break;
             case 2:
                 System.out.println("Exiting");
@@ -425,7 +422,6 @@ public class AdministratorMenu
                 System.out.println("Invalid Choice");
                 return;
         }
-        StaffDataService.removeStaffById(id);
     }       
 
     public static void ViewAppointmentDetails()

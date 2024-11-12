@@ -5,14 +5,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class AppointmentScheduler {
-    private Vector<Appointment> AppointmentList = new Vector<Appointment>();
+    //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
+    private ArrayList<Appointment> AppointmentList = new ArrayList<>();
+
     private final String dateFormat = "yyyy-MM-dd";
     private final String timeFormat = "HH:mm";
 
-    public AppointmentScheduler(Vector<Appointment> AppointmentList)
+    public AppointmentScheduler(ArrayList<Appointment> AppointmentList)
     {
         this.AppointmentList = AppointmentList;
     }
@@ -31,7 +33,7 @@ public class AppointmentScheduler {
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
                 // If the appointment exists in the system but is rejected, return as available
                 // for scheduling, if not return that the appointment exists.
-                if (AppointmentList.get(i).appointmentStatus() == AppointmentStatus.DECLINED)
+                if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.DECLINED)
                     return -1;
 
                 return i;
