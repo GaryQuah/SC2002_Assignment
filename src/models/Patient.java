@@ -50,6 +50,18 @@ public class Patient extends User implements PatientAction {
                 + emergencyContactNumber;
     }
 
+    public String getEmergencyContactName(){
+        return emergencyContactName;
+    }
+
+    public String getEmergencyContactRelation(){
+        return emergencyContactRelation;
+    }
+
+    public String getEmergencyContactNumber(){
+        return emergencyContactNumber;
+    }
+
     public String getContactInfo() {
         return this.contactInformation;
     }

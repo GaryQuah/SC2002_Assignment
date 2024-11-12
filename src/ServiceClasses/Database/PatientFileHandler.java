@@ -45,8 +45,16 @@ public class PatientFileHandler extends FileHandler<Patient>
                     String contactInfo = row[5];
                     String username = row[6];
                     String password = row[7];
-    
+
+                    // adding emergency info
+                    String emergencyContactName = row.length > 8 ? row[8] : "";
+                    String emergencyContactRelation = row.length > 9 ? row[9] : "";
+                    String emergencyContactNumber = row.length > 10 ? row[10] : "";
+
+
                     Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password);
+                    patient.updateEmergencyContact(emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+
                     patientList.add(patient);
                 } catch (Exception e) {
                     System.out.println("Error parsing row: " + Arrays.toString(row));
@@ -59,6 +67,62 @@ public class PatientFileHandler extends FileHandler<Patient>
         }
         setDataArray(patientList);
         return patientList;
+    }
+
+    public void updatePatientInFile(Patient updatedPatient) {
+        ArrayList<Patient> patientList = retrieveData(); // Load current data from CSV
+
+        for (int i = 0; i < patientList.size(); i++) {
+            Patient patient = patientList.get(i);
+            if (patient.getUserID().equals(updatedPatient.getUserID())) {
+                patient.updateContactInfo(updatedPatient.getContactInfo());
+                patient.updateEmergencyContact(updatedPatient.getEmergencyContactName(), updatedPatient.getEmergencyContactRelation(), updatedPatient.getEmergencyContactNumber());
+                break;
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
+            // Write the header
+            // added emergency contact info
+            writer.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password," +
+                    "Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number\n");
+
+            // Write updated patient data
+            for (Patient patient : patientList) {
+
+                String bloodTypeString;
+                switch (patient.getBloodType()) {
+                    case A_POSITIVE: bloodTypeString = "A_POSITIVE"; break;
+                    case A_NEGATIVE: bloodTypeString = "A_NEGATIVE"; break;
+                    case B_POSITIVE: bloodTypeString = "B_POSITIVE"; break;
+                    case B_NEGATIVE: bloodTypeString = "B_NEGATIVE"; break;
+                    case AB_POSITIVE: bloodTypeString = "AB_POSITIVE"; break;
+                    case AB_NEGATIVE: bloodTypeString = "AB_NEGATIVE"; break;
+                    case O_POSITIVE: bloodTypeString = "O_POSITIVE"; break;
+                    case O_NEGATIVE: bloodTypeString = "O_NEGATIVE"; break;
+                    default: throw new IllegalArgumentException("Unknown blood type: " + patient.getBloodType());
+                }
+
+                String[] patientData = new String[]{
+                        patient.getUserID(),
+                        patient.getName(),
+                        patient.getDateOfBirth(),
+                        patient.getGender().toString(),
+                        bloodTypeString,
+                        patient.getContactInfo(),
+                        patient.getUsername(),
+                        patient.getPassword(),
+                        patient.getEmergencyContactName(),
+                        patient.getEmergencyContactRelation(),
+                        patient.getEmergencyContactNumber()
+                };
+                writer.write(String.join(",", patientData));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error updating Patient data in file");
+            e.printStackTrace();
+        }
     }
 
 
@@ -105,7 +169,8 @@ public class PatientFileHandler extends FileHandler<Patient>
             e.printStackTrace();
         }
     }
-    
+
+
 
     @Override
     public boolean checkLogin(String currentUserID, String currentUserPassword)

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.AppointmentManager;
 import models.MedicalRecord;
@@ -15,9 +16,12 @@ import models.enums.Gender;
 public class PatientMenu implements Menu{
 
     private Patient patient;
+    private PatientFileHandler patientFileHandler;
 
     public PatientMenu(Patient patient){
+
         this.patient = patient;
+        this.patientFileHandler = new PatientFileHandler();
     }
 
     public void displayMenu(){ // rename function
@@ -66,12 +70,12 @@ public class PatientMenu implements Menu{
                     System.out.println("Contact Information: " + patient.getContactInfo());
                     System.out.println("Emergency Contact:" + patient.getEmergencyContactInfo());
                     System.out.println("Blood Type: " + patient.getBloodType());
-                    try {
+                    /*try {
                         MedicalRecordService.viewMedicalRecord(patient);
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                    }
+                    }*/
                     break;
 
                 case 2: {
@@ -88,6 +92,7 @@ public class PatientMenu implements Menu{
                         String newContactInfo = sc.nextLine();
                         patient.updateContactInfo(newContactInfo);
                         System.out.println("Personal information updated successfully.");
+                        patientFileHandler.updatePatientInFile(patient);
 
                     } else if (updateChoice == 2) {
                         System.out.println("Please enter emergency contact name: ");
@@ -97,6 +102,7 @@ public class PatientMenu implements Menu{
                         System.out.println("Please enter emergency contact number: ");
                         String emergencyNumber = sc.nextLine();
                         patient.updateEmergencyContact(emergencyName, emergencyRelation, emergencyNumber);
+                        patientFileHandler.updatePatientInFile(patient);
                     } else {
                         System.out.println("Invalid choice. Returning to main menu.");
                     }
