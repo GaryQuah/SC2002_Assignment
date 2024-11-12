@@ -1,7 +1,5 @@
 package ServiceClasses.Appointment;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AppointmentViewer {
@@ -17,7 +15,7 @@ public class AppointmentViewer {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
         // doesn't have an appointment on the date and
         {
-            if (AppointmentList.get(i).appointmentStatus() == AppointmentStatus.ACCEPTED) {
+            if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.ACCEPTED) {
                 System.out.println(AppointmentList.get(i));
             }
         }

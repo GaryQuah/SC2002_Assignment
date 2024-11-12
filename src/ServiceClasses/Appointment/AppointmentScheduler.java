@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 public class AppointmentScheduler {
     //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
@@ -35,7 +33,7 @@ public class AppointmentScheduler {
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
                 // If the appointment exists in the system but is rejected, return as available
                 // for scheduling, if not return that the appointment exists.
-                if (AppointmentList.get(i).appointmentStatus() == AppointmentStatus.DECLINED)
+                if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.DECLINED)
                     return -1;
 
                 return i;

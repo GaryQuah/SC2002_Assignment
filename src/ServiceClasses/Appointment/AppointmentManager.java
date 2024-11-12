@@ -59,4 +59,11 @@ public class AppointmentManager {
         if (comp > instance.MaxID)
             instance.MaxID = comp;
     }
+
+
+    public ArrayList<Appointment> getAppointmentList()
+    {
+        return AppointmentList;
+    }
+
 }
