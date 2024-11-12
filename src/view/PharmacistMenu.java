@@ -1,5 +1,8 @@
 package view;
 
-public class PharmacistMenu {
-    
+public class PharmacistMenu implements Menu {
+    public void displayMenu(){
+
+
+    }
 }

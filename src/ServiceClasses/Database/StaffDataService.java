@@ -1,5 +1,7 @@
 package ServiceClasses.Database;
 
+import models.Staff;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,14 +14,14 @@ import javax.xml.crypto.Data;
 
 public class StaffDataService 
 {
-    private static List<String[]> staffData = new ArrayList<>();
+    private static ArrayList<Staff> staffData = new ArrayList<>();
 
     // Add Staff into CSV
     public void addStaff(String m_StaffID, String m_StaffName, String m_StaffRole, String m_StaffGender, int m_StaffAge) 
     {
-        staffData = DataBaseManager.getInstance().getStaffFileHandler().getData();
-        staffData.add(new String[] { m_StaffID, m_StaffName, m_StaffRole, m_StaffGender, Integer.toString(m_StaffAge) });
-        DataBaseManager.getInstance().getStaffFileHandler().save(staffData);
+        staffData = DataBaseManager.getInstance().getStaffFileHandler().retrieveData();
+        //staffData.add(new String[] { m_StaffID, m_StaffName, m_StaffRole, m_StaffGender, Integer.toString(m_StaffAge) });
+        DataBaseManager.getInstance().getStaffFileHandler().saveData(staffData);
     }
 
     // Remove staff by ID
@@ -27,7 +29,7 @@ public class StaffDataService
     {
         List<String[]> temp = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        staffData = DataBaseManager.getInstance().getStaffFileHandler().getData();
+        staffData = DataBaseManager.getInstance().getStaffFileHandler().retrieveData();
         if(DataBaseManager.getInstance().getStaffFileHandler().getUserById(m_StaffID) == null)
         {
             System.out.println("Staff ID     Not Found");

@@ -19,6 +19,8 @@ import java.util.List;
 
 import models.User;
 import view.AdministratorMenu;
+import view.Menu;
+import view.PatientMenu;
 
 import java.util.Scanner;
 
@@ -30,6 +32,7 @@ public class HMSApp {
         String currentUserID;
         String currentUserPassword;
         User loggedInUser = null;
+        Menu menu=null;
 
         int choice;
 
@@ -86,6 +89,7 @@ public class HMSApp {
             if (loggedInUser != null) {
                 if (loggedInUser instanceof Patient) {
                     System.out.println("Accessing Patient Menu...");
+                    menu=new PatientMenu();
                 } 
                 else if (loggedInUser instanceof Staff) {
                     Staff staffUser = (Staff) loggedInUser;
@@ -105,7 +109,9 @@ public class HMSApp {
                             break;
                     }
                 }
+                menu.displayMenu();
             }
+
         } while (choice != 3);
     }
 }

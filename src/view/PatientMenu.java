@@ -12,9 +12,9 @@ import models.Patient;
 import models.enums.BloodType;
 import models.enums.Gender;
 
-public class PatientMenu {
+public class PatientMenu implements Menu{
 
-    public static void main(String[] args) { // rename function
+    public void displayMenu(){ // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);
