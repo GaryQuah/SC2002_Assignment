@@ -12,8 +12,17 @@ public class Staff extends User{
         //this.m_staffID = staffID;
         this.m_age = age;
     }
+    
+    public int getAge() {
+        return m_age;
+    }
 
+    public void setAge(int newAge) {
+        this.m_age = newAge;
+    }
+
+    @Override
     public String toString() {
-        return "Staff ID : " + this.getUserID() + ", Name : " + getName() + ", Role " + getRole() +  ", Gender : " + getGender() + ", Age : " + m_age;
+        return "Staff ID : " + this.getUserID() + ", Name : " + getName() + ", Role " + getRole() + ", Gender : " + getGender() + ", Age : " + m_age;
     }
 }
