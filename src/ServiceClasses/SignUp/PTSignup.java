@@ -8,30 +8,35 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 
+import javax.xml.crypto.Data;
+
 import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.Database.StaffFileHandler;
 import java.util.ArrayList;
 import models.Patient;
 import models.UserIDManager;
+import models.enums.BloodType;
+import models.enums.Gender;
 import models.enums.Role;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 
 
 public class PTSignup 
 {
     //sign up page for patient 
-    private PTSignup() {}
+    public PTSignup() {}
 
-    public static void main(String[] args) {
-        List<String[]> patientData = DataBaseManager.getInstance().getPatientFileHandler().getData();
+    public void signUp() {
         Scanner sc = new Scanner(System.in);
         int choice;
         String DOB;
 
+        System.out.println("Welcome to the Patient Sign-Up Page");
         System.out.println("Enter your name: ");
         String name = sc.nextLine();
         do {
@@ -39,16 +44,31 @@ public class PTSignup
             DOB = sc.nextLine();
         } while (!validateDate(DOB));
 
+        Gender gender = null;
         do {
             System.out.println("Enter your gender: ");
             System.out.println("1. Male");
             System.out.println("2. Female");
+            System.out.println("3. Others");
             choice = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine();  // Consume the newline
 
-        } while (choice < 1 || choice > 2);
-        String gender = (choice == 1) ? "Male" : "Female";
+            switch (choice) {
+                case 1:
+                    gender = Gender.Male;
+                    break;
+                case 2:
+                    gender = Gender.Female;
+                    break;
+                case 3:
+                    gender = Gender.Others;
+                    break;
+                default:
+                    System.out.println("Invalid choice, please select again.");
+            }
+        } while (gender == null);  // Ensure a valid gender is chosen
 
+        BloodType bloodType = null;
         do {
             System.out.println("Enter your blood type: ");
             System.out.println("1. A+");
@@ -62,9 +82,36 @@ public class PTSignup
             choice = sc.nextInt();
             sc.nextLine();
 
-        } while (choice < 1 || choice > 8);
-        String bloodType = (choice == 1) ? "A_POSITIVE" : (choice == 2) ? "A_NEGATIVE" : (choice == 3) ? "B_POSITIVE" : (choice == 4) ? "B_NEGATIVE" : (choice == 5) ? "AB_POSITIVE" : (choice == 6) ? "AB_NEGATIVE" : (choice == 7) ? "O_POSITIVE" : (choice == 8) ? "O_NEGATIVE" : "";
-        
+            switch (choice) {
+                case 1:
+                    bloodType = BloodType.A_POSITIVE;
+                    break;
+                case 2:
+                    bloodType = BloodType.A_NEGATIVE;
+                    break;
+                case 3:
+                    bloodType = BloodType.B_POSITIVE;
+                    break;
+                case 4:
+                    bloodType = BloodType.B_NEGATIVE;
+                    break;
+                case 5:
+                    bloodType = BloodType.AB_POSITIVE;
+                    break;
+                case 6:
+                    bloodType = BloodType.AB_NEGATIVE;
+                    break;
+                case 7:
+                    bloodType = BloodType.O_POSITIVE;
+                    break;
+                case 8:
+                    bloodType = BloodType.O_NEGATIVE;
+                    break;
+                default:
+                    System.out.println("Invalid choice, please select again.");
+            }
+        } while (bloodType == null);
+
         System.out.println("Enter your contact information: ");
         String contactInfo = sc.nextLine();
 
@@ -73,10 +120,11 @@ public class PTSignup
 
         System.out.println("Enter your password: ");
         String password = sc.nextLine();
-        
-        List<String[]> newPatient = new ArrayList<>();
-        newPatient.add(new String[] { UserIDManager.getInstance().generateUniqueID(Role.Patient),name, DOB, gender, bloodType, contactInfo, username, password });
-        DataBaseManager.getInstance().getPatientFileHandler().save(newPatient);
+
+        Patient newPatient = new Patient(UserIDManager.getInstance().generateUniqueID(Role.Patient), name, DOB, gender, bloodType, contactInfo, username, password);
+        DataBaseManager.getInstance().getPatientFileHandler().addPatient(newPatient);
+        System.out.println(DataBaseManager.getInstance().getPatientFileHandler().getDataArray());
+
     }
 
     public static boolean validateDate(String DOB)
@@ -90,18 +138,5 @@ public class PTSignup
             System.out.println("Invalid Date");
             return false;
         }
-    }
-
-    public static int getLastID(List<String[]> patientData)
-    {
-        int lastID = 0;
-        for (String[] patient : patientData)
-        {
-            int currentID = Integer.parseInt(patient[0]);
-            if (currentID > lastID)
-                lastID = currentID;
-        }
-        System.out.println(lastID);
-        return lastID;
     }
 }

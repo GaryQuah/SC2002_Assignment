@@ -10,7 +10,7 @@ public class StaffViewer
     // Print Staff Data
     public static void printStaffData() 
     {
-        staffData = StaffFileHandler.getStaffData();
+        staffData = DatabaseManagerStaffFileHandler.getStaffData();
         System.out.println("**********************************************************************");
         for (String[] row : staffData) {
             for (String column : row) {

@@ -15,7 +15,9 @@ public abstract class FileHandler<T> {
 
     public abstract ArrayList<T> retrieveData();
 
-    public abstract ArrayList<T> saveData();
+    public abstract void saveData();
+
+    public abstract boolean checkLogin(String username, String password);
 
     public String getFilePath()
     {
@@ -25,5 +27,10 @@ public abstract class FileHandler<T> {
     public ArrayList<T> getDataArray()
     {
         return dataArray;
+    }
+
+    public void setDataArray(ArrayList<T> dataArray)
+    {
+        this.dataArray = dataArray;
     }
 }

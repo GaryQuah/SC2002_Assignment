@@ -59,6 +59,10 @@ public abstract class User {
         return this.m_PassWord;
     }
 
+    public String getUsername() {
+        return this.m_UserName;
+    }
+
     public Role getRole() {
         return this.m_Role;
     }
@@ -69,6 +73,18 @@ public abstract class User {
 
     public void updatePassword(String newPassword) {
         this.m_PassWord = newPassword;
+    }
+
+    public void setName(String newName) {
+        this.m_Name = newName;
+    }
+
+    public void setRole(Role newRole) {
+        this.m_Role = newRole;
+    }
+
+    public void setGender(Gender newGender) {
+        this.m_Gender = newGender;
     }
 
     public abstract String toString();

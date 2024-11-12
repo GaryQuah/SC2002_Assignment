@@ -1,7 +1,8 @@
-Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password,
-PT1,Alice Brown,5/14/1980,Female,A_POSITIVE,alice.brown@example.com,AliceB,password,
-PT2,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,BobS,password,
-PT3,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,CharlieW,password
-PT0000,j,23/01/1992,Female,AB_POSITIVE,j@example.com,j,password,
-PT0001,j,24/01/1999,Female,AB_POSITIVE,j@example.com,j,password,
-PT0002,K,13/02/1999,Female,B_NEGATIVE,k@example.com,k,password,
+Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password
+PT1,Alice Brown,5/14/1980,Female,A_POSITIVE,alice.brown@example.com,PT1,password
+PT2,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,PT2,password
+PT3,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,PT3,password
+PT0000,j,23/01/1992,Female,AB_POSITIVE,j@example.com,PT0000,password
+PT0001,j,24/01/1999,Female,AB_POSITIVE,j@example.com,PT0001,password
+PT0002,K,13/02/1999,Female,B_NEGATIVE,k@example.com,PT0002,password
+PT0001,asdf,21/03/2001,Female,A_NEGATIVE,qsd,PT0001,a
