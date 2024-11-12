@@ -96,7 +96,7 @@ public class AppointmentScheduler {
         return false;
     }
 
-    // Re schedules an appointment - if the appointment is found, remove the
+    // Reschedules an appointment - if the appointment is found, remove the
     // appointment at the index and then call ScheduleAppointment to add it to the
     // list.
     public boolean ReScheduleAppointment(String m_doctorName, String m_patientName, String m_oldDate, String m_oldTimeSlot,
