@@ -6,9 +6,9 @@ import java.util.List;
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
     
-    private int newAppointmentID = 0;
     // Singleton instance
     private static AppointmentManager instance;
+    private int MaxID = 0;
 
     public static AppointmentManager getInstance() {
 
@@ -48,5 +48,15 @@ public class AppointmentManager {
     public AppointmentRetriever getAppointmentRetriever()
     {
         return appointmentRetriever;
+    }
+
+    public int getNewID(){
+        return MaxID++;
+    }
+
+    public void updateMaxID(int comp)
+    {
+        if (comp > instance.MaxID)
+            instance.MaxID = comp;
     }
 }
