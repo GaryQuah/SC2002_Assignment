@@ -1,22 +1,11 @@
 package view;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import javax.xml.crypto.Data;
-
-import java.util.Arrays;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.Database.DataBaseManager;
-import ServiceClasses.Database.StaffDataService;
-import ServiceClasses.Database.StaffFileHandler;
-import ServiceClasses.Database.StaffViewer;
 import ServiceClasses.inventory.InventoryControl;
 import models.Administrator;
 import models.Doctor;
