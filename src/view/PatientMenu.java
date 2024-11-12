@@ -114,7 +114,6 @@ public class PatientMenu {
                     String timeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
                     String type = sc.nextLine();
-                    sc.nextLine(); // consume newline
 
                     boolean success = appointmentManager.getAppointmentScheduler().ScheduleAppointment(
                             doctorName, patient.getName(), date, timeSlot, type);

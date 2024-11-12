@@ -4,7 +4,7 @@ import java.util.Vector;
 import models.enums.Gender;
 import models.enums.Role;
 
-public class Doctor extends Staff {
+public class Doctor extends Staff implements DoctorAction {
     //------------------ Variables -----------------------------
     private Vector<String> m_PatientNames;
 
