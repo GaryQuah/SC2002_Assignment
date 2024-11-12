@@ -14,13 +14,19 @@ import models.enums.Gender;
 
 public class PatientMenu implements Menu{
 
+    private Patient patient;
+
+    public PatientMenu(Patient patient){
+        this.patient = patient;
+    }
+
     public void displayMenu(){ // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);
 
         // for testing
-        String patientID = "P0000";
+        /*String patientID = "P0000";
         String patientName = "John";
         String DOB = "01/01/2000";
         Gender gender = Gender.Male;
@@ -30,7 +36,7 @@ public class PatientMenu implements Menu{
         String password = "idk";
 
         Patient patient = new Patient(patientID, patientName, DOB, gender, bloodType, contactInformation, userName,
-                password);
+                password);*/
 
         AppointmentManager appointmentManager = AppointmentManager.getInstance();
 

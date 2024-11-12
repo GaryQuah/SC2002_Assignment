@@ -15,11 +15,11 @@ import models.User;
 import models.enums.Gender;
 import models.enums.Role;
 
-public class AdministratorMenu 
+public class AdministratorMenu implements Menu
 {
     private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
-    public static void main(String[] args) 
+    public void displayMenu()
     {
         InventoryControl.start();
         int choice;
