@@ -5,14 +5,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class AppointmentScheduler {
-    private Vector<Appointment> AppointmentList = new Vector<Appointment>();
+    //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
+    private ArrayList<Appointment> AppointmentList = new ArrayList<>();
+
     private final String dateFormat = "yyyy-MM-dd";
     private final String timeFormat = "HH:mm";
 
-    public AppointmentScheduler(Vector<Appointment> AppointmentList)
+    public AppointmentScheduler(ArrayList<Appointment> AppointmentList)
     {
         this.AppointmentList = AppointmentList;
     }
