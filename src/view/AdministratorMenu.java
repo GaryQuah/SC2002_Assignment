@@ -30,7 +30,7 @@ public class AdministratorMenu
 {
     private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
-    public static void main(String[] args) 
+    public static void main(String[] args, User loggedInUser) 
     {
         InventoryControl.start();
         int choice;
@@ -55,7 +55,7 @@ public class AdministratorMenu
                     ViewAppointmentDetails();
                     break;
                 case 3:                    
-                    AdminManageInventory();
+                    AdminManageInventory(loggedInUser);
                     break;
                 case 4:
                     System.out.println("Approve Replenishment Requests");
@@ -253,10 +253,6 @@ public class AdministratorMenu
         do {
             System.out.println("Enter 3 Digit Staff's ID: ");
             id = role.charAt(0) + sc.nextLine();
-            // if (DataBaseManager.getInstance().getStaffFileHandler().getUserById(id) != null) {
-            //     System.out.println("ID Already Exists");
-            //     continue;
-            // }
             b = Pattern.matches("[DPA]\\d{3}", id);
         } while (!b);
 
@@ -270,7 +266,7 @@ public class AdministratorMenu
         Staff newStaff = null;
         switch (role) {
             case "Doctor":
-                newStaff = new Doctor(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
+                newStaff = new Doctor(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password"); 
                 break;
             case "Pharmacist":
                 newStaff = new Pharmacist(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
@@ -460,7 +456,7 @@ public class AdministratorMenu
         }
     }
 
-    public static void AdminManageInventory()
+    public static void AdminManageInventory(User loggedInUser)
     {
         System.out.println("--------------------------------");
         System.out.println("View And Manage Inventory");
@@ -469,8 +465,7 @@ public class AdministratorMenu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        //User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
-        User admin = new Administrator("A25" , "Joel" , Role.Doctor, Gender.Male, 40, "JohnS" , "password");
+        // User admin = new Administrator("A25" , "Joel" , Role.Doctor, Gender.Male, 40, "JohnS" , "password");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();
@@ -480,10 +475,10 @@ public class AdministratorMenu
                 inventoryControl.showInventory();
                 break;
             case 2:
-                inventoryControl.addPrescription(admin);
+                inventoryControl.addPrescription(loggedInUser);
                 break;
             case 3:
-                inventoryControl.edit(admin);
+                inventoryControl.edit(loggedInUser);
                 break;
             // case 4:
             //     inventoryControl.removeMedicine();

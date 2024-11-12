@@ -78,9 +78,6 @@ public class HMSApp {
                         System.out.println("Login successful as Staff. Role: " + ((Staff) loggedInUser).getRole());
                     }
                 }
-    
-                // if (loggedInUser == null) 
-                //     S
             }
     
             if (loggedInUser != null) {
@@ -98,7 +95,7 @@ public class HMSApp {
                             break;
                         case Administrator:
                             System.out.println("Administrator Menu");
-                            AdministratorMenu.main(args);
+                            AdministratorMenu.main(args, loggedInUser);
                             break;
                         default:
                             System.out.println("Exit");
