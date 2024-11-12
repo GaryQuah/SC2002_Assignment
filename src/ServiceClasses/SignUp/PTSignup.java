@@ -2,13 +2,21 @@ package ServiceClasses.SignUp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
 
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.Database.StaffFileHandler;
+import java.util.ArrayList;
+import models.Patient;
+import models.UserIDManager;
+import models.enums.Role;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -19,7 +27,7 @@ public class PTSignup
     private PTSignup() {}
 
     public static void main(String[] args) {
-        List<String[]> patientData = PatientFileHandler.getPatientData();
+        List<String[]> patientData = DataBaseManager.getInstance().getPatientFileHandler().getData();
         Scanner sc = new Scanner(System.in);
         int choice;
         String DOB;
@@ -66,9 +74,9 @@ public class PTSignup
         System.out.println("Enter your password: ");
         String password = sc.nextLine();
         
-        String[] newPatient = new String[] { name, DOB, gender, bloodType, contactInfo, username, password };
-        patientData.add(newPatient);
-        PatientFileHandler.save(patientData);
+        List<String[]> newPatient = new ArrayList<>();
+        newPatient.add(new String[] { UserIDManager.getInstance().generateUniqueID(Role.Patient),name, DOB, gender, bloodType, contactInfo, username, password });
+        DataBaseManager.getInstance().getPatientFileHandler().save(newPatient);
     }
 
     public static boolean validateDate(String DOB)
