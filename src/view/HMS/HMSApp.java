@@ -2,6 +2,7 @@ package view.HMS;
 
 import javax.xml.crypto.Data;
 
+import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Database.DataBaseManager;
@@ -26,7 +27,8 @@ public class HMSApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
-        
+        AppointmentManager aptManager = AppointmentManager.getInstance();
+
         String currentUserID;
         String currentUserPassword;
         User loggedInUser = null;
