@@ -45,22 +45,28 @@ public class AppointmentScheduler {
 
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
-        LocalDate parsedDate = LocalDate.parse(input, formatter);
-
-        LocalDate today = LocalDate.now(); // Get today's date
-        System.out.println("Now : " + today + " against : " + parsedDate);
-
-        if (parsedDate.isBefore(today)) {
-            return false;
-        }
-
         try {
-            LocalDate.parse(input, formatter);
-            return true;
+            // Parse the input date using the formatter
+            LocalDate parsedDate = LocalDate.parse(input, formatter);
+            LocalDate today = LocalDate.now(); // Get today's date
+            System.out.println("Now : " + today + " against : " + parsedDate);
+
+            // Check if the parsed date is before today's date
+            if (parsedDate.isAfter(today)) {
+                System.out.println("Date is after today");
+                return true;
+            }
+            else
+            {
+                System.out.println("Date is before today");
+                return false;
+            }
         } catch (DateTimeParseException e) {
-            return false;
+            System.out.println("Date dosent follow format");
+            return false; // Return false if parsing fails
         }
     }
+
 
     private boolean isValidTime(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
@@ -80,14 +86,16 @@ public class AppointmentScheduler {
     public boolean ScheduleAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot,
                                        String m_appointmentType) {
         if (!isValidDate(m_date) && !isValidTime(m_timeSlot)) {
-            System.out.println("Invalid date and time format input! Please provide a proper format");
+            System.out.println("Invalid date and time format input! Please provide a proper format : " + dateFormat + " " + timeFormat);
             return false;
         }
         else if (!isValidDate(m_date)){
             System.out.println("Invalid date! Please provide a proper format for date following : " + dateFormat);
+            return false;
         }
         else if (!isValidTime(m_timeSlot)){
             System.out.println("Invalid time! Please provide a proper format for time following : " + timeFormat);
+            return false;
         }
 
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
