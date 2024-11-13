@@ -62,6 +62,7 @@ public class HMSApp {
             if (choice == 2) {
                 PTSignup signUp = new PTSignup();
                 signUp.signUp();
+                continue;
             }
             // LOGIN
             else if (choice == 1) {
