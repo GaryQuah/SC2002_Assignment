@@ -3,6 +3,8 @@ package ServiceClasses.inventory;
 import input.IntInput;
 import input.Scan;
 import models.User;
+import models.enums.StockStatus;
+
 import java.util.ArrayList;
 
 public class InventoryBuild {
