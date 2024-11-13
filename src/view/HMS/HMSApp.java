@@ -27,8 +27,11 @@ public class HMSApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
-        AppointmentManager aptManager = AppointmentManager.getInstance();
         dbManager.getappointmentFileHandler().retrieveData();
+        //For debugging
+        AppointmentManager aptManager = AppointmentManager.getInstance();
+        System.out.println("AppointmentManager has " + aptManager.getAppointmentList().size() + " appointments");
+        //
 
         String currentUserID;
         String currentUserPassword;
@@ -82,8 +85,8 @@ public class HMSApp {
                         System.out.println("Login successful as Staff. Role: " + ((Staff) loggedInUser).getRole());
                     }
                 }
-    
-                // if (loggedInUser == null) 
+
+                // if (loggedInUser == null)
                 //     S
             }
     
