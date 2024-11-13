@@ -108,7 +108,6 @@ public class HMSApp {
                             menu=new PharmacistMenu();
                             break;
                         case Administrator:
-                            System.out.println("Administrator Menu");
                             menu=new AdministratorMenu();
                             break;
                         default:

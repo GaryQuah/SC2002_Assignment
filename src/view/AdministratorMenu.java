@@ -24,6 +24,7 @@ public class AdministratorMenu implements Menu
 
         int choice;
         Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome " + loggedInUser.getName() + "!");
         do
         {
             System.out.println("---------- Administrator Menu ----------");
@@ -295,12 +296,14 @@ public class AdministratorMenu implements Menu
         }
     
         // Display current staff details
-        System.out.println("Current Staff Details:");
-        System.out.println("ID: " + currentStaff.getUserID());
-        System.out.println("Name: " + currentStaff.getName());
-        System.out.println("Role: " + currentStaff.getRole());
-        System.out.println("Gender: " + currentStaff.getGender());
-        System.out.println("Age: " + currentStaff.getAge());
+        System.out.println("Selected Staff Details:");
+        System.out.printf("%-5s | " ,"ID: " + currentStaff.getUserID());
+        System.out.printf("%-15s | " ,"Name: " + currentStaff.getName());
+        System.out.printf("%-15s | " ,"Role: " + currentStaff.getRole());
+        System.out.printf("%-15s | " ,"Gender: " + currentStaff.getGender());
+        System.out.printf("%-5s | " ,"Age: " + currentStaff.getAge());
+        System.out.printf("%-5s | " ,"Username: " + currentStaff.getPassword());
+        System.out.println("");
     
         // Create a copy of the current staff to modify
         updatedStaff = new Staff(currentStaff.getUserID(), currentStaff.getName(), currentStaff.getRole(),
@@ -312,6 +315,7 @@ public class AdministratorMenu implements Menu
         System.out.println("2. Staff Role");
         System.out.println("3. Staff Gender");
         System.out.println("4. Staff Age");
+        System.out.println("5. Staff Password");
         int updateChoice = sc.nextInt();
         sc.nextLine();
     
@@ -372,12 +376,15 @@ public class AdministratorMenu implements Menu
                 sc.nextLine();
                 updatedStaff.setAge(newAge); // Update age
                 break;
+            case 5:
+                System.out.println("Enter New Staff Password: ");
+                String newPassword = sc.nextLine();
+                updatedStaff.updatePassword(newPassword); // Update password
+                break;
             default:
                 System.out.println("Invalid Choice");
                 return;
         }
-    
-        // Call editStaff method from StaffFileHandler to update the staff in the database
         DataBaseManager.getInstance().getStaffFileHandler().editStaff(id, updatedStaff);
     
         System.out.println("Staff member updated successfully.");
@@ -400,12 +407,28 @@ public class AdministratorMenu implements Menu
             case 1:
                 System.out.println("Enter Staff ID: ");
                 id = sc.nextLine();
-                if (DataBaseManager.getInstance().getStaffFileHandler().getUserById(id) == null)
+                Staff staff = DataBaseManager.getInstance().getStaffFileHandler().getUserById(id);
+                if (staff == null)
                 {
                     System.out.println("User ID Not Found");
                     return;
                 }
-                DataBaseManager.getInstance().getStaffFileHandler().deleteStaff(id);
+                System.out.println("Staff Details: \n" + staff);
+                System.out.println("Delete Staff?");
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                choice = sc.nextInt();
+                sc.nextLine();
+
+                if (choice == 1)
+                {
+                    DataBaseManager.getInstance().getStaffFileHandler().deleteStaff(id);
+                    System.out.println("Staff successfully deleted.");
+                }
+                else
+                {
+                    System.out.println("Cancel Deletion.");
+                }
                 break;
             case 2:
                 System.out.println("Exiting");

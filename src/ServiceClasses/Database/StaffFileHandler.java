@@ -185,7 +185,8 @@ public class StaffFileHandler extends FileHandler<Staff>
         ArrayList<Staff> staffList = getDataArray();
         System.out.println("****************************************");
         for (Staff staff : staffList) {
-            System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " " + staff.getGender() + " " + staff.getAge());
+            // System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " " + staff.getGender() + " " + staff.getAge());
+            System.out.printf("%-5s %-15s %-17s %-8s %-5s\n", staff.getUserID(), staff.getName(), staff.getRole(), staff.getGender(), staff.getAge());
         }
         System.out.println("****************************************");
     }
