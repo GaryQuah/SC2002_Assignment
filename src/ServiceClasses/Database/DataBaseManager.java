@@ -38,5 +38,8 @@ public class DataBaseManager {
         return staffFileHandler;
     }
 
-
+    public AppointmentFileHandler getappointmentFileHandler()
+    {
+        return appointmentFileHandler;
+    }
 }

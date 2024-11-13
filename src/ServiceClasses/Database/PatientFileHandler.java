@@ -170,9 +170,6 @@ public class PatientFileHandler extends FileHandler<Patient>
         }
     }
 
-
-
-    @Override
     public boolean checkLogin(String currentUserID, String currentUserPassword)
     {
         ArrayList<Patient> patientList = retrieveData();

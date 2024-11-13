@@ -99,7 +99,6 @@ public class StaffFileHandler extends FileHandler<Staff>
         }
     }
 
-    @Override
     public boolean checkLogin(String currentUserID, String currentUserPassword)
     {
         ArrayList<Staff> staffList = retrieveData();
