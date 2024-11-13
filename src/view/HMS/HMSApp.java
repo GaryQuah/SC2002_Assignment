@@ -88,9 +88,6 @@ public class HMSApp {
                         System.out.println("Login successful as Staff. Role: " + ((Staff) loggedInUser).getRole());
                     }
                 }
-
-                // if (loggedInUser == null)
-                //     S
             }
     
             if (loggedInUser != null) {
@@ -119,7 +116,12 @@ public class HMSApp {
                             break;
                     }
                 }
-                menu.displayMenu(loggedInUser);
+                if (menu != null) {
+                    menu.displayMenu(loggedInUser);
+                    // Clear menu & user details after logout
+                    loggedInUser = null; 
+                    menu = null;
+                }
             }
 
         } while (choice != 3);

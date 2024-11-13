@@ -1,6 +1,6 @@
-Cetirizine,M0004,140,50
-Ibuprofen,M0002,50,10
-Lisinopril,M0008,70,15
-Losartan,M0009,80,25
-Metformin,M0005,50,30
-Omeprazole,M0006,30,50
+Cetirizine,M0004,140,50,OK,0
+Ibuprofen,M0002,50,10,OK,0
+Lisinopril,M0008,70,15,OK,0
+Losartan,M0009,80,25,OK,0
+Metformin,M0005,50,30,OK,0
+Omeprazole,M0006,30,50,LOWSTOCK,0
