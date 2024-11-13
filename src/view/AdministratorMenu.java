@@ -470,7 +470,7 @@ public class AdministratorMenu implements Menu
                 inventoryControl.showInventory();
                 break;
             case 2:
-                inventoryControl.addPrescription(loggedInUser);
+                inventoryControl.add(loggedInUser);
                 break;
             case 3:
                 inventoryControl.edit(loggedInUser);
