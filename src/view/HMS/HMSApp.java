@@ -119,7 +119,7 @@ public class HMSApp {
                             break;
                     }
                 }
-                menu.displayMenu();
+                menu.displayMenu(loggedInUser);
             }
 
         } while (choice != 3);
