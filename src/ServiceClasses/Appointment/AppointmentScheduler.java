@@ -25,7 +25,7 @@ public class AppointmentScheduler {
     private int CheckForExistingAppointment(String m_doctorName, String m_date, String m_timeSlot) {
         System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + " Time : " + m_timeSlot);
         for (int i = 0; i < AppointmentList.size(); ++i) {
-            System.out.println("Copmaring against : Doctor " + AppointmentList.get(i).getDoctorName()
+            System.out.println("Comparing against : Doctor " + AppointmentList.get(i).getDoctorName()
                     + " Date : " + AppointmentList.get(i).getAppointmentDate()
                     + " Time : " + AppointmentList.get(i).getTimeSlot());
 
