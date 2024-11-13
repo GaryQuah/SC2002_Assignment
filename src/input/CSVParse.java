@@ -13,10 +13,12 @@ public class CSVParse {
      * @param path Path to the CSV file
      * @return ArrayList
      */
-    public static ArrayList <String[]> read(String path) {
+    public static ArrayList <String[]> read(String path, Boolean mode) {
         ArrayList <String[]> results = new ArrayList <String[]> ();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
+            if (mode){reader.readLine();}
+            
             while ((line = reader.readLine()) != null) {
                 results.add(line.split(","));
             }

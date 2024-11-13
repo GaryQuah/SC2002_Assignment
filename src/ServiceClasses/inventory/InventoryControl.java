@@ -10,7 +10,15 @@ import models.enums.Role;
 import models.enums.StockStatus;
 
 public class InventoryControl implements IControl, IInventory {
-    private static ArrayList<Prescription> inventory = new ArrayList<>();
+    private ArrayList<Prescription> inventory = new ArrayList<>();
+
+    public void setInventory(ArrayList<Prescription> inventory) {
+        this.inventory = inventory;
+    }
+
+    public ArrayList<Prescription> getInventory() {
+        return inventory;
+    }
 
     private static InventoryControl instance;
 
@@ -22,14 +30,14 @@ public class InventoryControl implements IControl, IInventory {
         return instance;
     }
 
-    public void start() {
-        inventory.clear();
-        inventory.addAll(inventoryParse.parse("src\\data\\Medicine_List.csv"));
-    }
+    // public void start() {
+    //     inventory.clear();
+    //     inventory.addAll(inventoryParse.parse("src\\data\\Medicine_List.csv"));
+    // }
 
-    public void close() {
-        inventoryParse.write("src\\data\\Medicine_List.csv", inventory);
-    }
+    // public void close() {
+    //     inventoryParse.write("src\\data\\Medicine_List.csv", inventory);
+    // }
 
     private Boolean isDoctor(User user) {
         if (user.getRole() == Role.Doctor)

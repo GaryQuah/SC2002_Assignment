@@ -34,7 +34,7 @@ public class AdministratorMenu implements Menu
             System.out.println("5. Logout");
             System.out.println("Enter your choice: ");
             choice = sc.nextInt();
-            inventoryControl.start();
+            DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
             switch(choice)
             {
                 case 1:
@@ -58,7 +58,7 @@ public class AdministratorMenu implements Menu
                     System.out.println("Invalid Choice");
                     break;
             }
-            inventoryControl.close();
+            DataBaseManager.getInstance().getInventoryFileHandler().saveData();
         } while (choice != 5);
 
         if(choice == 5)

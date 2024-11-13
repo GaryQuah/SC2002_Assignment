@@ -1,5 +1,6 @@
 package view;
 
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.inventory.InventoryControl;
 import input.IntInput;
 import models.User;
@@ -24,7 +25,7 @@ public class PharmacistMenu implements Menu {
             
             header();
             choice = IntInput.integer("Option");
-            inventoryControl.start();
+            DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
             switch (choice) {
                 case 1:
                     System.out.println("View Appoinment Outcome");
@@ -62,7 +63,7 @@ public class PharmacistMenu implements Menu {
                     System.out.println("Invalid Choice");
                     break;
             }
-            inventoryControl.close();
+            DataBaseManager.getInstance().getInventoryFileHandler().saveData();
 
         }while(choice!= 5);
         

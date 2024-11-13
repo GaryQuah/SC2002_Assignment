@@ -1,18 +1,12 @@
 package view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import ServiceClasses.Database.PatientFileHandler;
-import ServiceClasses.MedicalRecordService;
+import input.IntInput;
 import ServiceClasses.Appointment.AppointmentManager;
-import models.MedicalRecord;
 import models.Patient;
 import models.User;
-import models.enums.BloodType;
-import models.enums.Gender;
 
 public class PatientMenu implements Menu{
 
@@ -59,11 +53,15 @@ public class PatientMenu implements Menu{
             System.out.println("8. View Past Appointment Outcome Records");
             System.out.println("9. Logout");
 
-            choice = sc.nextInt();
-            sc.nextLine(); // consume newline
+            choice = IntInput.integer("Option");
+            
 
             switch (choice) {
                 case 1:
+                    System.out.println("=================================");
+                    System.out.println("          MEDICAL RECORD         ");
+                    System.out.println("=================================");
+                    System.out.println("Name: " + patient.getUserID());
                     System.out.println("Name: " + patient.getUserID());
                     System.out.println("Patient ID: " + patient.getUserID());
                     System.out.println("Date of Birth: " + patient.getDateOfBirth());

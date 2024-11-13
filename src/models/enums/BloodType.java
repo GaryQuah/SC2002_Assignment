@@ -18,10 +18,22 @@ public enum BloodType {
 
     public String getSymbol() {
         return symbol;
+
     }
 
     @Override
     public String toString() {
-        return symbol;
+        switch (this) {
+            case A_POSITIVE: return "A_POSITIVE";
+            case A_NEGATIVE: return "A_NEGATIVE";
+            case B_POSITIVE: return "B_POSITIVE";
+            case B_NEGATIVE: return "B_NEGATIVE";
+            case AB_POSITIVE: return "AB_POSITIVE";
+            case AB_NEGATIVE: return "AB_NEGATIVE";
+            case O_POSITIVE: return "0_POSITIVE";
+            case O_NEGATIVE: return "O_NEGATIVE";
+
+            default: return null;
+        }
     }
 }
