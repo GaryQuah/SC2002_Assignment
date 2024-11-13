@@ -2,10 +2,3 @@ Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Pas
 PT0001,Alice Brown,5/14/1980,Female,A_POSITIVE,alicebordeland@hotmail.com,PT0001,password,yangyang,brother,98769876
 PT0002,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,PT0002,password,hendery,son,88888888
 PT0003,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,PT0003,password,alice,mother,1122334455
-PT0004,j,23/01/1992,Female,AB_POSITIVE,j@example.com,PT0004,password,bill,father,12345678
-PT0005,j,24/01/1999,Female,AB_POSITIVE,j@example.com,PT0005,password,wendy,sister,23456789
-PT0006,K,13/02/1999,Female,B_NEGATIVE,k@example.com,PT0006,password,gloria,daughter,34567890
-PT0007,asdf,21/03/2001,Female,A_NEGATIVE,qsd,PT0007,a,finn,son,45678901
-PT0008,helps,21/03/2001,Male,AB_POSITIVE,helps@example.com,PT0001,password,nohelps,Brother,00000000
-PT0009,mee,11/01/2000,Female,AB_POSITIVE,mee@example.com,PT0001,password,mee2,Sister,98765432
-PT0010,yui,21/03/2001,Female,AB_POSITIVE,yui@example.com,PT0001,password,yoi,Mother,56732422
