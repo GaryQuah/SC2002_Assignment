@@ -11,7 +11,8 @@ public class AppointmentScheduler {
     //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
-    private final String dateFormat = "yyyy-MM-dd";
+    //private final String dateFormat = "yyyy-MM-dd";
+    private final String dateFormat = "dd-MM-yyyy";
     private final String timeFormat = "HH:mm";
 
     public AppointmentScheduler(ArrayList<Appointment> AppointmentList)
@@ -41,11 +42,27 @@ public class AppointmentScheduler {
         }
         return -1;
     }
-
+    /*
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
             LocalDate.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }*/
+
+    private boolean isValidDate(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+        try {
+            LocalDate parsedDate = LocalDate.parse(input, formatter);
+            LocalDate today = LocalDate.now(); // Get today's date
+
+            // Check if the parsed date is before today's date
+            if (parsedDate.isBefore(today)) {
+                return false;
+            }
             return true;
         } catch (DateTimeParseException e) {
             return false;
@@ -80,11 +97,11 @@ public class AppointmentScheduler {
             System.out.println("Invalid time! Please provide a proper format for time following : " + timeFormat);
         }
 
-
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
 
         if (indexChecker == -1) {
-            AppointmentList.add(new Appointment(AppointmentManager.getInstance().getNewID(), m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
+            AppointmentList.add(new Appointment(/*AppointmentManager.getInstance().getNewID(), */
+                    m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
             System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + " Date : "
                     + m_date +  " Time : " + m_timeSlot);
             System.out.println("New AppointmentList Length: " + AppointmentList.size());
