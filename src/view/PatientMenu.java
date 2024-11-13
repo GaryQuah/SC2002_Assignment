@@ -10,6 +10,7 @@ import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.AppointmentManager;
 import models.MedicalRecord;
 import models.Patient;
+import models.User;
 import models.enums.BloodType;
 import models.enums.Gender;
 
@@ -24,7 +25,7 @@ public class PatientMenu implements Menu{
         this.patientFileHandler = new PatientFileHandler();
     }
 
-    public void displayMenu(){ // rename function
+    public void displayMenu(User user){ // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);

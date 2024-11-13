@@ -1,9 +1,13 @@
 package view;
 
+import models.User;
+
 public class DoctorMenu implements Menu{
-    public void displayMenu(){
 
-
+    @Override
+    public void displayMenu(User user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'displayMenu'");
     }
     
 }

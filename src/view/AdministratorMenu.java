@@ -19,7 +19,7 @@ public class AdministratorMenu implements Menu
 {
     private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
-    public void displayMenu()
+    public void displayMenu(User loggedInUser)
     {
         InventoryControl.start();
         int choice;
@@ -44,7 +44,7 @@ public class AdministratorMenu implements Menu
                     ViewAppointmentDetails();
                     break;
                 case 3:                    
-                    AdminManageInventory();
+                    AdminManageInventory(loggedInUser);
                     break;
                 case 4:
                     System.out.println("Approve Replenishment Requests");
@@ -449,7 +449,7 @@ public class AdministratorMenu implements Menu
         }
     }
 
-    public static void AdminManageInventory()
+    public static void AdminManageInventory(User loggedInUser)
     {
         System.out.println("--------------------------------");
         System.out.println("View And Manage Inventory");
@@ -459,7 +459,6 @@ public class AdministratorMenu implements Menu
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
         //User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
-        User admin = new Administrator("A25" , "Joel" , Role.Doctor, Gender.Male, 40, "JohnS" , "password");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();
@@ -469,10 +468,10 @@ public class AdministratorMenu implements Menu
                 inventoryControl.showInventory();
                 break;
             case 2:
-                inventoryControl.addPrescription(admin);
+                inventoryControl.addPrescription(loggedInUser);
                 break;
             case 3:
-                inventoryControl.edit(admin);
+                inventoryControl.edit(loggedInUser);
                 break;
             // case 4:
             //     inventoryControl.removeMedicine();

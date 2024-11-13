@@ -1,4 +1,6 @@
-Medicine Name,Initial Stock,Low Stock Level Alert
-Paracetamol,100,20
-Ibuprofen,50,10
-Amoxicillin,75,15
+Cetirizine,M0004,140,50
+Ibuprofen,M0002,50,10
+Lisinopril,M0008,70,15
+Losartan,M0009,80,25
+Metformin,M0005,50,30
+Omeprazole,M0006,30,50
