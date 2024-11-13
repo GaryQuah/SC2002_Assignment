@@ -1,3 +1,4 @@
 ID,Doctor Name,Patient Name,Date,Time Slot,Appointment Type,Appointment Status
-1,John,Chim,9/13/2001,10:30,Cardio,UNACCEPTED
-2,John,Chim,2001-13-09,9:30,Something,UNACCEPTED
+1,John,Chim,13-09-2001,10:30,Cardio,UNACCEPTED
+2,John,Chim,13-09-2001,9:30,Something,UNACCEPTED
+3,John,Chim,13-09-2001,10:00,Cancer,UNACCEPTED
