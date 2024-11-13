@@ -121,7 +121,18 @@ public class PTSignup
         System.out.println("Enter your password: ");
         String password = sc.nextLine();
 
-        Patient newPatient = new Patient(UserIDManager.getInstance().generateUniqueID(Role.Patient), name, DOB, gender, bloodType, contactInfo, username, password);
+        System.out.println("Enter your emergency contact name: ");
+        String emergencyContactName = sc.nextLine();
+
+        System.out.println("Enter your emergency contact relation: ");
+        String emergencyContactRelation = sc.nextLine().trim();
+
+        System.out.println("Enter your emergency contact number: ");        
+        String emergencyContactNumber = sc.nextLine().trim();
+
+        Patient newPatient = new Patient(UserIDManager.getInstance().generateUniqueID(Role.Patient), 
+                                name, DOB, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+        
         DataBaseManager.getInstance().getPatientFileHandler().addPatient(newPatient);
         System.out.println(DataBaseManager.getInstance().getPatientFileHandler().getDataArray());
 

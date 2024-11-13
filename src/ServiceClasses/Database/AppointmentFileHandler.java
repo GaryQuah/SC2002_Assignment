@@ -3,6 +3,7 @@ package ServiceClasses.Database;
 import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Appointment.AppointmentManager;
 
+import ServiceClasses.Appointment.AppointmentStatus;
 import models.Staff;
 
 import java.io.*;
@@ -10,13 +11,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AppointmentFileHandler extends FileHandler {
+public class AppointmentFileHandler extends FileHandler<Appointment> {
     public AppointmentFileHandler() {
         super("src/data/Appointment_List.csv");
     }
 
     @Override
-    public ArrayList<Staff> retrieveData() {
+    public ArrayList<Appointment> retrieveData() {
         List<String[]> fileData = new ArrayList<>();
         //Creates a reference to the appointment list in the appointment manager. whatever is
         // updated there updates here, vice versa
@@ -43,10 +44,9 @@ public abstract class AppointmentFileHandler extends FileHandler {
             System.out.println(Arrays.toString(row));
             System.out.println("Processing appointment Data data");
 
-            Appointment apt = new Appointment(Integer.parseInt(row[0]), row[1],row[2],row[3],row[4],row[5]);
+            Appointment apt = new Appointment(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4], row[5], AppointmentStatus.valueOf(row[6]));
             appointmentList.add(apt);
             System.out.println("Created Appointment : " + apt.toString());
-            break;
         }
         return null;
     }
@@ -56,18 +56,19 @@ public abstract class AppointmentFileHandler extends FileHandler {
         ArrayList<Appointment> appointmentList = AppointmentManager.getInstance().getAppointmentList();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), false))) {
             // Write header
-            writer.write("ID,Doctor Name, Patient Name, Date,Time Slot,Status\n");
+            writer.write("ID,Doctor Name,Patient Name,Date,Time Slot,Appointment Type,Appointment Status\n");
 
     //int m_AppointmentID, String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot, m_Status
             //
             // Write appointment data
             for (Appointment appointment : appointmentList) {
-                String line = appointment.getAppointmentID() + "," +
-                        appointment.getDoctorName() + "," +
+                String line =
+                        appointment.getAppointmentID() + "," +
                         appointment.getDoctorName() + "," +
                         appointment.getPatientName() + "," +
                         appointment.getAppointmentDate() + "," +
                         appointment.getTimeSlot() + "," +
+                        appointment.getAppointmentType() + "," +
                         appointment.getAppointmentStatus();
                 writer.write(line);
                 writer.newLine();

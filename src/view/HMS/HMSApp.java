@@ -2,6 +2,7 @@ package view.HMS;
 
 import javax.xml.crypto.Data;
 
+import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Database.DataBaseManager;
@@ -12,6 +13,7 @@ import models.MedicalRecord;
 import models.Patient;
 import models.Staff;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -26,7 +28,14 @@ public class HMSApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
-        
+        dbManager.getappointmentFileHandler().retrieveData();
+        //For debugging
+        AppointmentManager aptManager = AppointmentManager.getInstance();
+        System.out.println("AppointmentManager has " + aptManager.getAppointmentList().size() + " appointments");
+        //
+        ArrayList<Patient> patientsData = dbManager.getPatientFileHandler().retrieveData();
+        ArrayList<Staff> staffData = dbManager.getStaffFileHandler().retrieveData();
+
         String currentUserID;
         String currentUserPassword;
         User loggedInUser = null;
@@ -79,9 +88,6 @@ public class HMSApp {
                         System.out.println("Login successful as Staff. Role: " + ((Staff) loggedInUser).getRole());
                     }
                 }
-    
-                // if (loggedInUser == null) 
-                //     S
             }
     
             if (loggedInUser != null) {
@@ -99,7 +105,7 @@ public class HMSApp {
                             break;
                         case Pharmacist:
                             System.out.println("Pharmacist Menu");
-                            //menu=new PharmacistMenu();
+                            menu=new PharmacistMenu();
                             break;
                         case Administrator:
                             System.out.println("Administrator Menu");
@@ -110,9 +116,21 @@ public class HMSApp {
                             break;
                     }
                 }
-                menu.displayMenu();
+                if (menu != null) {
+                    menu.displayMenu(loggedInUser);
+                    // Clear menu & user details after logout
+                    loggedInUser = null; 
+                    menu = null;
+                }
             }
 
         } while (choice != 3);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Code to be executed when the JVM shuts down
+            System.out.println("Program is exiting. Performing cleanup...");
+            // Add any cleanup or resource release logic here
+            dbManager.getappointmentFileHandler().saveData();
+        }));
     }
 }

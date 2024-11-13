@@ -31,6 +31,20 @@ public class Patient extends User implements PatientAction {
         this.emergencyContactNumber = "No emergency contact number";
     }
 
+    // Overloading constructor for Patient with emergency contact details
+
+    public Patient(String patientID, String patientName, String DOB, 
+            Gender gender, BloodType bloodType, String contactInformation,  String userName, String password, 
+            String emergencyContactName, String emergencyContactRelation, String emergencyContactNumber) {
+        super(patientID, patientName, gender, userName , password , Role.Patient);
+        this.contactInformation = contactInformation;
+        this.dateOfBirth = DOB;
+        this.bloodType = bloodType;
+        this.emergencyContactName = emergencyContactName;
+        this.emergencyContactRelation = emergencyContactRelation;
+        this.emergencyContactNumber = emergencyContactNumber;
+    }
+
     // ------------------ setters ---------------------
 
     public void updateContactInfo(String newContactInfo) {
@@ -76,7 +90,14 @@ public class Patient extends User implements PatientAction {
 
     @Override
     public String toString() {
-        return "Patient ID :" + getUserID() + ", Name : " + getName() + ", Date of Birth : " + dateOfBirth +  " + gender : "
-                + getGender() + ", Blood Type : " + bloodType + " Contact information " + contactInformation;
+        return "Patient ID :" + getUserID() + 
+                ", Name : " + getName() + 
+                ", Date of Birth : " + dateOfBirth +  
+                ", gender : " + getGender() + 
+                ", Blood Type : " + bloodType + 
+                ", Contact information: " + contactInformation + 
+                ", Emergency Contact Name: " + emergencyContactName +
+                ", Emergency Contact Relation: " + emergencyContactRelation +
+                ", Emergency Contact Number: " + emergencyContactNumber;
     }
 }

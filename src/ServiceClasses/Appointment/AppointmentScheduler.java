@@ -11,7 +11,8 @@ public class AppointmentScheduler {
     //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
-    private final String dateFormat = "yyyy-MM-dd";
+    //private final String dateFormat = "yyyy-MM-dd";
+    private final String dateFormat = "dd-MM-yyyy";
     private final String timeFormat = "HH:mm";
 
     public AppointmentScheduler(ArrayList<Appointment> AppointmentList)
@@ -22,11 +23,11 @@ public class AppointmentScheduler {
     // Checks for existing appointments in the list. If there is an appointment,
     // returns index of appointment, no appointment returns -1.
     private int CheckForExistingAppointment(String m_doctorName, String m_date, String m_timeSlot) {
-        System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + ", Time : " + m_timeSlot);
+        System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + " Time : " + m_timeSlot);
         for (int i = 0; i < AppointmentList.size(); ++i) {
-            System.out.println("Comparing against : Doctor " + AppointmentList.get(i).getDoctorName()
-                    + ", Date : " + AppointmentList.get(i).getAppointmentDate()
-                    + ", Time : " + AppointmentList.get(i).getTimeSlot());
+            System.out.println("Copmaring against : Doctor " + AppointmentList.get(i).getDoctorName()
+                    + " Date : " + AppointmentList.get(i).getAppointmentDate()
+                    + " Time : " + AppointmentList.get(i).getTimeSlot());
 
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getTimeSlot().equals(m_timeSlot)
@@ -41,11 +42,27 @@ public class AppointmentScheduler {
         }
         return -1;
     }
-
+    /*
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
             LocalDate.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }*/
+
+    private boolean isValidDate(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+        try {
+            LocalDate parsedDate = LocalDate.parse(input, formatter);
+            LocalDate today = LocalDate.now(); // Get today's date
+
+            // Check if the parsed date is before today's date
+            if (parsedDate.isBefore(today)) {
+                return false;
+            }
             return true;
         } catch (DateTimeParseException e) {
             return false;
@@ -80,19 +97,19 @@ public class AppointmentScheduler {
             System.out.println("Invalid time! Please provide a proper format for time following : " + timeFormat);
         }
 
-
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
 
         if (indexChecker == -1) {
-            AppointmentList.add(new Appointment(AppointmentManager.getInstance().getNewID(), m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
-            System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + ", Date : "
-                    + m_date +  ", Time : " + m_timeSlot);
+            AppointmentList.add(new Appointment(/*AppointmentManager.getInstance().getNewID(), */
+                    m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
+            System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + " Date : "
+                    + m_date +  " Time : " + m_timeSlot);
             System.out.println("New AppointmentList Length: " + AppointmentList.size());
             return true;
         }
 
         System.out.println(
-                "Failed To Add Appointment Into The System. Doctor : " + m_doctorName + ", Patient : " + m_patientName + ", Date : " + m_date +  ", Time : " + m_timeSlot);
+                "Failed To Add Appointment Into The System. " + m_doctorName + m_patientName + m_date + m_timeSlot);
         return false;
     }
 
@@ -134,7 +151,7 @@ public class AppointmentScheduler {
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
                 AppointmentList.get(i).UpdateAppointmentStatus(m_AppointmentStatus);
                 System.out.println(
-                        "Doctor :" + m_doctorName + ". Successfully Accepted the appointment ID of " + m_appointmentID);
+                        "Doctor :" + m_doctorName + "Successfully Accepted the appointment ID of " + m_appointmentID);
                 return true;
             }
         }
