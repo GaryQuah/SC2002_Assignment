@@ -42,11 +42,27 @@ public class AppointmentScheduler {
         }
         return -1;
     }
-
+    /*
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
             LocalDate.parse(input, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }*/
+
+    private boolean isValidDate(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+        try {
+            LocalDate parsedDate = LocalDate.parse(input, formatter);
+            LocalDate today = LocalDate.now(); // Get today's date
+
+            // Check if the parsed date is before today's date
+            if (parsedDate.isBefore(today)) {
+                return false;
+            }
             return true;
         } catch (DateTimeParseException e) {
             return false;
