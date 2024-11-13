@@ -113,9 +113,9 @@ public class Appointment {
     // Override print
     @Override
     public String toString() {
-        return ("Appointment ID : " + m_AppointmentID + " Doctor : " + m_DoctorName + " Patient : " + m_PatientName
-                + " Date : " + m_AppointmentDate +
-                " Time Slot : " + m_TimeSlot + " Appointment Type : " + m_AppointmentType + " Accepted : "
+        return ("Appointment ID : " + m_AppointmentID + ", Doctor : " + m_DoctorName + ", Patient : " + m_PatientName
+                + ", Date : " + m_AppointmentDate +
+                ", Time Slot : " + m_TimeSlot + ", Appointment Type : " + m_AppointmentType + ", Accepted : "
                 + m_AppointmentStatus);
     }
 }

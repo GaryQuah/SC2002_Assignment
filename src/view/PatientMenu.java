@@ -63,7 +63,7 @@ public class PatientMenu implements Menu{
 
             switch (choice) {
                 case 1:
-                    System.out.println("Name: " + patient.getUserID());
+                    System.out.println("Name: " + patient.getName());
                     System.out.println("Patient ID: " + patient.getUserID());
                     System.out.println("Date of Birth: " + patient.getDateOfBirth());
                     System.out.println("Gender: " + patient.getGender());
@@ -92,7 +92,7 @@ public class PatientMenu implements Menu{
                         String newContactInfo = sc.nextLine();
                         patient.updateContactInfo(newContactInfo);
                         System.out.println("Personal information updated successfully.");
-                        patientFileHandler.updatePatientInFile(patient);
+                        patientFileHandler.updatePatientInFile(patient); //update csv
 
                     } else if (updateChoice == 2) {
                         System.out.println("Please enter emergency contact name: ");
@@ -102,7 +102,7 @@ public class PatientMenu implements Menu{
                         System.out.println("Please enter emergency contact number: ");
                         String emergencyNumber = sc.nextLine();
                         patient.updateEmergencyContact(emergencyName, emergencyRelation, emergencyNumber);
-                        patientFileHandler.updatePatientInFile(patient);
+                        patientFileHandler.updatePatientInFile(patient); //update csv
                     } else {
                         System.out.println("Invalid choice. Returning to main menu.");
                     }

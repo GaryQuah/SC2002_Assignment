@@ -22,11 +22,11 @@ public class AppointmentScheduler {
     // Checks for existing appointments in the list. If there is an appointment,
     // returns index of appointment, no appointment returns -1.
     private int CheckForExistingAppointment(String m_doctorName, String m_date, String m_timeSlot) {
-        System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + " Time : " + m_timeSlot);
+        System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + ", Time : " + m_timeSlot);
         for (int i = 0; i < AppointmentList.size(); ++i) {
-            System.out.println("Copmaring against : Doctor " + AppointmentList.get(i).getDoctorName()
-                    + " Date : " + AppointmentList.get(i).getAppointmentDate()
-                    + " Time : " + AppointmentList.get(i).getTimeSlot());
+            System.out.println("Comparing against : Doctor " + AppointmentList.get(i).getDoctorName()
+                    + ", Date : " + AppointmentList.get(i).getAppointmentDate()
+                    + ", Time : " + AppointmentList.get(i).getTimeSlot());
 
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getTimeSlot().equals(m_timeSlot)
@@ -85,14 +85,14 @@ public class AppointmentScheduler {
 
         if (indexChecker == -1) {
             AppointmentList.add(new Appointment(AppointmentManager.getInstance().getNewID(), m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
-            System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + " Date : "
-                    + m_date +  " Time : " + m_timeSlot);
+            System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + ", Date : "
+                    + m_date +  ", Time : " + m_timeSlot);
             System.out.println("New AppointmentList Length: " + AppointmentList.size());
             return true;
         }
 
         System.out.println(
-                "Failed To Add Appointment Into The System. " + m_doctorName + m_patientName + m_date + m_timeSlot);
+                "Failed To Add Appointment Into The System. Doctor : " + m_doctorName + ", Patient : " + m_patientName + ", Date : " + m_date +  ", Time : " + m_timeSlot);
         return false;
     }
 
@@ -134,7 +134,7 @@ public class AppointmentScheduler {
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
                 AppointmentList.get(i).UpdateAppointmentStatus(m_AppointmentStatus);
                 System.out.println(
-                        "Doctor :" + m_doctorName + "Successfully Accepted the appointment ID of " + m_appointmentID);
+                        "Doctor :" + m_doctorName + ". Successfully Accepted the appointment ID of " + m_appointmentID);
                 return true;
             }
         }

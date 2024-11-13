@@ -41,7 +41,7 @@ public class AppointmentViewer {
 
             for (int i = 0; i < unAvailableDates.size(); ++i) {
                 System.out.println(
-                        "Date : " + unAvailableDates.get(i) + " Time : " + unAvailableTimeSlots.get(i));
+                        "Date : " + unAvailableDates.get(i) + ", Time : " + unAvailableTimeSlots.get(i));
             }
         } else {
             System.out
@@ -83,7 +83,7 @@ public class AppointmentViewer {
         if (appointmentCount == 0)
         {
             System.out.println("No appointments have been scheduled for the patient " + m_patientName);
-            ViewAllAppointments();
+            //ViewAllAppointments();
         }
     }
 
