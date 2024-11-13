@@ -8,7 +8,7 @@ import models.enums.Role;
 import models.enums.Gender;
 import models.UserIDManager;
 
-public abstract class User {
+public abstract class User implements IUserManagement{
     // Users must log in to the system using their unique hospital ID and a default
     // password ("password").
     private String m_UserID;

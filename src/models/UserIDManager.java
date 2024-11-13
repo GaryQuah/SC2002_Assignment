@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import models.enums.Role;
 
-public class UserIDManager {
+public class UserIDManager{
     private static UserIDManager instance;
     private Map<Role, Integer> maxIDs;
     private Map<Role, String> rolePrefixMap;

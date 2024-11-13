@@ -17,7 +17,7 @@ public abstract class FileHandler<T> {
 
     public abstract void saveData();
 
-    public abstract boolean checkLogin(String username, String password);
+    //public abstract boolean checkLogin(String username, String password);
 
     public String getFilePath()
     {

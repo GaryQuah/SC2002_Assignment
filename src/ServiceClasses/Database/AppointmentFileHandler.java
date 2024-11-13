@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AppointmentFileHandler extends FileHandler {
+public class AppointmentFileHandler extends FileHandler<Appointment> {
     public AppointmentFileHandler() {
         super("src/data/Appointment_List.csv");
     }
 
     @Override
-    public ArrayList<Staff> retrieveData() {
+    public ArrayList<Appointment> retrieveData() {
         List<String[]> fileData = new ArrayList<>();
         //Creates a reference to the appointment list in the appointment manager. whatever is
         // updated there updates here, vice versa
@@ -52,7 +52,7 @@ public class AppointmentFileHandler extends FileHandler {
     }
 
     @Override
-    public ArrayList saveData() {
+    public void saveData() {
         ArrayList<Appointment> appointmentList = AppointmentManager.getInstance().getAppointmentList();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath(), false))) {
             // Write header
@@ -76,6 +76,6 @@ public class AppointmentFileHandler extends FileHandler {
             System.out.println("Error saving appointment data");
             e.printStackTrace();
         }
-        return null;  // You can return the list of appointments, or modify as needed
+         // You can return the list of appointments, or modify as needed
     }
 }

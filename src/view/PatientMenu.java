@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.AppointmentManager;
 import models.MedicalRecord;
@@ -12,15 +13,24 @@ import models.Patient;
 import models.enums.BloodType;
 import models.enums.Gender;
 
-public class PatientMenu {
+public class PatientMenu implements Menu{
 
-    public static void main(String[] args) { // rename function
+    private Patient patient;
+    private PatientFileHandler patientFileHandler;
+
+    public PatientMenu(Patient patient){
+
+        this.patient = patient;
+        this.patientFileHandler = new PatientFileHandler();
+    }
+
+    public void displayMenu(){ // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);
 
         // for testing
-        String patientID = "P0000";
+        /*String patientID = "P0000";
         String patientName = "John";
         String DOB = "01/01/2000";
         Gender gender = Gender.Male;
@@ -30,7 +40,7 @@ public class PatientMenu {
         String password = "idk";
 
         Patient patient = new Patient(patientID, patientName, DOB, gender, bloodType, contactInformation, userName,
-                password);
+                password);*/
 
         AppointmentManager appointmentManager = AppointmentManager.getInstance();
 
@@ -60,12 +70,12 @@ public class PatientMenu {
                     System.out.println("Contact Information: " + patient.getContactInfo());
                     System.out.println("Emergency Contact:" + patient.getEmergencyContactInfo());
                     System.out.println("Blood Type: " + patient.getBloodType());
-                    try {
+                    /*try {
                         MedicalRecordService.viewMedicalRecord(patient);
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                    }
+                    }*/
                     break;
 
                 case 2: {
@@ -82,6 +92,7 @@ public class PatientMenu {
                         String newContactInfo = sc.nextLine();
                         patient.updateContactInfo(newContactInfo);
                         System.out.println("Personal information updated successfully.");
+                        patientFileHandler.updatePatientInFile(patient);
 
                     } else if (updateChoice == 2) {
                         System.out.println("Please enter emergency contact name: ");
@@ -91,6 +102,7 @@ public class PatientMenu {
                         System.out.println("Please enter emergency contact number: ");
                         String emergencyNumber = sc.nextLine();
                         patient.updateEmergencyContact(emergencyName, emergencyRelation, emergencyNumber);
+                        patientFileHandler.updatePatientInFile(patient);
                     } else {
                         System.out.println("Invalid choice. Returning to main menu.");
                     }
@@ -114,7 +126,6 @@ public class PatientMenu {
                     String timeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
                     String type = sc.nextLine();
-                    sc.nextLine(); // consume newline
 
                     boolean success = appointmentManager.getAppointmentScheduler().ScheduleAppointment(
                             doctorName, patient.getName(), date, timeSlot, type);

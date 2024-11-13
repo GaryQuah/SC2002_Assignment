@@ -1,22 +1,11 @@
 package view;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import javax.xml.crypto.Data;
-
-import java.util.Arrays;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.Database.DataBaseManager;
-import ServiceClasses.Database.StaffDataService;
-import ServiceClasses.Database.StaffFileHandler;
-import ServiceClasses.Database.StaffViewer;
 import ServiceClasses.inventory.InventoryControl;
 import models.Administrator;
 import models.Doctor;
@@ -26,11 +15,11 @@ import models.User;
 import models.enums.Gender;
 import models.enums.Role;
 
-public class AdministratorMenu 
+public class AdministratorMenu implements Menu
 {
     private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
-    public static void main(String[] args, User loggedInUser) 
+    public void displayMenu()
     {
         InventoryControl.start();
         int choice;

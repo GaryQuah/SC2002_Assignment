@@ -1,8 +1,8 @@
-Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password
-PT1,Alice Brown,5/14/1980,Female,A_POSITIVE,alice.brown@example.com,PT1,password
-PT2,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,PT2,password
-PT3,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,PT3,password
-PT0000,j,23/01/1992,Female,AB_POSITIVE,j@example.com,PT0000,password
-PT0001,j,24/01/1999,Female,AB_POSITIVE,j@example.com,PT0001,password
-PT0002,K,13/02/1999,Female,B_NEGATIVE,k@example.com,PT0002,password
-PT0001,asdf,21/03/2001,Female,A_NEGATIVE,qsd,PT0001,a
+Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password,Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number
+PT0001,Alice Brown,5/14/1980,Female,A_POSITIVE,aliceinwonderland@hotmail.com,PT1,password,yangyang,brother,98769876
+PT0002,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,PT2,password,hendery,son,88888888
+PT0003,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,PT3,password,,,
+PT0004,j,23/01/1992,Female,AB_POSITIVE,j@example.com,PT0000,password,,,
+PT0005,j,24/01/1999,Female,AB_POSITIVE,j@example.com,PT0001,password,,,
+PT0006,K,13/02/1999,Female,B_NEGATIVE,k@example.com,PT0002,password,,,
+PT0007,asdf,21/03/2001,Female,A_NEGATIVE,qsd,PT0001,a,,,

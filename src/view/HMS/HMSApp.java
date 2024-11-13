@@ -2,6 +2,7 @@ package view.HMS;
 
 import javax.xml.crypto.Data;
 
+import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.MedicalRecordService;
 import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Database.DataBaseManager;
@@ -18,7 +19,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 import models.User;
-import view.AdministratorMenu;
+import view.*;
 
 import java.util.Scanner;
 
@@ -26,10 +27,16 @@ public class HMSApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
-        
+        dbManager.getappointmentFileHandler().retrieveData();
+        //For debugging
+        AppointmentManager aptManager = AppointmentManager.getInstance();
+        System.out.println("AppointmentManager has " + aptManager.getAppointmentList().size() + " appointments");
+        //
+
         String currentUserID;
         String currentUserPassword;
         User loggedInUser = null;
+        Menu menu=null;
 
         int choice;
 
@@ -78,31 +85,40 @@ public class HMSApp {
                         System.out.println("Login successful as Staff. Role: " + ((Staff) loggedInUser).getRole());
                     }
                 }
+
+                // if (loggedInUser == null)
+                //     S
             }
     
             if (loggedInUser != null) {
                 if (loggedInUser instanceof Patient) {
                     System.out.println("Accessing Patient Menu...");
+                    Patient patient =(Patient) loggedInUser;
+                    menu=new PatientMenu(patient);
                 } 
                 else if (loggedInUser instanceof Staff) {
                     Staff staffUser = (Staff) loggedInUser;
                     switch (staffUser.getRole()) {
                         case Doctor:
                             System.out.println("Doctor Menu");
+                            //menu=new DoctorMenu();
                             break;
                         case Pharmacist:
                             System.out.println("Pharmacist Menu");
+                            //menu=new PharmacistMenu();
                             break;
                         case Administrator:
                             System.out.println("Administrator Menu");
-                            AdministratorMenu.main(args, loggedInUser);
+                            menu=new AdministratorMenu();
                             break;
                         default:
                             System.out.println("Exit");
                             break;
                     }
                 }
+                menu.displayMenu();
             }
+
         } while (choice != 3);
     }
 }

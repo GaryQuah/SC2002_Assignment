@@ -4,7 +4,8 @@ import models.enums.Gender;
 import models.enums.Role;
 import models.enums.BloodType;
 
-public class Patient extends User {
+//implements PatientInfo Interface
+public class Patient extends User implements PatientAction {
     // ------------------ variables -----------------------------
     private String contactInformation;
     private MedicalRecord medicalRecord;
@@ -25,6 +26,9 @@ public class Patient extends User {
         this.contactInformation = contactInformation;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
+        this.emergencyContactName = "No emergency contact name";
+        this.emergencyContactRelation = "No emergency contact relation";
+        this.emergencyContactNumber = "No emergency contact number";
     }
 
     // ------------------ setters ---------------------
@@ -44,6 +48,18 @@ public class Patient extends User {
     public String getEmergencyContactInfo() {
         return "Name: " + emergencyContactName + ", Relation: " + emergencyContactRelation + ", Contact Number: "
                 + emergencyContactNumber;
+    }
+
+    public String getEmergencyContactName(){
+        return emergencyContactName;
+    }
+
+    public String getEmergencyContactRelation(){
+        return emergencyContactRelation;
+    }
+
+    public String getEmergencyContactNumber(){
+        return emergencyContactNumber;
     }
 
     public String getContactInfo() {

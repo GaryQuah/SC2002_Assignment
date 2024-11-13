@@ -11,6 +11,8 @@ public class DataBaseManager {
 
     private PatientFileHandler patientFileHandler = new PatientFileHandler();
     private StaffFileHandler staffFileHandler = new StaffFileHandler();
+    private AppointmentFileHandler appointmentFileHandler = new AppointmentFileHandler();
+
     private static DataBaseManager instance;
 
     public static DataBaseManager getInstance() {
@@ -36,4 +38,8 @@ public class DataBaseManager {
         return staffFileHandler;
     }
 
+    public AppointmentFileHandler getappointmentFileHandler()
+    {
+        return appointmentFileHandler;
+    }
 }
