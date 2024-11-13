@@ -44,7 +44,7 @@ public class AdministratorMenu implements Menu
                     ViewAppointmentDetails();
                     break;
                 case 3:                    
-                    AdminManageInventory(loggedInUser);
+                    // AdminManageInventory();
                     break;
                 case 4:
                     System.out.println("Approve Replenishment Requests");

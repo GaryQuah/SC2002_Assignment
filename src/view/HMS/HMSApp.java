@@ -13,6 +13,7 @@ import models.MedicalRecord;
 import models.Patient;
 import models.Staff;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -32,6 +33,8 @@ public class HMSApp {
         AppointmentManager aptManager = AppointmentManager.getInstance();
         System.out.println("AppointmentManager has " + aptManager.getAppointmentList().size() + " appointments");
         //
+        ArrayList<Patient> patientsData = dbManager.getPatientFileHandler().retrieveData();
+        ArrayList<Staff> staffData = dbManager.getStaffFileHandler().retrieveData();
 
         String currentUserID;
         String currentUserPassword;
