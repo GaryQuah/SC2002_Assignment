@@ -33,8 +33,8 @@ public class Appointment {
     }
 
     // Constructor
-    //When creating a new appointment, get the AppointmentManager to provide the new MaxID.
-    public Appointment(int m_AppointmentID, String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
+    //When creating a new appointment, get the AppointmentManager to provide the new MaxID. - status by default is unaccepted
+    public Appointment(/*int m_AppointmentID,*/ String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
             String m_AppointmentType) {
         this.m_AppointmentDate = m_AppointmentDate;
         this.m_DoctorName = m_DoctorName;
@@ -44,9 +44,10 @@ public class Appointment {
         m_AppointmentStatus = AppointmentStatus.UNACCEPTED;
         // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
         // 128 bit ID we can use this, for simplicity we shall use int values.
-        this.m_AppointmentID = m_AppointmentID;
+        this.m_AppointmentID = AppointmentManager.getInstance().getNewID(); // Gets new ID on creation
     }
 
+    //For CSV creation - need to init with status
     public Appointment(int m_AppointmentID, String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
                        String m_AppointmentType, AppointmentStatus m_AppointmentStatus) {
         this.m_AppointmentDate = m_AppointmentDate;
@@ -58,6 +59,7 @@ public class Appointment {
         // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
         // 128 bit ID we can use this, for simplicity we shall use int values.
         this.m_AppointmentID = m_AppointmentID;
+        AppointmentManager.getInstance().updateMaxID(m_AppointmentID); // Updates the max ID upon retrieving data from CSV
     }
 
     public void setMeidcation(HashMap<String, Integer> medicationMap)
@@ -106,6 +108,10 @@ public class Appointment {
 
     public int getAppointmentID() {
         return m_AppointmentID;
+    }
+
+    public String getAppointmentType() {
+        return m_AppointmentType;
     }
 
     // Setters here

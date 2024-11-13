@@ -84,7 +84,8 @@ public class AppointmentScheduler {
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
 
         if (indexChecker == -1) {
-            AppointmentList.add(new Appointment(AppointmentManager.getInstance().getNewID(), m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
+            AppointmentList.add(new Appointment(/*AppointmentManager.getInstance().getNewID(), */
+                    m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType)); // Add a new appointment directly into the AppointmentList.
             System.out.println("Successfully Added Appointment Into The System. Doctor : " + m_doctorName + " Patient : " + m_patientName + " Date : "
                     + m_date +  " Time : " + m_timeSlot);
             System.out.println("New AppointmentList Length: " + AppointmentList.size());

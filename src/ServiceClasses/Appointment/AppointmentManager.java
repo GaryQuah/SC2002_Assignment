@@ -1,17 +1,15 @@
 package ServiceClasses.Appointment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //Clean Slate Based Appointment Manager
 public class AppointmentManager {
     
     // Singleton instance
     private static AppointmentManager instance;
-    private int MaxID = 0;
+    private int MaxID = 1;
 
     public static AppointmentManager getInstance() {
-
          if (instance == null) {
             instance = new AppointmentManager();
         }
@@ -51,15 +49,17 @@ public class AppointmentManager {
     }
 
     public int getNewID(){
-        return MaxID++;
+        System.out.println("Getting newID.");
+        MaxID++;
+        return MaxID;
     }
 
     public void updateMaxID(int comp)
     {
-        if (comp > instance.MaxID)
+        System.out.println("Updating Max ID");
+        if (comp >= instance.MaxID)
             instance.MaxID = comp;
     }
-
 
     public ArrayList<Appointment> getAppointmentList()
     {

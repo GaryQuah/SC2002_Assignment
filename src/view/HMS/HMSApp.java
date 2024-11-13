@@ -120,5 +120,12 @@ public class HMSApp {
             }
 
         } while (choice != 3);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Code to be executed when the JVM shuts down
+            System.out.println("Program is exiting. Performing cleanup...");
+            // Add any cleanup or resource release logic here
+            dbManager.getappointmentFileHandler().saveData();
+        }));
     }
 }
