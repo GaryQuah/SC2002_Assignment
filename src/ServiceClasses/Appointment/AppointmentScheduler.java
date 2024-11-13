@@ -11,7 +11,8 @@ public class AppointmentScheduler {
     //private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
-    private final String dateFormat = "yyyy-MM-dd";
+    //private final String dateFormat = "yyyy-MM-dd";
+    private final String dateFormat = "dd-MM-yyyy";
     private final String timeFormat = "HH:mm";
 
     public AppointmentScheduler(ArrayList<Appointment> AppointmentList)
@@ -79,7 +80,6 @@ public class AppointmentScheduler {
         else if (!isValidTime(m_timeSlot)){
             System.out.println("Invalid time! Please provide a proper format for time following : " + timeFormat);
         }
-
 
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
 

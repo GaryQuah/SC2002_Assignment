@@ -120,9 +120,10 @@ public class PatientMenu implements Menu{
 
                     System.out.print("Enter doctor name: ");
                     String doctorName = sc.nextLine();
-                    System.out.print("Enter appointment date (yyyy-mm-dd): ");
+                    //System.out.print("Enter appointment date (yyyy-mm-dd): ");
+                    System.out.print("Enter appointment date (dd-mm-yyyy): ");
                     String date = sc.nextLine();
-                    System.out.print("Enter time slot (HH:mm): ");
+                    System.out.print("Enter time slot (HH:mm) in 30 minute intervals: ");
                     String timeSlot = sc.nextLine();
                     System.out.print("Enter appointment type: ");
                     String type = sc.nextLine();

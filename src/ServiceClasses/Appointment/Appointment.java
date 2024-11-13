@@ -33,7 +33,9 @@ public class Appointment {
     }
 
     // Constructor
+
     //When creating a new appointment, get the AppointmentManager to provide the new MaxID. - status by default is unaccepted
+    //For creating new appointments through the CLI
     public Appointment(/*int m_AppointmentID,*/ String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
             String m_AppointmentType) {
         this.m_AppointmentDate = m_AppointmentDate;
