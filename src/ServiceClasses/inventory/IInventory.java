@@ -8,7 +8,7 @@ public interface IInventory {
 
     public InventoryBuild inventoryBuild = new InventoryBuild();
 
-    public InventoryParse inventoryParse = new InventoryParse();
+    // public InventoryParse inventoryParse = new InventoryParse();
 
     public void add(User user);
 

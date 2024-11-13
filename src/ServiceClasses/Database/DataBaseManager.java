@@ -12,6 +12,7 @@ public class DataBaseManager {
     private PatientFileHandler patientFileHandler = new PatientFileHandler();
     private StaffFileHandler staffFileHandler = new StaffFileHandler();
     private AppointmentFileHandler appointmentFileHandler = new AppointmentFileHandler();
+    private InventoryFileHandler inventoryFileHandler = new InventoryFileHandler();
 
     private static DataBaseManager instance;
 
@@ -24,22 +25,23 @@ public class DataBaseManager {
     }
 
     // Private constructor to prevent instantiation for Singleton
-    private DataBaseManager()
-    {
+    private DataBaseManager() {
     }
 
-    public PatientFileHandler getPatientFileHandler()
-    {
+    public PatientFileHandler getPatientFileHandler() {
         return patientFileHandler;
     }
 
-    public StaffFileHandler getStaffFileHandler()
-    {
+    public StaffFileHandler getStaffFileHandler() {
         return staffFileHandler;
     }
 
-    public AppointmentFileHandler getappointmentFileHandler()
-    {
+    public AppointmentFileHandler getappointmentFileHandler() {
         return appointmentFileHandler;
     }
+
+    public InventoryFileHandler getInventoryFileHandler() {
+        return inventoryFileHandler;
+    }
+
 }

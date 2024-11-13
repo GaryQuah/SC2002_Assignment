@@ -1,8 +1,6 @@
 package ServiceClasses.Database;
 
-import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class FileHandler<T> {
     private ArrayList<T> dataArray = new ArrayList<>();

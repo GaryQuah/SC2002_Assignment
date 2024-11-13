@@ -2,27 +2,14 @@ package ServiceClasses.SignUp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
-
-import javax.xml.crypto.Data;
-
 import ServiceClasses.Database.DataBaseManager;
-import ServiceClasses.Database.PatientFileHandler;
-import ServiceClasses.Database.StaffFileHandler;
-import java.util.ArrayList;
 import models.Patient;
 import models.UserIDManager;
 import models.enums.BloodType;
 import models.enums.Gender;
 import models.enums.Role;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 
 
 

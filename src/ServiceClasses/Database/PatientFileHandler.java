@@ -9,7 +9,11 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ServiceClasses.Appointment.Appointment;
+import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.Database.FileHandler;
+import input.CSVParse;
 import models.Patient;
 import models.enums.BloodType;
 import models.enums.Gender;
@@ -25,49 +29,25 @@ public class PatientFileHandler extends FileHandler<Patient>
     @Override
     public ArrayList<Patient> retrieveData() {
         ArrayList<Patient> patientList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(getFilePath()))) {
-            String line;
-            boolean isFirstRow = true;
-            while ((line = br.readLine()) != null) {
-                if (isFirstRow) {
-                    isFirstRow = false; // Skip the first row (header)
-                    continue;
-                }
 
-                String[] row = line.split(",");
-                try {
-                    // Parse and create Patient object from CSV row
-                    String userID = row[0];
-                    String name = row[1];
-                    String dateOfBirth = row[2];
-                    Gender gender = Gender.valueOf(row[3]);
-                    BloodType bloodType = BloodType.valueOf(row[4]);
-                    String contactInfo = row[5];
-                    // login username = userID
-                    String username = row[0];
-                    String password = row[7];
-                    String emergencyContactName = row[8];
-                    String emergencyContactRelation = row[9]; 
-                    String emergencyContactNumber = row[10];
+        ArrayList<String[]> fileData = CSVParse.read(getFilePath(), true);
 
-                    // adding emergency info
-                    // String emergencyContactName = row.length > 8 ? row[8] : "";
-                    // String emergencyContactRelation = row.length > 9 ? row[9] : "";
-                    // String emergencyContactNumber = row.length > 10 ? row[10] : "";
+        for (String[] row : fileData) {
+            String userID = row[0];
+            String name = row[1];
+            String dateOfBirth = row[2];
+            Gender gender = Gender.valueOf(row[3]);
+            BloodType bloodType = BloodType.valueOf(row[4]);
+            String contactInfo = row[5];
+            // login username = userID
+            String username = row[0];
+            String password = row[7];
+            String emergencyContactName = row[8];
+            String emergencyContactRelation = row[9]; 
+            String emergencyContactNumber = row[10];
 
-
-                    Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
-                    // patient.updateEmergencyContact(emergencyContactName, emergencyContactRelation, emergencyContactNumber);
-                   
-                    patientList.add(patient);
-                } catch (Exception e) {
-                    System.out.println("Error parsing row: " + Arrays.toString(row));
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error retrieving Patient data");
-            e.printStackTrace();
+            Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+            patientList.add(patient);
         }
         setDataArray(patientList);
         return patientList;
@@ -132,48 +112,29 @@ public class PatientFileHandler extends FileHandler<Patient>
     @Override
     public void saveData()
     {
-        ArrayList<String[]> patientList = new ArrayList<>();
+        ArrayList <String> data = new ArrayList <String> ();
+        data.add("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password");
     
         // Convert Patient objects to String[] before saving
         for (Patient patient : getDataArray()) {
-            String[] patientData = new String[11];
-            patientData[0] = patient.getUserID();                            // Patient ID
-            patientData[1] = patient.getName();                              // Name
-            patientData[2] = patient.getDateOfBirth();                       // Date of Birth
-            patientData[3] = patient.getGender().toString();                // Gender
-            switch(patient.getBloodType()) {
-                case A_POSITIVE: patientData[4] = "A_POSITIVE"; break;
-                case A_NEGATIVE: patientData[4] = "A_NEGATIVE"; break;
-                case B_POSITIVE: patientData[4] = "B_POSITIVE"; break;
-                case B_NEGATIVE: patientData[4] = "B_NEGATIVE"; break;
-                case AB_POSITIVE: patientData[4] = "AB_POSITIVE"; break;
-                case AB_NEGATIVE: patientData[4] = "AB_NEGATIVE"; break;
-                case O_POSITIVE: patientData[4] = "O_POSITIVE"; break;
-                case O_NEGATIVE: patientData[4] = "O_NEGATIVE"; break;
-            }
-            patientData[5] = patient.getContactInfo();             // Contact Info
-            patientData[6] = patient.getUserID();                            // Username
-            patientData[7] = patient.getPassword();                         // Password
-            patientData[8] = patient.getEmergencyContactName();             // Emergency Contact Name
-            patientData[9] = patient.getEmergencyContactRelation();         // Emergency Contact Relation
-            patientData[10] = patient.getEmergencyContactNumber();          // Emergency Contact Number
-            patientList.add(patientData);
+            // String[] patientData = new String[11];
+            data.add(            
+                patient.getUserID() + "," +                            // Patient ID
+                patient.getName() + "," +                              // Name
+                patient.getDateOfBirth() + "," +                       // Date of Birth
+                patient.getGender().toString() + "," +              // Gender
+                patient.getBloodType().toString() + "," +
+                patient.getContactInfo() + "," +             // Contact Info
+                patient.getUserID() + "," +                            // Username
+                patient.getPassword() + "," +                         // Password
+                patient.getEmergencyContactName() + "," +            // Emergency Contact Name
+                patient.getEmergencyContactRelation() + "," +        // Emergency Contact Relation
+                patient.getEmergencyContactNumber()          // Emergency Contact Number
+            );    
         }
-    
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
-            // Write the header row
-            writer.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password\n");
-    
-            // Write each patient data
-            for (String[] patientData : patientList) {
-                writer.write(String.join(",", patientData)); // Join each field with a comma
-                writer.newLine();
-            }
-        } 
-        catch (IOException e) {
-            System.out.println("Error saving Patient data");
-            e.printStackTrace();
-        }
+        try {
+            CSVParse.write(getFilePath(), data);
+        } catch (Exception e) {}
     }
 
     public boolean checkLogin(String currentUserID, String currentUserPassword)
