@@ -1,5 +1,7 @@
 package ServiceClasses.inventory;
 
+import models.enums.StockStatus;
+
 public class Prescription {
     private String itemName;
     private String itemID;

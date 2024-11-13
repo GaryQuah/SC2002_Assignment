@@ -1,4 +1,4 @@
-package ServiceClasses.inventory;
+package models.enums;
 
 public enum StockStatus {
     OK, LOWSTOCK, RESTOCK;
