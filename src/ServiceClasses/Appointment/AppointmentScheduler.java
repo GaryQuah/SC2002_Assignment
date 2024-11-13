@@ -42,27 +42,20 @@ public class AppointmentScheduler {
         }
         return -1;
     }
-    /*
+
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
-        try {
-            LocalDate.parse(input, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
+        LocalDate parsedDate = LocalDate.parse(input, formatter);
+
+        LocalDate today = LocalDate.now(); // Get today's date
+        System.out.println("Now : " + today + " against : " + parsedDate);
+
+        if (parsedDate.isBefore(today)) {
             return false;
         }
-    }*/
 
-    private boolean isValidDate(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
-            LocalDate parsedDate = LocalDate.parse(input, formatter);
-            LocalDate today = LocalDate.now(); // Get today's date
-
-            // Check if the parsed date is before today's date
-            if (parsedDate.isBefore(today)) {
-                return false;
-            }
+            LocalDate.parse(input, formatter);
             return true;
         } catch (DateTimeParseException e) {
             return false;
@@ -85,7 +78,7 @@ public class AppointmentScheduler {
     // appointment, returns false if unable to schedule appointment - doctor has an
     // appointment at that time slot & date
     public boolean ScheduleAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot,
-            String m_appointmentType) {
+                                       String m_appointmentType) {
         if (!isValidDate(m_date) && !isValidTime(m_timeSlot)) {
             System.out.println("Invalid date and time format input! Please provide a proper format");
             return false;
@@ -117,7 +110,7 @@ public class AppointmentScheduler {
     // appointment at the index and then call ScheduleAppointment to add it to the
     // list.
     public boolean ReScheduleAppointment(String m_doctorName, String m_patientName, String m_oldDate, String m_oldTimeSlot,
-            String m_appointmentType, String m_newDate, String m_newTimeSlot) {
+                                         String m_appointmentType, String m_newDate, String m_newTimeSlot) {
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_oldDate, m_oldTimeSlot);
         if (indexChecker != -1) {
             AppointmentList.remove(indexChecker);
@@ -145,7 +138,7 @@ public class AppointmentScheduler {
 
     public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID, AppointmentStatus m_AppointmentStatus) {
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments for the appointment id
-                                                         // and doctor name is same
+        // and doctor name is same
         {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
