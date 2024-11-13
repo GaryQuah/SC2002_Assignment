@@ -43,18 +43,22 @@ public class PatientFileHandler extends FileHandler<Patient>
                     Gender gender = Gender.valueOf(row[3]);
                     BloodType bloodType = BloodType.valueOf(row[4]);
                     String contactInfo = row[5];
-                    String username = row[6];
+                    // login username = userID
+                    String username = row[0];
                     String password = row[7];
+                    String emergencyContactName = row[8];
+                    String emergencyContactRelation = row[9]; 
+                    String emergencyContactNumber = row[10];
 
                     // adding emergency info
-                    String emergencyContactName = row.length > 8 ? row[8] : "";
-                    String emergencyContactRelation = row.length > 9 ? row[9] : "";
-                    String emergencyContactNumber = row.length > 10 ? row[10] : "";
+                    // String emergencyContactName = row.length > 8 ? row[8] : "";
+                    // String emergencyContactRelation = row.length > 9 ? row[9] : "";
+                    // String emergencyContactNumber = row.length > 10 ? row[10] : "";
 
 
-                    Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password);
-                    patient.updateEmergencyContact(emergencyContactName, emergencyContactRelation, emergencyContactNumber);
-
+                    Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+                    // patient.updateEmergencyContact(emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+                   
                     patientList.add(patient);
                 } catch (Exception e) {
                     System.out.println("Error parsing row: " + Arrays.toString(row));
@@ -125,7 +129,6 @@ public class PatientFileHandler extends FileHandler<Patient>
         }
     }
 
-
     @Override
     public void saveData()
     {
@@ -133,7 +136,7 @@ public class PatientFileHandler extends FileHandler<Patient>
     
         // Convert Patient objects to String[] before saving
         for (Patient patient : getDataArray()) {
-            String[] patientData = new String[8];
+            String[] patientData = new String[11];
             patientData[0] = patient.getUserID();                            // Patient ID
             patientData[1] = patient.getName();                              // Name
             patientData[2] = patient.getDateOfBirth();                       // Date of Birth
@@ -151,6 +154,9 @@ public class PatientFileHandler extends FileHandler<Patient>
             patientData[5] = patient.getContactInfo();             // Contact Info
             patientData[6] = patient.getUserID();                            // Username
             patientData[7] = patient.getPassword();                         // Password
+            patientData[8] = patient.getEmergencyContactName();             // Emergency Contact Name
+            patientData[9] = patient.getEmergencyContactRelation();         // Emergency Contact Relation
+            patientData[10] = patient.getEmergencyContactNumber();          // Emergency Contact Number
             patientList.add(patientData);
         }
     

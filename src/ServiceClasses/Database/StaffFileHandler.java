@@ -127,9 +127,7 @@ public class StaffFileHandler extends FileHandler<Staff>
     public void addStaff(Staff newStaff) {
         ArrayList<Staff> currentStaffList = getDataArray();
         currentStaffList.add(newStaff);
-        System.out.println(currentStaffList);
         setDataArray(currentStaffList);  
-        System.out.println(currentStaffList);
         saveData(); 
     }
 
@@ -185,9 +183,11 @@ public class StaffFileHandler extends FileHandler<Staff>
 
     public void printStaffData() {
         ArrayList<Staff> staffList = getDataArray();
+        System.out.println("****************************************");
         for (Staff staff : staffList) {
             System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " " + staff.getGender() + " " + staff.getAge());
         }
+        System.out.println("****************************************");
     }
 
     public void printFilterByRole(String filter) {
