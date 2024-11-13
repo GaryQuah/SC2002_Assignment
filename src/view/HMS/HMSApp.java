@@ -39,7 +39,7 @@ public class HMSApp {
         String currentUserID;
         String currentUserPassword;
         User loggedInUser = null;
-        Menu menu=null;
+        Menu menu = null;
 
         int choice;
 
@@ -89,38 +89,18 @@ public class HMSApp {
                     }
                 }
             }
-    
+
             if (loggedInUser != null) {
-                if (loggedInUser instanceof Patient) {
-                    System.out.println("Accessing Patient Menu...");
-                    Patient patient =(Patient) loggedInUser;
-                    menu=new PatientMenu(patient);
-                } 
-                else if (loggedInUser instanceof Staff) {
-                    Staff staffUser = (Staff) loggedInUser;
-                    switch (staffUser.getRole()) {
-                        case Doctor:
-                            System.out.println("Doctor Menu");
-                            //menu=new DoctorMenu();
-                            break;
-                        case Pharmacist:
-                            System.out.println("Pharmacist Menu");
-                            menu=new PharmacistMenu();
-                            break;
-                        case Administrator:
-                            menu=new AdministratorMenu();
-                            break;
-                        default:
-                            System.out.println("Exit");
-                            break;
-                    }
-                }
+                menu = MenuFactory.createMenu(loggedInUser);
                 if (menu != null) {
                     menu.displayMenu(loggedInUser);
                     // Clear menu & user details after logout
-                    loggedInUser = null; 
+                    loggedInUser = null;
                     menu = null;
                 }
+            }
+            else{ // failed login loggedInUser is null
+                System.out.println("User login failed.");
             }
 
         } while (choice != 3);
