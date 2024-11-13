@@ -19,13 +19,13 @@ public class InventoryControl implements InventoryInterface {
         return instance;
     }
 
-    public static void start() {
+    public void start() {
+        inventory.clear();
         inventory.addAll(inventoryParse.parse("src\\data\\Medicine_List.csv"));
     }
 
-    public static void close() {
+    public void close() {
         inventoryParse.write("src\\data\\Medicine_List.csv", inventory);
-        inventory.clear();
     }
 
     private Boolean isDoctor(User user){

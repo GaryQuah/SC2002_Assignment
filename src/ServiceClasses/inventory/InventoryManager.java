@@ -164,6 +164,7 @@ public class InventoryManager {
 
     public void replenishmentRequest(ArrayList<Prescription> inventory){
         InventoryDisplay display = new InventoryDisplay();
+        if(inventory.size()==0){ System.out.println("No low stock medications."); return;}
 
         while (true){
             display.printPrescriptions(inventory);
@@ -188,6 +189,7 @@ public class InventoryManager {
 
     public void approveReplenishmentRequest(ArrayList<Prescription> inventory) {
         InventoryDisplay display = new InventoryDisplay();
+        if (inventory.size()==0){System.out.println("No Replenishment Request. "); return;}
 
         while (true) {
             display.printRestockPrescriptions(inventory);

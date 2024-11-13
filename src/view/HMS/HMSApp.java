@@ -105,7 +105,7 @@ public class HMSApp {
                             break;
                         case Pharmacist:
                             System.out.println("Pharmacist Menu");
-                            //menu=new PharmacistMenu();
+                            menu=new PharmacistMenu();
                             break;
                         case Administrator:
                             System.out.println("Administrator Menu");

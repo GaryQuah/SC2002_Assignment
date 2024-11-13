@@ -21,7 +21,7 @@ public class AdministratorMenu implements Menu
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
     public void displayMenu(User loggedInUser)
     {
-        InventoryControl.start();
+
         int choice;
         Scanner sc = new Scanner(System.in);
         do
@@ -34,7 +34,7 @@ public class AdministratorMenu implements Menu
             System.out.println("5. Logout");
             System.out.println("Enter your choice: ");
             choice = sc.nextInt();
-
+            inventoryControl.start();
             switch(choice)
             {
                 case 1:
@@ -47,7 +47,9 @@ public class AdministratorMenu implements Menu
                     AdminManageInventory(loggedInUser);
                     break;
                 case 4:
-                    System.out.println("Approve Replenishment Requests");
+                    
+                    inventoryControl.approveReplenishmentRequest(loggedInUser);
+                    
                     break;                    
                 case 5:
                     System.out.println("Logout");
@@ -56,13 +58,13 @@ public class AdministratorMenu implements Menu
                     System.out.println("Invalid Choice");
                     break;
             }
+            inventoryControl.close();
         } while (choice != 5);
 
         if(choice == 5)
         {
             System.out.println("Exiting System...");
         }
-        InventoryControl.close();
     }
 
     public static void AdminManageStaff()
