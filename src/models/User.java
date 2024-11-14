@@ -36,7 +36,7 @@ public abstract class User implements IUserManagement{
         String numericString = userID.replaceAll("[^0-9]", "");
         int numericValue = Integer.parseInt(numericString);
 
-        // UserIDManager.getInstance().updateID(m_Role, numericValue);
+        UserIDManager.getInstance().updateID(m_Role, numericValue);
     }
 
     public boolean ValidateUser(String m_UserName, String m_PassWord) {
