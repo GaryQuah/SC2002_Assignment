@@ -1,13 +1,13 @@
 package ServiceClasses.inventory;
 
-import models.enums.StockStatus;
+import models.enums.Status;
 
 public class Prescription {
     private String itemName;
     private String itemID;
     private int stockLevel; // Current stock level for this medication
     private int lowStockAlertLevel; // Threshold for low stock alert
-    private StockStatus stockStatus;
+    private Status stockStatus;
     private int restockAmount;
 
     public Prescription(String itemName, String itemID, int stockLevel, int lowStockAlertLevel) {
@@ -18,7 +18,7 @@ public class Prescription {
         checkStatus();
         this.restockAmount = 0;
     }
-    public Prescription(String itemName, String itemID, int stockLevel, int lowStockAlertLevel, StockStatus stockStatus, int restockAmount) {
+    public Prescription(String itemName, String itemID, int stockLevel, int lowStockAlertLevel, Status stockStatus, int restockAmount) {
         this.itemName = itemName;
         this.itemID = itemID;
         this.stockLevel = stockLevel;
@@ -61,18 +61,18 @@ public class Prescription {
 
     public boolean checkStatus(){
         if(stockLevel < lowStockAlertLevel){
-            setStockStatus(StockStatus.LOWSTOCK);
+            setStockStatus(Status.LOWSTOCK);
             return true;}
-        else{setStockStatus(StockStatus.OK);
+        else{setStockStatus(Status.OK);
             return false;
         }
     }
 
-    public StockStatus getStockStatus() {
+    public Status getStockStatus() {
         return stockStatus;
     }
 
-    public void setStockStatus(StockStatus stockStatus) {
+    public void setStockStatus(Status stockStatus) {
         this.stockStatus = stockStatus;
     }
 

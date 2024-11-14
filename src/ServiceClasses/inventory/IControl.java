@@ -3,6 +3,7 @@ package ServiceClasses.inventory;
 import java.util.HashMap;
 
 import models.User;
+import models.enums.Status;
 
 public interface IControl {
 
@@ -12,7 +13,7 @@ public interface IControl {
 
     public HashMap<String, Integer> selectMedication(User user);
 
-    public boolean dispenseMedicine(HashMap<String, Integer> medicationMap);
+    public Status dispenseMedicine(HashMap<String, Integer> medicationMap);
 
     public void replenishmentRequest(User user);
 

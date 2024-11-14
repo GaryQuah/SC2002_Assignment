@@ -3,7 +3,7 @@ package ServiceClasses.inventory;
 import input.IntInput;
 import input.Scan;
 import models.User;
-import models.enums.StockStatus;
+import models.enums.Status;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class InventoryBuild {
             String itemID = data[1];
             int stockLevel = Integer.parseInt(data[2]);
             int lowStockAlertLevel = Integer.parseInt(data[3]);
-            StockStatus stockStatus = StockStatus.fromString(data[4]);
+            Status stockStatus = Status.fromString(data[4]);
             int restockAmount = Integer.parseInt(data[5]);
             return new Prescription(name, itemID, stockLevel, lowStockAlertLevel, stockStatus, restockAmount);
         }

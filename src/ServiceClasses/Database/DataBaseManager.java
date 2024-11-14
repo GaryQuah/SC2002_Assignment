@@ -13,6 +13,7 @@ public class DataBaseManager {
     private StaffFileHandler staffFileHandler = new StaffFileHandler();
     private AppointmentFileHandler appointmentFileHandler = new AppointmentFileHandler();
     private InventoryFileHandler inventoryFileHandler = new InventoryFileHandler();
+    private OutcomeFileHandler outcomeFileHandler = new OutcomeFileHandler();
 
     private static DataBaseManager instance;
 
@@ -42,6 +43,10 @@ public class DataBaseManager {
 
     public InventoryFileHandler getInventoryFileHandler() {
         return inventoryFileHandler;
+    }
+
+    public OutcomeFileHandler getOutcomeFileHandler() {
+        return outcomeFileHandler;
     }
 
 }

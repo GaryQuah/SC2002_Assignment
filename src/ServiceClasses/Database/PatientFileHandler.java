@@ -1,18 +1,9 @@
 package ServiceClasses.Database;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import ServiceClasses.Appointment.Appointment;
-import ServiceClasses.Appointment.AppointmentStatus;
-import ServiceClasses.Database.FileHandler;
 import input.CSVParse;
 import models.Patient;
 import models.enums.BloodType;

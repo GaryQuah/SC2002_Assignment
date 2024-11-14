@@ -7,7 +7,7 @@ import input.IntInput;
 import input.Scan;
 import models.User;
 import models.enums.Role;
-import models.enums.StockStatus;
+import models.enums.Status;
 
 public class InventoryControl implements IControl, IInventory {
     private ArrayList<Prescription> inventory = new ArrayList<>();
@@ -172,26 +172,29 @@ public class InventoryControl implements IControl, IInventory {
         return null;
     }
 
-    public boolean dispenseMedicine(HashMap<String, Integer> medicationMap) {
+    public Status dispenseMedicine(HashMap<String, Integer> medicationMap) {
         for (String prescriptionID : medicationMap.keySet()) {
             Prescription prescription = getPrescriptionByID(prescriptionID);
             int amount = medicationMap.get(prescriptionID); // Get the quantity to dispense for this prescription
             String itemName = prescription.getItemName(); // Get the name for messaging purposes
 
-            // Check if the prescription exists in the inventory and if stock is sufficient
-            if (prescription != null && (prescription.getStockLevel() > amount)) {
-                // Update the stock level
-                prescription.setStockLevel(prescription.getStockLevel() - amount);
-                System.out.println(amount + " units of " + itemName + " dispensed.");
-                prescription.checkStatus();
-                return true;
-            } else {
+            if (prescription.getStockLevel() < amount) {
                 System.out.println("Insufficient stock for " + itemName + ".");
-                prescription.setStockStatus(StockStatus.LOWSTOCK);
-                return false;
+                prescription.setStockStatus(Status.LOWSTOCK);
+                return Status.PENDING;
             }
+
         }
-        return true;
+        for (String prescriptionID : medicationMap.keySet()) {
+            Prescription prescription = getPrescriptionByID(prescriptionID);
+            int amount = medicationMap.get(prescriptionID); // Get the quantity to dispense for this prescription
+            String itemName = prescription.getItemName();
+            prescription.setStockLevel(prescription.getStockLevel() - amount);
+            System.out.println(amount + " units of " + itemName + " dispensed.");
+            prescription.checkStatus();
+        }
+
+        return Status.COMPLETED;
     }
 
     public Prescription getPrescriptionByID(String prescriptionID) {
@@ -207,7 +210,7 @@ public class InventoryControl implements IControl, IInventory {
     public ArrayList<Prescription> getLowStockInventory() {
         ArrayList<Prescription> result = new ArrayList<>();
         for (Prescription prescription : inventory) {
-            if (prescription.getStockStatus() == StockStatus.LOWSTOCK) {
+            if (prescription.getStockStatus() == Status.LOWSTOCK) {
                 result.add(prescription);
             }
         }
@@ -222,7 +225,7 @@ public class InventoryControl implements IControl, IInventory {
     public ArrayList<Prescription> getRestockInventory() {
         ArrayList<Prescription> result = new ArrayList<>();
         for (Prescription prescription : inventory) {
-            if (prescription.getStockStatus() == StockStatus.RESTOCK) {
+            if (prescription.getStockStatus() == Status.RESTOCK) {
                 result.add(prescription);
             }
         }
@@ -298,7 +301,7 @@ public class InventoryControl implements IControl, IInventory {
             Prescription selectedPrescription = lowStockInventory.get(index - 1);
             String prescriptionID = selectedPrescription.getItemID();
             int amount = IntInput.integer("Enter quantity to add for " + selectedPrescription.getItemName() + ": ");
-            selectedPrescription.setStockStatus(StockStatus.RESTOCK);
+            selectedPrescription.setStockStatus(Status.RESTOCK);
             selectedPrescription.setRestockAmount(amount);
             System.out.println(
                     "Added " + prescriptionID + " (" + selectedPrescription.getItemName() + ") to restock request.");
