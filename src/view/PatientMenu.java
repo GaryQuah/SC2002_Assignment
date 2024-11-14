@@ -2,9 +2,11 @@ package view;
 
 import java.util.Scanner;
 
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import input.IntInput;
 import ServiceClasses.Appointment.AppointmentManager;
+import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import models.Patient;
 import models.User;
 
@@ -55,20 +57,24 @@ public class PatientMenu implements Menu{
 
             choice = IntInput.integer("Option");
             
+            DataBaseManager.getInstance().getOutcomeFileHandler().retrieveData();
 
             switch (choice) {
                 case 1:
+                    // AppoinmentOutcomeControl.getInstance().v
                     System.out.println("=================================");
                     System.out.println("          MEDICAL RECORD         ");
                     System.out.println("=================================");
                     System.out.println("Name: " + patient.getUserID());
-                    System.out.println("Name: " + patient.getUserID());
+                    System.out.println("Name: " + patient.getName());
                     System.out.println("Patient ID: " + patient.getUserID());
                     System.out.println("Date of Birth: " + patient.getDateOfBirth());
                     System.out.println("Gender: " + patient.getGender());
                     System.out.println("Contact Information: " + patient.getContactInfo());
                     System.out.println("Emergency Contact:" + patient.getEmergencyContactInfo());
                     System.out.println("Blood Type: " + patient.getBloodType());
+                    AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByPatient(user);
+
                     /*try {
                         MedicalRecordService.viewMedicalRecord(patient);
                     } catch (IOException e) {

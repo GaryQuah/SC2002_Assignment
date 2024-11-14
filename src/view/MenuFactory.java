@@ -14,7 +14,7 @@ public class MenuFactory {
                 case Doctor:
                     //return new DoctorMenu();
                 case Pharmacist:
-                    //return new PharmacistMenu();
+                    return new PharmacistMenu();
                 case Administrator:
                     return new AdministratorMenu();
                 default:

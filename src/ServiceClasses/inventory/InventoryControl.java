@@ -285,7 +285,7 @@ public class InventoryControl implements IControl, IInventory {
         }
 
         while (true) {
-            display.printPrescriptions(lowStockInventory);
+            display.printRestockPrescriptions(lowStockInventory);
             System.out.println("Enter the index number of the medicine to restock, or -1 to cancel:");
             int index = IntInput.integer("Prescription Index");
 

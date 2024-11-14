@@ -9,7 +9,7 @@ public class AppointmentOutcomeDisplay {
 
     public void header(User user) {
 
-        if (user.getRole() == Role.Administrator || user.getRole()==Role.Pharmacist){
+        if (user.getRole() == Role.Administrator){
             System.out.printf("APPOINTMENT OUTCOMES");
             for (int i = 0; i < 111; i++)
                 System.out.printf("-");
@@ -42,18 +42,35 @@ public class AppointmentOutcomeDisplay {
         }
 
         else if (user.getRole() == Role.Patient){
-            System.out.printf("MEDICAL RECORDS OF "+user.getName());
-            for (int i = 0; i < 96; i++)
+            System.out.printf("MEDICAL RECORDS");
+            for (int i = 0; i < 94; i++)
                 System.out.printf("-");
             System.out.println();
             System.out.printf("%-5s |", "No."); // New index column
             System.out.printf("%-15s |", "Appointment ID");
             System.out.printf(" %-16s |", "Appointment Date");
             System.out.printf(" %-15s |", "Doctor Name");
-            System.out.printf(" %-15s |", "Type of Service");
-            System.out.printf(" %-30s |", "Medication");
+            System.out.printf(" %-25s |", "Type of Service");
+            // System.out.printf(" %-30s |", "Medication");
             System.out.printf(" %-15s\n", "Consultation Notes");
         }
+    
+
+        else if (user.getRole() == Role.Pharmacist){
+            // System.out.printf("APPOINTMENT OUTCOMES");
+            // for (int i = 0; i < 106; i++)
+            //     System.out.printf("-");
+            System.out.println();
+
+            System.out.printf("%-5s |", "No."); // New index column
+            System.out.printf("%-15s |", "Appointment ID");
+            System.out.printf(" %-16s |", "Appointment Date");
+            System.out.printf(" %-15s |", "Patient Name");
+            System.out.printf(" %-15s |", "Doctor Name");
+            System.out.printf(" %-30s |", "Medication");
+            System.out.printf(" %-10s\n", "Status");
+        }
+
     }
 
     public void printOutcome(AppointmentOutcome appointmentOutcome, int index, User user) {
@@ -85,11 +102,12 @@ public class AppointmentOutcomeDisplay {
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
             System.out.printf(" %-15s |", appointmentOutcome.getDoctorName());
-            System.out.printf(" %-15s |", appointmentOutcome.getServiceType());
-            System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
+            System.out.printf(" %-25s |", appointmentOutcome.getServiceType());
+            // System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
             System.out.printf(" %-15s\n", appointmentOutcome.getConsultationNotes());
             
-        } else {
+        } 
+        else if (user.getRole() == Role.Administrator){
             System.out.printf("%-5d |", index); // Print the index number
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
@@ -100,6 +118,16 @@ public class AppointmentOutcomeDisplay {
             System.out.printf(" %-15s |", appointmentOutcome.getConsultationNotes());
             System.out.printf(" %-10s\n", appointmentOutcome.getStatus());
 
+        }
+
+        else if (user.getRole() == Role.Pharmacist){
+            System.out.printf("%-5d |", index); // Print the index number
+            System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
+            System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
+            System.out.printf(" %-15s |", appointmentOutcome.getPatientName());
+            System.out.printf(" %-15s |", appointmentOutcome.getDoctorName());
+            System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
+            System.out.printf(" %-10s\n", appointmentOutcome.getStatus());
         }
     }
     
