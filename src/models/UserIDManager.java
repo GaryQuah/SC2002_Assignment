@@ -46,20 +46,25 @@ public class UserIDManager{
         int newID = maxIDs.get(role) + 1;
 
         maxIDs.put(role, newID);
+        System.out.println("Debug 2 " + rolePrefix + String.format("%04d", newID));
 
         // Generate the formatted ID string
+        System.out.println("Debug 2 " + rolePrefix + String.format("%04d", newID));
+
         return rolePrefix + String.format("%04d", newID);
     }
 
     public synchronized void updateID(Role role, int Value) {
         // Check if the role exists in the maxIDs map
+        System.out.println("UPDATEID CALLED : " + Value + " " + maxIDs.get(role));
         if (!maxIDs.containsKey(role)) {
             throw new IllegalArgumentException("Role not found: " + role);
         }
         // Increment the current max ID for the given role
         int currentMaxID = maxIDs.get(role);
-        if (currentMaxID >= Value) {
-            maxIDs.put(role, currentMaxID + 1);
+
+        if (Value >= currentMaxID) {
+            maxIDs.put(role, Value);
         }
     }
 }

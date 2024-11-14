@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateParse {
     /** Static instance to the simple date formatter of a fixed string format */
-    public static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+    public static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
     /**
      * Returns a date object based on the string input for the date
