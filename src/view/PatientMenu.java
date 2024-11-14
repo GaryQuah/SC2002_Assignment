@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import input.IntInput;
 import ServiceClasses.Appointment.AppointmentManager;
@@ -11,12 +12,11 @@ import models.User;
 public class PatientMenu implements Menu{
 
     private Patient patient;
-    private PatientFileHandler patientFileHandler;
+    private PatientFileHandler patientFileHandler=DataBaseManager.getInstance().getPatientFileHandler();
 
     public PatientMenu(Patient patient){
 
         this.patient = patient;
-        this.patientFileHandler = new PatientFileHandler();
     }
 
     public void displayMenu(User user){ // rename function
@@ -61,8 +61,7 @@ public class PatientMenu implements Menu{
                     System.out.println("=================================");
                     System.out.println("          MEDICAL RECORD         ");
                     System.out.println("=================================");
-                    System.out.println("Name: " + patient.getUserID());
-                    System.out.println("Name: " + patient.getUserID());
+                    System.out.println("Name: " + patient.getName());
                     System.out.println("Patient ID: " + patient.getUserID());
                     System.out.println("Date of Birth: " + patient.getDateOfBirth());
                     System.out.println("Gender: " + patient.getGender());
@@ -140,11 +139,11 @@ public class PatientMenu implements Menu{
                 case 5: {
                     System.out.print("Enter doctor name: ");
                     String rescheduleDoctorName = sc.nextLine();
-                    System.out.print("Enter current appointment date (yyyy-mm-dd): ");
+                    System.out.print("Enter current appointment date (dd-mm-yyyy): ");
                     String oldDate = sc.nextLine();
                     System.out.print("Enter current time slot (HH:mm): ");
                     String oldTimeSlot = sc.nextLine();
-                    System.out.print("Enter new appointment date (yyyy-mm-dd): ");
+                    System.out.print("Enter new appointment date (dd-mm-yyyy): ");
                     String newDate = sc.nextLine();
                     System.out.print("Enter new time slot (HH:mm): ");
                     String newTimeSlot = sc.nextLine();
@@ -165,7 +164,7 @@ public class PatientMenu implements Menu{
                 case 6: {
                     System.out.print("Enter doctor name: ");
                     String cancelDoctorName = sc.nextLine();
-                    System.out.print("Enter appointment date (yyyy-mm-dd): ");
+                    System.out.print("Enter appointment date (dd-mm-yyyy): ");
                     String cancelDate = sc.nextLine();
                     System.out.print("Enter time slot (HH:mm): ");
                     String cancelTimeSlot = sc.nextLine();
