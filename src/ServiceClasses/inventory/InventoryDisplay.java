@@ -86,6 +86,7 @@ public class InventoryDisplay {
         System.out.printf("%-15s |", "Prescription ID");
         System.out.printf(" %-20s |", "Prescription Name");
         System.out.printf(" %-12s |", "Stock Number");
+        System.out.printf(" %-20s |", "Low Stock Alert Level");
         System.out.printf(" %-15s\n", "Restock Amount");
     }
 
@@ -97,6 +98,7 @@ public class InventoryDisplay {
         System.out.printf("%-15s |", prescription.getItemID());
         System.out.printf(" %-20s |", prescription.getItemName());
         System.out.printf(" %-12s |", prescription.getStockLevel());
+        System.out.printf(" %-21d |", prescription.getLowStockAlertLevel());
         System.out.printf(" %-15s\n", prescription.getRestockAmount());
 
     }

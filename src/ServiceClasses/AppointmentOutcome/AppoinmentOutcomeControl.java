@@ -7,6 +7,7 @@ import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.inventory.InventoryControl;
 import input.IntInput;
 import input.Scan;
+import models.Patient;
 import models.User;
 import models.enums.Role;
 import models.enums.Status;
@@ -90,7 +91,6 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
     public AppointmentOutcome select(User user, ArrayList<AppointmentOutcome> outcomes) {
         (new AppointmentOutcomeDisplay()).printOutcomes(outcomes, user);
         if (outcomes.size() == 0) {
-            System.out.println("Error");
 
             return null;
         }
@@ -98,7 +98,6 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         int index = IntInput.integer("Select Appoinment");
 
         if (1 <= index && index <= outcomes.size()) {
-            System.out.println("Error");
             return outcomes.get(index - 1);
         }
 
@@ -171,7 +170,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     @Override
     public void viewMedicalRecordsByPatient(User user) {
-        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort.sortByDoctorName(getOutcomeByPatientName(user.getName()), 0);
+        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort.sortByDoctorName(getOutcomeByPatientName(user), 0);
         appointmentOutcomeDisplay.printOutcomes(SortedOutcome, user);
     }
 
@@ -195,10 +194,10 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     }
 
-    public ArrayList<AppointmentOutcome> getOutcomeByPatientName(String name) {
+    public ArrayList<AppointmentOutcome> getOutcomeByPatientName(User user) {
         ArrayList<AppointmentOutcome> result = new ArrayList<>();
         for (AppointmentOutcome outcome : appointmentOutcomes) {
-            if (outcome.getPatientName().equalsIgnoreCase(name)) {
+            if (outcome.getPatientName().equalsIgnoreCase(user.getName())) {
                 result.add(outcome);
             }
         }
