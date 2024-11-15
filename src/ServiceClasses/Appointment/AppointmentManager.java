@@ -33,11 +33,6 @@ public class AppointmentManager {
         return appointmentScheduler;
     }
 
-    public AppointmentStatusUpdater getAppointmentStatusUpdater()
-    {
-        return appointmentStatusUpdater;
-    }
-
     public AppointmentViewer getAppointmentViewer()
     {
         return appointmentViewer;
@@ -54,11 +49,11 @@ public class AppointmentManager {
         return MaxID;
     }
 
-    public void updateMaxID(int comp)
+    public void updateMaxID(int value)
     {
         System.out.println("Updating Max ID");
-        if (comp >= instance.MaxID)
-            instance.MaxID = comp;
+        if (value >= instance.MaxID)
+            instance.MaxID = value;
     }
 
     public ArrayList<Appointment> getAppointmentList()

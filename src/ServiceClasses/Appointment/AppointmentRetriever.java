@@ -16,8 +16,9 @@ public class AppointmentRetriever {
         this.AppointmentList = AppointmentList;
     }
 
-    public Vector<Appointment> retrievePastAppointments(String patientName) {
-        Vector<Appointment> pastAppointments = new Vector<>();
+    /*
+    public ArrayList<Appointment> getPastAppointments(String patientName) {
+        ArrayList<Appointment> pastAppointments = new ArrayList<>();
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -30,5 +31,14 @@ public class AppointmentRetriever {
             }
         }
         return pastAppointments;
+    }*/
+
+    public Appointment getAppointmentByID (int appointmentID){
+        for(Appointment appointment : AppointmentList){
+            if(appointment.getAppointmentID() == appointmentID){
+                return appointment;
+            }
+        }
+        return null;
     }
 }

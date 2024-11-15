@@ -166,12 +166,5 @@ public class AppointmentScheduler {
 
     }
 
-    public Appointment getAppointmentByID (int appointmentID){
-        for(Appointment appointment : AppointmentList){
-            if(appointment.getAppointmentID() == appointmentID){
-                return appointment;
-            }
-        }
-        return null;
-    }
+
 }
