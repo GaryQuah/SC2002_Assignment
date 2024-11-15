@@ -2,7 +2,6 @@ package view;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
@@ -400,7 +399,7 @@ public class AdministratorMenu implements Menu
             case 5:
                 System.out.println("Enter New Staff Password: ");
                 String newPassword = sc.nextLine();
-                updatedStaff.updatePassword(newPassword); // Update password
+                updatedStaff.setPassword(newPassword); // Update password
                 break;
             default:
                 System.out.println("Invalid Choice");

@@ -68,7 +68,7 @@ public abstract class User implements IUserManagement{
         return this.m_Gender;
     }
 
-    public void updatePassword(String newPassword) {
+    public void setPassword(String newPassword) {
         this.m_PassWord = newPassword;
     }
 
