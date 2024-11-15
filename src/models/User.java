@@ -87,5 +87,9 @@ public abstract class User implements IUserManagement{
         this.m_Gender = newGender;
     }
 
+    public void setUserID(String newUserID) {
+        this.m_UserID = newUserID;
+    }
+
     public abstract String toString();
 }
