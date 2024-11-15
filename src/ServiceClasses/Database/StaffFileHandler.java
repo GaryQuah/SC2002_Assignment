@@ -26,21 +26,21 @@ public class StaffFileHandler extends FileHandler<Staff> {
         ArrayList<String[]> fileData = CSVParse.read(getFilePath(), true);
 
         for (String[] row : fileData) {
-            if (row.length >= 7) {
+            if (row.length >= 5) {
                 Staff staff = null;
                 // Based on role, create the correct staff object and add it to the list
                 switch (row[2]) {
                     case "Doctor":
                         staff = new Doctor(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]),
-                                Integer.parseInt(row[4]), row[5], row[6]);
+                                Integer.parseInt(row[4]), row[5]);
                         break;
                     case "Pharmacist":
                         staff = new Pharmacist(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]),
-                                Integer.parseInt(row[4]), row[5], row[6]);
+                                Integer.parseInt(row[4]), row[5]);
                         break;
                     case "Administrator":
                         staff = new Administrator(row[0], row[1], Role.valueOf(row[2]), Gender.valueOf(row[3]),
-                                Integer.parseInt(row[4]), row[5], row[6]);
+                                Integer.parseInt(row[4]), row[5]);
                         break;
                     default:
                         System.out.println("Invalid role found: " + row[2]);
@@ -58,7 +58,7 @@ public class StaffFileHandler extends FileHandler<Staff> {
     public void saveData() {
         // Get the current staff data
         ArrayList<String> data = new ArrayList<String>();
-        data.add("Staff ID,Name,Role,Gender,Age,Username,Password\r");
+        data.add("Staff ID,Name,Role,Gender,Age,Password");
         // ArrayList<String[]> staffList = new ArrayList<>();
 
         for (Staff staff : getDataArray()) {
@@ -68,12 +68,10 @@ public class StaffFileHandler extends FileHandler<Staff> {
                     staff.getRole().toString() + "," + // Role
                     staff.getGender().toString() + "," + // Gender
                     String.valueOf(staff.getAge()) + "," + // Age
-                    staff.getUserID() + "," + // Username
                     staff.getPassword() // Password
             );
         }
 
-        // Write the updated list to the CSV file
         try {
             CSVParse.write(getFilePath(), data);
         } catch (Exception e) {

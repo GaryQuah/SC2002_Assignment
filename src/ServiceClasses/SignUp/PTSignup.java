@@ -118,7 +118,7 @@ public class PTSignup
         String emergencyContactNumber = sc.nextLine().trim();
 
         Patient newPatient = new Patient(UserIDManager.getInstance().generateUniqueID(Role.Patient), 
-                                name, DOB, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+                                name, DOB, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
         
         DataBaseManager.getInstance().getPatientFileHandler().addPatient(newPatient);
         System.out.println(DataBaseManager.getInstance().getPatientFileHandler().getDataArray());

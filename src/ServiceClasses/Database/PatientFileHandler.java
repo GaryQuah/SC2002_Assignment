@@ -37,7 +37,7 @@ public class PatientFileHandler extends FileHandler<Patient>
             String emergencyContactRelation = row[9]; 
             String emergencyContactNumber = row[10];
 
-            Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+            Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
             patientList.add(patient);
         }
         setDataArray(patientList);
@@ -85,7 +85,7 @@ public class PatientFileHandler extends FileHandler<Patient>
                         patient.getGender().toString(),
                         bloodTypeString,
                         patient.getContactInfo(),
-                        patient.getUsername(),
+                        // patient.getUsername(),
                         patient.getPassword(),
                         patient.getEmergencyContactName(),
                         patient.getEmergencyContactRelation(),

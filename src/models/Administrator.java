@@ -5,8 +5,8 @@ import models.enums.Role;
 
 public class Administrator extends Staff
 {
-    public Administrator(String staffId, String name, Role role, Gender gender, int age, String username, String password) {
-        super(staffId, name, role, gender, age, username, password);
+    public Administrator(String staffId, String name, Role role, Gender gender, int age, String password) {
+        super(staffId, name, role, gender, age, password);
     }
 
     @Override
@@ -17,7 +17,6 @@ public class Administrator extends Staff
                 ", role=" + getRole() +
                 ", gender=" + getGender() +
                 ", age=" + getAge() +
-                ", username='" + getUsername() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 '}';
     }

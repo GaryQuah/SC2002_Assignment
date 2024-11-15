@@ -281,13 +281,13 @@ public class AdministratorMenu implements Menu
         Staff newStaff = null;
         switch (role) {
             case "Doctor":
-                newStaff = new Doctor(UserIDManager.getInstance().generateUniqueID(Role.Doctor), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
+                newStaff = new Doctor(UserIDManager.getInstance().generateUniqueID(Role.Doctor), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");  // Assuming the password is "password"
                 break;
             case "Pharmacist":
-                newStaff = new Pharmacist(UserIDManager.getInstance().generateUniqueID(Role.Pharmacist), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Pharmacist(UserIDManager.getInstance().generateUniqueID(Role.Pharmacist), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");
                 break;
             case "Administrator":
-                newStaff = new Administrator(UserIDManager.getInstance().generateUniqueID(Role.Administrator), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Administrator(UserIDManager.getInstance().generateUniqueID(Role.Administrator), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");
                 break;
             default:
                 System.out.println("Invalid role selected.");
@@ -326,7 +326,7 @@ public class AdministratorMenu implements Menu
     
         // Create a copy of the current staff to modify
         updatedStaff = new Staff(currentStaff.getUserID(), currentStaff.getName(), currentStaff.getRole(),
-                                 currentStaff.getGender(), currentStaff.getAge(), currentStaff.getUsername(), currentStaff.getPassword());
+                                 currentStaff.getGender(), currentStaff.getAge(), currentStaff.getPassword());
     
         // Request which detail to update
         System.out.println("Select Details To Update:");

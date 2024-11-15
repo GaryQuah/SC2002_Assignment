@@ -12,8 +12,8 @@ public class Doctor extends Staff implements DoctorAction {
 
     //Creates a "Doctor" after passing the user's username. default password is "password", default role is "Doctor"
     // ID, name, role, gender, age, username, password
-    public Doctor(String staffId, String name, Role role, Gender gender, int age, String username, String password) {
-        super(staffId, name, role, gender, age, username, password);
+    public Doctor(String staffId, String name, Role role, Gender gender, int age, String password) {
+        super(staffId, name, role, gender, age, password);
     }
 
     public void addPatient(String m_PatientName)

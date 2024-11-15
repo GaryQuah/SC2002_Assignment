@@ -21,8 +21,8 @@ public class Patient extends User implements PatientAction {
     // "password", default role is "Patient"
 
     public Patient(String patientID, String patientName, String DOB,
-            Gender gender, BloodType bloodType, String contactInformation, String userName, String password) {
-        super(patientID, patientName, gender, userName , password , Role.Patient);
+            Gender gender, BloodType bloodType, String contactInformation, String password) {
+        super(patientID, patientName, gender, password , Role.Patient);
         this.contactInformation = contactInformation;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
@@ -34,9 +34,9 @@ public class Patient extends User implements PatientAction {
     // Overloading constructor for Patient with emergency contact details
 
     public Patient(String patientID, String patientName, String DOB, 
-            Gender gender, BloodType bloodType, String contactInformation,  String userName, String password, 
+            Gender gender, BloodType bloodType, String contactInformation, String password, 
             String emergencyContactName, String emergencyContactRelation, String emergencyContactNumber) {
-        super(patientID, patientName, gender, userName , password , Role.Patient);
+        super(patientID, patientName, gender, password , Role.Patient);
         this.contactInformation = contactInformation;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
