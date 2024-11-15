@@ -194,7 +194,7 @@ public class InventoryControl implements IControl, IInventory {
             prescription.checkStatus();
         }
 
-        return Status.COMPLETED;
+        return Status.DISPENSED;
     }
 
     public Prescription getPrescriptionByID(String prescriptionID) {

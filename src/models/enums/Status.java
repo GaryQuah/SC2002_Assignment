@@ -1,7 +1,7 @@
 package models.enums;
 
 public enum Status {
-    OK, LOWSTOCK, RESTOCK, PENDING, COMPLETED;
+    OK, LOWSTOCK, RESTOCK, PENDING, DISPENSED;
 
     public String toString() {
         switch (this) { //this is role datatype
@@ -9,7 +9,7 @@ public enum Status {
             case LOWSTOCK: return "LOWSTOCK";
             case RESTOCK: return "RESTOCK";
             case PENDING: return "PENDING";
-            case COMPLETED: return "COMPLETED";
+            case DISPENSED: return "DISPENSED";
             default: return null;
         }
     }
@@ -21,7 +21,7 @@ public enum Status {
             case "LOWSTOCK": return LOWSTOCK;
             case "RESTOCK": return RESTOCK;
             case "PENDING": return PENDING;
-            case "COMPLETED": return COMPLETED;
+            case "DISPENSED": return DISPENSED;
             default: return null;
         }
     }  
