@@ -18,11 +18,8 @@ public abstract class User implements IUserManagement{
     private String m_PassWord;
     private Role m_Role;
 
-    //private static int maxID = 0;
     // Users will have roles such as Patient, Doctor, Pharmacist or Administrator.
 
-    // Stores appointment data
-    private Vector<Appointment> m_Appointments;
     //When creating a user, the ID field would be UserIDManager.getInstance().getNewID(m_Role);
     public User(String userID, String name, Gender gender, String userName, String passWord, Role role) { 
         m_UserID = userID;
