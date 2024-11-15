@@ -162,48 +162,48 @@ public class StaffFileHandler extends FileHandler<Staff> {
 
     public void printStaffData() {
         ArrayList<Staff> staffList = getDataArray();
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
         for (Staff staff : staffList) {
             // System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " " + staff.getGender() + " " + staff.getAge());
-            System.out.printf("%-5s %-15s %-17s %-8s %-5s\n", staff.getUserID(), staff.getName(), staff.getRole(), staff.getGender(), staff.getAge());
+            System.out.printf("%-7s %-15s %-17s %-8s %-5s\n", staff.getUserID(), staff.getName(), staff.getRole(), staff.getGender(), staff.getAge());
         }
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
     }
 
     public void printFilterByRole(String filter) {
         ArrayList<Staff> staffList = getDataArray();
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
         for (Staff staff : staffList) {
             if (staff.getRole().toString().equals(filter)) {
                 System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
                         + staff.getGender() + " " + staff.getAge());
             }
         }
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
     }
 
     public void printFilterByGender(String filter) {
         ArrayList<Staff> staffList = getDataArray();
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
         for (Staff staff : staffList) {
             if (staff.getGender().toString().equals(filter)) {
                 System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
                         + staff.getGender() + " " + staff.getAge());
             }
         }
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
     }
 
     public void printFilterByAge(String filter) {
         ArrayList<Staff> staffList = getDataArray();
         int age = Integer.parseInt(filter);
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
         for (Staff staff : staffList) {
             if (staff.getAge() == age) {
                 System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
                         + staff.getGender() + " " + staff.getAge());
             }
         }
-        System.out.println("****************************************");
+        System.out.println("-------------------------------------------------------------");
     }
 }
