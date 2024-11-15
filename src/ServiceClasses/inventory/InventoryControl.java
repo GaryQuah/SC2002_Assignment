@@ -300,7 +300,7 @@ public class InventoryControl implements IControl, IInventory {
 
             Prescription selectedPrescription = lowStockInventory.get(index - 1);
             String prescriptionID = selectedPrescription.getItemID();
-            int amount = IntInput.integer("Enter quantity to add for " + selectedPrescription.getItemName() + ": ");
+            int amount = IntInput.integer("Enter quantity to add for " + selectedPrescription.getItemName());
             selectedPrescription.setStockStatus(Status.RESTOCK);
             selectedPrescription.setRestockAmount(amount);
             System.out.println(
