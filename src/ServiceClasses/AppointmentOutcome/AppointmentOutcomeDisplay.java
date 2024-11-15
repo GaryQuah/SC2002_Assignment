@@ -57,7 +57,7 @@ public class AppointmentOutcomeDisplay {
     
 
         else if (user.getRole() == Role.Pharmacist){
-            // System.out.printf("APPOINTMENT OUTCOMES");
+            System.out.printf("APPOINTMENT OUTCOMES");
             // for (int i = 0; i < 106; i++)
             //     System.out.printf("-");
             System.out.println();

@@ -1,7 +1,7 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
@@ -12,6 +12,7 @@ import models.Doctor;
 import models.Pharmacist;
 import models.Staff;
 import models.User;
+import models.UserIDManager;
 import models.enums.Gender;
 import models.enums.Role;
 
@@ -27,7 +28,9 @@ public class AdministratorMenu implements Menu
         System.out.println("Welcome " + loggedInUser.getName() + "!");
         do
         {
-            System.out.println("---------- Administrator Menu ----------");
+            System.out.println("=======================================");
+            System.out.println("|         Administrator Menu          |");
+            System.out.println("=======================================");
             System.out.println("1. View & Manage Hospital Staff");
             System.out.println("2. View Appointment Details");
             System.out.println("3. View & Manage Medication Inventory");
@@ -73,9 +76,9 @@ public class AdministratorMenu implements Menu
         int choice;
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("--------------------------------");
+        System.out.println("=================================");
         System.out.println("View & Manage Hospital Staff");
-        System.out.println("--------------------------------");
+        System.out.println("=================================");
         System.out.println("1. Show Staff Members");
         System.out.println("2. Add Staff Members");
         System.out.println("3. Update Staff Members");
@@ -85,9 +88,9 @@ public class AdministratorMenu implements Menu
         switch(choice)
         {
             case 1:
-                System.out.println("--------------------------------");
+                System.out.println("=================================");
                 System.out.println("Show Staff Members");
-                System.out.println("--------------------------------");
+                System.out.println("=================================");
                 System.out.println("1. View All Staff Members");
                 System.out.println("2. View Staff Members By Role");
                 System.out.println("3. View Staff Members By Gender");
@@ -155,21 +158,21 @@ public class AdministratorMenu implements Menu
                 }
                 break;
             case 2:
-                System.out.println("--------------------------------");
-                System.out.println("Add Staff Members");
-                System.out.println("--------------------------------");
+            System.out.println("=================================");
+            System.out.println("Add Staff Members");
+                System.out.println("=================================");
                 AdminAddMember();
                 break;
             case 3:
-                System.out.println("--------------------------------");
-                System.out.println("Update Staff Members");
-                System.out.println("--------------------------------");
+            System.out.println("=================================");
+            System.out.println("Update Staff Members");
+                System.out.println("=================================");
                 AdminUpdateMember();
                 break;
             case 4:
-                System.out.println("--------------------------------");
+                System.out.println("=================================");
                 System.out.println("Remove Staff Members");
-                System.out.println("--------------------------------");
+                System.out.println("=================================");
                 AdminRemoveMember();
                 break;
             default:
@@ -189,86 +192,102 @@ public class AdministratorMenu implements Menu
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Select New Staff Role: ");
-            System.out.println("1. Doctor");
-            System.out.println("2. Pharmacist");
-            System.out.println("3. Administrator");
-            System.out.println("4. Exit");
-            choice = sc.nextInt();
-            sc.nextLine();
+            try {
+                System.out.println("Select New Staff Role: ");
+                System.out.println("1. Doctor");
+                System.out.println("2. Pharmacist");
+                System.out.println("3. Administrator");
+                System.out.println("4. Exit");
+                choice = sc.nextInt();
+                sc.nextLine();
 
-            switch (choice) {
-                case 1:
-                    role = "Doctor";
-                    break;
-                case 2:
-                    role = "Pharmacist";
-                    break;
-                case 3:
-                    role = "Administrator";
-                    break;
-                case 4:
-                    System.out.println("Exiting");
-                    break;
-                default:
-                    System.out.println("Invalid Choice");
-                    continue;
+                switch (choice) {
+                    case 1:
+                        role = "Doctor";
+                        break;
+                    case 2:
+                        role = "Pharmacist";
+                        break;
+                    case 3:
+                        role = "Administrator";
+                        break;
+                    case 4:
+                        System.out.println("Exiting");
+                        return;  // Exit the program
+                    default:
+                        System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+                        continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();  
             }
-            break;
         }
 
         while (true) {
-            System.out.println("Select New Staff's Gender: ");
-            System.out.println("1. Male");
-            System.out.println("2. Female");
-            System.out.println("3. Exit");
-            choice = sc.nextInt();
-            sc.nextLine();
+            try {
+                System.out.println("Select New Staff's Gender: ");
+                System.out.println("1. Male");
+                System.out.println("2. Female");
+                System.out.println("3. Exit");
+                choice = sc.nextInt();
+                sc.nextLine();
 
-            switch (choice) {
-                case 1:
-                    gender = "Male";
-                    break;
-                case 2:
-                    gender = "Female";
-                    break;
-                case 3:
-                    System.out.println("Exiting");
-                    break;
-                default:
-                    System.out.println("Invalid Choice");
-                    continue;
+                switch (choice) {
+                    case 1:
+                        gender = "Male";
+                        break;
+                    case 2:
+                        gender = "Female";
+                        break;
+                    case 3:
+                        System.out.println("Exiting");
+                        return;  // Exit the program
+                    default:
+                        System.out.println("Invalid choice. Please enter a number between 1 and 3.");
+                        continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();  // Clear the invalid input
             }
-            break;
         }
 
-        do {
-            System.out.println("Enter 3 Digit Staff's ID: ");
-            id = role.charAt(0) + sc.nextLine();
-            // if (DataBaseManager.getInstance().getStaffFileHandler().getUserById(id) != null) {
-            //     System.out.println("ID Already Exists");
-            //     continue;
-            // }
-            b = Pattern.matches("[DPA]\\d{3}", id);
-        } while (!b);
+        while (true) {
+            try {
+                System.out.println("Enter New Staff's Age: ");
+                age = sc.nextInt();
+                sc.nextLine();
 
-        System.out.println("Enter New Staff's Age: ");
-        age = sc.nextInt();
-        sc.nextLine();
+                if (age < 18 || age > 65) {
+                    System.out.println("Invalid age. Age should be between 18 and 65.");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer for age.");
+                sc.nextLine();  // Clear the invalid input
+            }
+        }
 
-        System.out.println("Enter New Staff's Name: ");
-        name = sc.nextLine();
+        do
+        {
+            System.out.println("Enter New Staff's Name: ");
+            name = sc.nextLine().trim();
+        }while (name.isEmpty());
 
         Staff newStaff = null;
         switch (role) {
             case "Doctor":
-                newStaff = new Doctor(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
+                newStaff = new Doctor(UserIDManager.getInstance().generateUniqueID(Role.Doctor), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
                 break;
             case "Pharmacist":
-                newStaff = new Pharmacist(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Pharmacist(UserIDManager.getInstance().generateUniqueID(Role.Pharmacist), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
                 break;
             case "Administrator":
-                newStaff = new Administrator(id, name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Administrator(UserIDManager.getInstance().generateUniqueID(Role.Administrator), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
                 break;
             default:
                 System.out.println("Invalid role selected.");
@@ -349,6 +368,7 @@ public class AdministratorMenu implements Menu
                         return;
                 }
                 updatedStaff.setRole(newRole); // Update role
+                updatedStaff.setUserID(UserIDManager.getInstance().generateUniqueID(newRole));  // Update the user ID
                 break;
             case 3:
                 System.out.println("Select New Staff Gender: ");
@@ -379,7 +399,7 @@ public class AdministratorMenu implements Menu
             case 5:
                 System.out.println("Enter New Staff Password: ");
                 String newPassword = sc.nextLine();
-                updatedStaff.updatePassword(newPassword); // Update password
+                updatedStaff.setPassword(newPassword); // Update password
                 break;
             default:
                 System.out.println("Invalid Choice");
@@ -483,7 +503,6 @@ public class AdministratorMenu implements Menu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        //User admin = new Administrator("username", "password", "staffId", "name", Role.Administrator, Gender.Male, 20);
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         sc.nextLine();

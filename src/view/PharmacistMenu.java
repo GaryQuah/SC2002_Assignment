@@ -30,8 +30,24 @@ public class PharmacistMenu implements Menu {
             choice = IntInput.integer("Option");
             switch (choice) {
                 case 1:
-                    AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByPharmacist(loggedInUser);
+                    System.out.println("1. View All Appointment Outcome");
+                    System.out.println("2. View Pending Appointment Outcome");
+                    choice = IntInput.integer("Option");    
+                    switch (choice) {
+                        case 1:
+                            AppoinmentOutcomeControl.getInstance().viewAppoinmentOutcomes(loggedInUser);
+                        break;
+
+                        case 2:
+                            AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByPharmacist(loggedInUser);
+                            break;
+                    
+                        default:
+                            System.out.println("Invalid Option.");                    
+                    }
+
                     break;
+
                 case 2:
                     AppoinmentOutcomeControl.getInstance().updatePrescriptionStatus(loggedInUser);
                     break;

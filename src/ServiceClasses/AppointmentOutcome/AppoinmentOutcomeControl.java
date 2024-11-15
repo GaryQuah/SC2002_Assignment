@@ -231,11 +231,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         
         // appointmentOutcomeSort.sortByAppointmentDate(appointmentOutcomes, 0);
         // ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
-
-        AppointmentOutcome appointmentOutcome = select(user, getOutcomeByPharmacist());
+        ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
+        AppointmentOutcome appointmentOutcome = select(user, result);
         HashMap<String, Integer> medicationMap = appointmentOutcome.getPrescribedMedications();
         Status status = InventoryControl.getInstance().dispenseMedicine(medicationMap);
         appointmentOutcome.setStatus(status);
+        appointmentOutcomeDisplay.printOutcomes(result, user);
 
     }
 
