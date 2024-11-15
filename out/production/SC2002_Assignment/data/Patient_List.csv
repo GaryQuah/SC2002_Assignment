@@ -1,5 +1,5 @@
 Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password,Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number
-PT0001,Alice Brown,5/14/1980,Female,A_POSITIVE,xiaojun@gmail.com,PT0001,password,yangyang,brother,98769876
+PT0001,Alice Brown,5/14/1980,Female,A_POSITIVE,xiaojun@gmail.com,PT0001,password,yangyang,son,98987898
 PT0002,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,PT0002,password,hendery,son,88888888
 PT0003,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,PT0003,password,alice,mother,1122334455
 PT0004,Gerald,13/09/2001,Male,B_NEGATIVE,999,PT0004,a,1,1,1
