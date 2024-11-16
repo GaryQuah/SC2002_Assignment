@@ -1,4 +1,4 @@
 Patient ID,Name,Date of Birth,Gender,Contact Number,Email Address,Blood Type,Past Diagnoses,Past Treatments
-PT0001,Alice White,10/02/2002,FEMALE,12345678,alice.white@email.com,A_POSITIVE,something old (20/01/2004),M0004:10 (10/02/2006)
-PT0002,Bob Stone,12/03/2001,MALE,87654321,bob.stone@email.com,B_NEGATIVE,"Something (12/03/2001); Something (12/04/2002)","M0006:10 (12/03/2001); M0004:10 (12/04/2002)"
-PT0003,Charlie White,12/01/1999,MALE,1122334455,charlie.white@email.com,O_NEGATIVE,"Something (12/01/1999); Something (12/09/2000)","M0005:10 (12/01/1999); M0004:10 (12/09/2000)"
+PT0001,Alice White,10/02/2002,Female,12345678,alice.white@email.com,A_POSITIVE,something old (20/01/2004),M0004:10 (10/02/2006)
+PT0002,Bob Stone,12/03/2001,Male,87654321,bob.stone@email.com,B_NEGATIVE,"Something (12/03/2001); Something (12/04/2002)","M0006:10 (12/03/2001); M0004:10 (12/04/2002)"
+PT0003,Charlie White,12/01/1999,Male,1122334455,charlie.white@email.com,O_NEGATIVE,"Something (12/01/1999); Something (12/09/2000)","M0005:10 (12/01/1999); M0004:10 (12/09/2000)"
