@@ -6,7 +6,6 @@ import ServiceClasses.Appointment.AppointmentStatus;
 import input.CSVParse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class is responsible for handling the file operations related to appointments.
@@ -40,11 +39,12 @@ public class AppointmentFileHandler extends FileHandler<Appointment> {
 
         // Read the data from the CSV file
         ArrayList<String[]> fileData = CSVParse.read(getFilePath(), true);
+        appointmentList.clear();
 
         // Iterate through the rows of the CSV file and create Appointment objects
         for (String[] row : fileData) {
-            System.out.println(Arrays.toString(row));
-            System.out.println("Processing appointment data");
+            // System.out.println(Arrays.toString(row));
+            // System.out.println("Processing appointment Data data");
 
             // Create a new Appointment object using the data from the CSV file
             Appointment apt = new Appointment(
@@ -59,7 +59,7 @@ public class AppointmentFileHandler extends FileHandler<Appointment> {
 
             // Add the created appointment to the AppointmentManager's list
             appointmentList.add(apt);
-            System.out.println("Created Appointment: " + apt.toString());
+            // System.out.println("Created Appointment : " + apt.toString());
         }
 
         // Return null since the appointments are added directly to the AppointmentManager's list

@@ -1,7 +1,10 @@
 package view;
 
+import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Appointment.AppointmentManager;
+import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import ServiceClasses.AppointmentOutcome.AppointmentOutcome;
+import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.MedicalRecordService;
 import input.IntInput;
 import models.Doctor;
@@ -12,9 +15,9 @@ import models.enums.BloodType;
 import models.enums.Gender;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Scanner;
-import ServiceClasses.Appointment.AppointmentStatus;
 
 public class DoctorMenu implements Menu {
 
@@ -42,11 +45,15 @@ public class DoctorMenu implements Menu {
         int choice;
 
         do {
+            DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
+            DataBaseManager.getInstance().getOutcomeFileHandler().retrieveData();
+            DataBaseManager.getInstance().getappointmentFileHandler().retrieveData();
+
             header();
             choice = IntInput.integer("Option");
 
             switch (choice) {
-                case 1 -> viewPatientMedicalRecords();
+                case 1 -> viewPatientMedicalRecords(doctor);
                 case 2 -> updatePatientMedicalRecords(doctor);
                 case 3 -> viewPersonalSchedule(doctor);
                 case 4 -> setAvailability(doctor);
@@ -56,78 +63,18 @@ public class DoctorMenu implements Menu {
                 case 8 -> System.out.println("Logout...");
                 default -> System.out.println("Invalid Option. Please try again.");
             }
+            DataBaseManager.getInstance().getInventoryFileHandler().saveData();
+            DataBaseManager.getInstance().getOutcomeFileHandler().saveData();
+            DataBaseManager.getInstance().getappointmentFileHandler().saveData();
         } while (choice != 8);
     }
 
-    private void viewPatientMedicalRecords() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter patient ID to view records: ");
-        String patientId = sc.nextLine();
-
-        try {
-            MedicalRecordService.viewMedicalRecord(patientId);
-        } catch (IOException e) {
-            System.out.println("Error fetching medical records: " + e.getMessage());
-        }
+    private void viewPatientMedicalRecords(Doctor doctor) {
+        AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByDoctor(doctor);
     }
 
     private void updatePatientMedicalRecords(Doctor doctor) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter patient ID to update records: ");
-        String patientId = sc.nextLine();
-
-        System.out.print("Enter patient name: ");
-        String name = sc.nextLine();
-
-        System.out.print("Enter patient date of birth (dd/mm/yyyy): ");
-        String dateOfBirth = sc.nextLine();
-
-        System.out.print("Enter patient gender (Male/Female/Others): ");
-        String genderInput = sc.nextLine().trim();
-        Gender gender;
-        try {
-            gender = Gender.valueOf(genderInput); // Enum expects uppercase
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid gender input. Defaulting to UNKNOWN.");
-            gender = Gender.UNKNOWN;
-        }
-
-        System.out.print("Enter patient contact number: ");
-        String contactNumber = sc.nextLine();
-
-        System.out.print("Enter patient email address: ");
-        String emailAddress = sc.nextLine();
-
-        System.out.print("Enter patient blood type (e.g., A_POSITIVE): ");
-        String bloodTypeInput = sc.nextLine().trim().toUpperCase(); // Convert input to uppercase
-        BloodType bloodType;
-        try {
-            bloodType = BloodType.valueOf(bloodTypeInput); // Match input to BloodType enum
-        } catch (IllegalArgumentException e) {
-            bloodType = BloodType.UNKNOWN; // Default to UNKNOWN if invalid input
-        }
-
-        System.out.print("Enter patient past diagnoses: ");
-        String pastDiagnoses = sc.nextLine();
-
-        System.out.print("Enter patient past treatments: ");
-        String pastTreatments = sc.nextLine();
-
-        try {
-            MedicalRecordService.updateMedicalRecord(new MedicalRecord(
-                    patientId,
-                    name,
-                    dateOfBirth,
-                    gender,
-                    contactNumber,
-                    emailAddress,
-                    bloodType,
-                    pastDiagnoses,
-                    pastTreatments));
-            System.out.println("Medical record updated successfully.");
-        } catch (IOException e) {
-            System.out.println("Error updating medical records: " + e.getMessage());
-        }
+        AppoinmentOutcomeControl.getInstance().edit(doctor);
     }
 
     private void viewPersonalSchedule(Doctor doctor) {
@@ -163,47 +110,14 @@ public class DoctorMenu implements Menu {
     }
 
     private void recordAppointmentOutcome(Doctor doctor) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter appointment ID: ");
-        int appointmentId = IntInput.integer("Appointment ID");
-
-        System.out.print("Enter type of service provided: ");
-        String serviceType = sc.nextLine();
-
-        System.out.print("Enter consultation notes: ");
-        String consultationNotes = sc.nextLine();
-
-        HashMap<String, Integer> medications = new HashMap<>();
-        System.out.print("Enter medication (format: name=quantity, separate multiple with commas): ");
-        String medicationInput = sc.nextLine();
-        if (!medicationInput.trim().isEmpty()) {
-            String[] meds = medicationInput.split(",");
-            for (String med : meds) {
-                String[] parts = med.split("=");
-                if (parts.length == 2) {
-                    medications.put(parts[0].trim(), Integer.parseInt(parts[1].trim()));
-                }
-            }
+        int appointmentId = IntInput.integer("Enter Appointment ID");
+        Appointment appointment = AppointmentManager.getInstance().getAppointmentScheduler().getAppointmentByID(appointmentId);
+        if (appointment == null) {
+            System.out.println("Invalid Appoinment ID.");
+        } else {
+            System.out.println("Found." + appointment.getDoctorName());
+            AppoinmentOutcomeControl.getInstance().create(doctor, appointment);
         }
 
-        // // Adjusted to match the expected signature
-        // boolean success = AppointmentManager.getInstance()
-        // .getAppointmentOutcomeControl()
-        // .create(
-        // doctor,
-        // new AppointmentOutcome(
-        // appointmentId,
-        // null, // Adjust as needed for patient name
-        // doctor.getName(),
-        // serviceType,
-        // null, // Adjust as needed for datetime
-        // medications,
-        // consultationNotes));
-
-        // if (success) {
-        // System.out.println("Appointment outcome recorded successfully.");
-        // } else {
-        // System.out.println("Failed to record appointment outcome.");
-        // }
     }
 }

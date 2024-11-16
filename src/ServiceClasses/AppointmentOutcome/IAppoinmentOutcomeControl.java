@@ -4,8 +4,6 @@ import models.User;
 
 public interface IAppoinmentOutcomeControl {
 
-    public AppoinmentOutcomeControl appoinmentOutcomeControl = new AppoinmentOutcomeControl();
-
     public AppointmentOutcomeDisplay appointmentOutcomeDisplay = new AppointmentOutcomeDisplay();
 
     public void viewAppoinmentOutcomes(User user);

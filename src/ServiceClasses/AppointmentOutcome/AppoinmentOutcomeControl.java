@@ -110,7 +110,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         if (!isDoctor(user))
             return;
 
-        AppointmentOutcome appointmentOutcome = select(user);
+        AppointmentOutcome appointmentOutcome = select(user, getOutcomeByDoctorName(user.getName()));
 
         if (appointmentOutcome == null)
             return;
@@ -136,7 +136,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
             case 3:
                 System.out.printf("New Consultation Note: ");
                 String consultationNote = Scan.scan.nextLine();
-                appointmentOutcome.setServiceType(consultationNote);
+                appointmentOutcome.setConsultationNotes(consultationNote);
                 break;
 
             default:

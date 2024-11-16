@@ -1,9 +1,9 @@
-package view.HMS;
+// package view.HMS;
 
-public class HmsStartup 
-{
-    public static void Startup()
-    {
+// public class HmsStartup 
+// {
+//     public static void Startup()
+//     {
         
-    }
-}
+//     }
+// }
