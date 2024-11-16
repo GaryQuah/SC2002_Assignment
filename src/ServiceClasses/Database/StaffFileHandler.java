@@ -168,38 +168,23 @@ public class StaffFileHandler extends FileHandler<Staff> {
         System.out.println("-------------------------------------------------------------");
     }
 
-    public void printFilterByRole(String filter) {
+    public void printFilterBy(String filter)
+    {
         ArrayList<Staff> staffList = getDataArray();
+        boolean found;
         System.out.println("-------------------------------------------------------------");
         for (Staff staff : staffList) {
-            if (staff.getRole().toString().equals(filter)) {
-                System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
-                        + staff.getGender() + " " + staff.getAge());
-            }
-        }
-        System.out.println("-------------------------------------------------------------");
-    }
+            // check if role or gender matches
+            found = staff.getRole().toString().equalsIgnoreCase(filter) || staff.getGender().toString().equalsIgnoreCase(filter);
 
-    public void printFilterByGender(String filter) {
-        ArrayList<Staff> staffList = getDataArray();
-        System.out.println("-------------------------------------------------------------");
-        for (Staff staff : staffList) {
-            if (staff.getGender().toString().equals(filter)) {
-                System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
-                        + staff.getGender() + " " + staff.getAge());
-            }
-        }
-        System.out.println("-------------------------------------------------------------");
-    }
+            //error handling for int value
+            try{
+                found = found || Integer.parseInt(filter) == staff.getAge();
+            } catch (NumberFormatException e) {}
 
-    public void printFilterByAge(String filter) {
-        ArrayList<Staff> staffList = getDataArray();
-        int age = Integer.parseInt(filter);
-        System.out.println("-------------------------------------------------------------");
-        for (Staff staff : staffList) {
-            if (staff.getAge() == age) {
+            if (found) {
                 System.out.println(staff.getUserID() + " " + staff.getName() + " " + staff.getRole() + " "
-                        + staff.getGender() + " " + staff.getAge());
+                        + staff.getGender() + " " + staff.getAge());    
             }
         }
         System.out.println("-------------------------------------------------------------");

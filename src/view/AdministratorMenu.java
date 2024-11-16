@@ -42,13 +42,13 @@ public class AdministratorMenu implements Menu
             switch(choice)
             {
                 case 1:
-                    AdminManageStaff();
+                    AdminManageStaffMenu();
                     break;
                 case 2:
-                    ViewAppointmentDetails();
+                    ViewAppointmentDetailsMenu();
                     break;
                 case 3:                    
-                    AdminManageInventory(loggedInUser);
+                    AdminManageInventoryMenu(loggedInUser);
                     break;
                 case 4:
                     
@@ -71,7 +71,7 @@ public class AdministratorMenu implements Menu
         }
     }
 
-    public static void AdminManageStaff()
+    public static void AdminManageStaffMenu()
     {
         int choice;
         Scanner sc = new Scanner(System.in);
@@ -112,13 +112,13 @@ public class AdministratorMenu implements Menu
                         switch(roleChoice)
                         {
                             case 1:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Doctor");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Doctor");
                                 break;
                             case 2:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Pharmacist");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Pharmacist");
                                 break;
                             case 3:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Administrator");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Administrator");
                             break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -135,10 +135,10 @@ public class AdministratorMenu implements Menu
                         switch(genderChoice)
                         {
                             case 1:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Male");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Male");
                                 break;
                             case 2:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Female");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Female");
                                 break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -150,7 +150,7 @@ public class AdministratorMenu implements Menu
                         System.out.println("Enter Age");
                         System.out.println("--------------------------------");
                         int age = sc.nextInt();
-                        DataBaseManager.getInstance().getStaffFileHandler().printFilterByAge(Integer.toString(age));
+                        DataBaseManager.getInstance().getStaffFileHandler().printFilterBy(Integer.toString(age));
                         break;
                     default:
                         System.out.println("Invalid Choice");
@@ -167,13 +167,13 @@ public class AdministratorMenu implements Menu
             System.out.println("=================================");
             System.out.println("Update Staff Members");
                 System.out.println("=================================");
-                AdminUpdateMember();
+                AdminUpdateMemberMenu();
                 break;
             case 4:
                 System.out.println("=================================");
                 System.out.println("Remove Staff Members");
                 System.out.println("=================================");
-                AdminRemoveMember();
+                AdminRemoveMemberMenu();
                 break;
             default:
                 System.out.println("Invalid Choice");
@@ -297,7 +297,7 @@ public class AdministratorMenu implements Menu
         System.out.println("Staff " + id + " has been added.");
     }
 
-    public static void AdminUpdateMember() {
+    public static void AdminUpdateMemberMenu() {
         Scanner sc = new Scanner(System.in);
         String id = "";
         boolean found = false;
@@ -321,7 +321,7 @@ public class AdministratorMenu implements Menu
         System.out.printf("%-15s | " ,"Role: " + currentStaff.getRole());
         System.out.printf("%-15s | " ,"Gender: " + currentStaff.getGender());
         System.out.printf("%-5s | " ,"Age: " + currentStaff.getAge());
-        System.out.printf("%-5s | " ,"Username: " + currentStaff.getPassword());
+        System.out.printf("%-5s | " ,"Password: " + currentStaff.getPassword());
         System.out.println("");
     
         // Create a copy of the current staff to modify
@@ -411,7 +411,7 @@ public class AdministratorMenu implements Menu
     }
     
 
-    public static void AdminRemoveMember()
+    public static void AdminRemoveMemberMenu()
     {
         int choice;  
         String id = "";
@@ -458,7 +458,7 @@ public class AdministratorMenu implements Menu
         }
     }       
 
-    public static void ViewAppointmentDetails()
+    public static void ViewAppointmentDetailsMenu()
     {   
         System.out.println("--------------------------------");
         System.out.println("View Appointment Details");
@@ -494,7 +494,7 @@ public class AdministratorMenu implements Menu
         }
     }
 
-    public static void AdminManageInventory(User loggedInUser)
+    public static void AdminManageInventoryMenu(User loggedInUser)
     {
         System.out.println("--------------------------------");
         System.out.println("View And Manage Inventory");

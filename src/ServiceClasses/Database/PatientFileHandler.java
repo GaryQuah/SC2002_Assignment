@@ -30,12 +30,10 @@ public class PatientFileHandler extends FileHandler<Patient>
             Gender gender = Gender.valueOf(row[3]);
             BloodType bloodType = BloodType.valueOf(row[4]);
             String contactInfo = row[5];
-            // login username = userID
-            String username = row[0];
-            String password = row[7];
-            String emergencyContactName = row[8];
-            String emergencyContactRelation = row[9]; 
-            String emergencyContactNumber = row[10];
+            String password = row[6];
+            String emergencyContactName = row[7];
+            String emergencyContactRelation = row[8]; 
+            String emergencyContactNumber = row[9];
 
             Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
             patientList.add(patient);
