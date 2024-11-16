@@ -96,10 +96,7 @@ public class HMSApp {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
         dbManager.getappointmentFileHandler().retrieveData();
-        //For debugging
-        AppointmentManager aptManager = AppointmentManager.getInstance();
-        System.out.println("AppointmentManager has " + aptManager.getAppointmentList().size() + " appointments");
-        //
+
         ArrayList<Patient> patientsData = dbManager.getPatientFileHandler().retrieveData();
         ArrayList<Staff> staffData = dbManager.getStaffFileHandler().retrieveData();
 

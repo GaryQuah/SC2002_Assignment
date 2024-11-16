@@ -1,12 +1,5 @@
 package ServiceClasses.Database;
 
-import ServiceClasses.Appointment.AppointmentManager;
-
-import ServiceClasses.Appointment.AppointmentScheduler;
-import ServiceClasses.Appointment.AppointmentStatusUpdater;
-import ServiceClasses.Database.PatientFileHandler;
-import ServiceClasses.Database.StaffFileHandler;
-
 public class DataBaseManager {
 
     private PatientFileHandler patientFileHandler = new PatientFileHandler();
@@ -14,6 +7,7 @@ public class DataBaseManager {
     private AppointmentFileHandler appointmentFileHandler = new AppointmentFileHandler();
     private InventoryFileHandler inventoryFileHandler = new InventoryFileHandler();
     private OutcomeFileHandler outcomeFileHandler = new OutcomeFileHandler();
+    private MedicalRecordFileHandler medicalRecordFileHandler = new MedicalRecordFileHandler();
 
     private static DataBaseManager instance;
 
@@ -49,4 +43,7 @@ public class DataBaseManager {
         return outcomeFileHandler;
     }
 
+    public MedicalRecordFileHandler getMedicalRecordFileHandler() {
+        return medicalRecordFileHandler;
+    }   
 }
