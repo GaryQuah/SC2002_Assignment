@@ -291,12 +291,18 @@ public class AppointmentScheduler {
         System.out.println("Unable to update appointment request - Invalid doctor or appointment ID");
         return false;
     }
-
-    /**
-     * Records the outcome of an appointment. The implementation of this method can be expanded
-     * based on requirements.
+    
+    /*
+     * takes in the input of Appoinment's ID and return the specific Appoinment Object
+     *
+     * @return appoinment object.
      */
-    public void recordAppointmentOutcome() {
-        // Update appointments' medical records here
+    public Appointment getAppointmentByID (int appointmentID){
+        for(Appointment appointment : AppointmentList){
+            if(appointment.getAppointmentID() == appointmentID){
+                return appointment;
+            }
+        }
+        return null;
     }
 }
