@@ -8,13 +8,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import java.util.ArrayList;
-
 public class AppointmentScheduler {
-    // private ArrayList<Appointment> AppointmentList = new ArrayList<String[]>();
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
-    // private final String dateFormat = "yyyy-MM-dd";
     private final String dateFormat = "dd-MM-yyyy";
     private final String timeFormat = "HH:mm";
     private HashMap<String, ArrayList<String>> doctorAvailability = new HashMap<>();
@@ -49,12 +45,12 @@ public class AppointmentScheduler {
 
                 switch (choice) {
                     case 1:
-                        appointment.UpdateAppointmentStatus(AppointmentStatus.ACCEPTED);
+                        appointment.setAppointmentStatus(AppointmentStatus.ACCEPTED);
                         System.out.println("Appointment Accepted.");
                         break;
 
                     case 2:
-                        appointment.UpdateAppointmentStatus(AppointmentStatus.DECLINED);
+                        appointment.setAppointmentStatus(AppointmentStatus.DECLINED);
                         System.out.println("Appointment Declined.");
                         break;
 
@@ -122,18 +118,14 @@ public class AppointmentScheduler {
             // Parse the input date using the formatter
             LocalDate parsedDate = LocalDate.parse(input, formatter);
             LocalDate today = LocalDate.now(); // Get today's date
-            System.out.println("Now : " + today + " against : " + parsedDate);
 
             // Check if the parsed date is before today's date
             if (parsedDate.isAfter(today)) {
-                System.out.println("Date is after today");
                 return true;
             } else {
-                System.out.println("Date is before today");
                 return false;
             }
         } catch (DateTimeParseException e) {
-            System.out.println("Date dosent follow format");
             return false; // Return false if parsing fails
         }
     }
@@ -227,7 +219,7 @@ public class AppointmentScheduler {
         {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
-                AppointmentList.get(i).UpdateAppointmentStatus(m_AppointmentStatus);
+                AppointmentList.get(i).setAppointmentStatus(m_AppointmentStatus);
                 System.out.println(
                         "Doctor :" + m_doctorName + "Successfully Accepted the appointment ID of " + m_appointmentID);
                 return true;
@@ -242,5 +234,4 @@ public class AppointmentScheduler {
     {
 
     }
-
 }

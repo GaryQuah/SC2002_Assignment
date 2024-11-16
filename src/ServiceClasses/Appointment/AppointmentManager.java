@@ -4,16 +4,17 @@ import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import java.util.ArrayList;
 
 public class AppointmentManager {
-    // Singleton instance
-    private static AppointmentManager instance;
+    //Variable Declaration
+
+    private static AppointmentManager instance; //Singleton instance
     private int MaxID = 1;
 
     // Appointment-related components
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
     private AppointmentScheduler appointmentScheduler = new AppointmentScheduler(AppointmentList);
-    private AppointmentStatusUpdater appointmentStatusUpdater = new AppointmentStatusUpdater(AppointmentList);
     private AppointmentViewer appointmentViewer = new AppointmentViewer(AppointmentList);
     private AppoinmentOutcomeControl appointmentOutcomeControl = AppoinmentOutcomeControl.getInstance();
+    //End of variable declaration
 
     /**
      * Returns the singleton instance of the AppointmentManager.
@@ -64,7 +65,7 @@ public class AppointmentManager {
      * @return int New unique appointment ID.
      */
     public int getNewID() {
-        System.out.println("Getting newID.");
+        //System.out.println("Getting newID.");
         return MaxID++;
     }
 
@@ -74,7 +75,7 @@ public class AppointmentManager {
      * @param value The value to update the maximum ID to.
      */
     public void updateMaxID(int value) {
-        System.out.println("Updating Max ID");
+        //System.out.println("Updating Max ID");
         if (value >= instance.MaxID) {
             instance.MaxID = value + 1;
         }

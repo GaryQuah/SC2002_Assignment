@@ -1,12 +1,5 @@
 package ServiceClasses.Database;
 
-import ServiceClasses.Appointment.AppointmentManager;
-
-import ServiceClasses.Appointment.AppointmentScheduler;
-import ServiceClasses.Appointment.AppointmentStatusUpdater;
-import ServiceClasses.Database.PatientFileHandler;
-import ServiceClasses.Database.StaffFileHandler;
-
 public class DataBaseManager {
 
     private PatientFileHandler patientFileHandler = new PatientFileHandler();
