@@ -206,23 +206,39 @@ public class AppointmentScheduler {
         }
     }
 
-    public boolean ScheduleAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot,
-            String m_appointmentType) {
-        if (!isValidDate(m_date) || !isValidTime(m_timeSlot)) {
-            System.out.println("Invalid date and time format input! Please use " + dateFormat + " " + timeFormat);
+    public boolean ScheduleAppointment(String doctorName, String patientName, String date, String timeSlot,
+            String appointmentType) {
+        // Validate date and time format
+        if (!isValidDate(date) || !isValidTime(timeSlot)) {
+            System.out.println("Invalid date or time format input! Please use the correct format.");
             return false;
         }
 
-        int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
-        if (indexChecker == -1) {
-            AppointmentList.add(new Appointment(m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType));
-            System.out.println("Appointment successfully scheduled!");
-            DataBaseManager.getInstance().getappointmentFileHandler().saveData();
-            return true;
+        // Check if the slot is within the doctor's availability
+        HashMap<String, ArrayList<String>> doctorAvailabilityByDate = doctorAvailability.get(doctorName);
+        if (doctorAvailabilityByDate == null || !doctorAvailabilityByDate.containsKey(date)) {
+            System.out.println("The doctor has not set availability for this date.");
+            return false;
         }
 
-        System.out.println("Failed to schedule appointment. Conflict exists.");
-        return false;
+        ArrayList<String> availableSlots = doctorAvailabilityByDate.get(date);
+        if (!availableSlots.contains(timeSlot)) {
+            System.out.println("The selected time slot is not available.");
+            return false;
+        }
+
+        // Check for existing appointments
+        if (CheckForExistingAppointment(doctorName, date, timeSlot) != -1) {
+            System.out.println("The selected time slot is already booked.");
+            return false;
+        }
+
+        // Schedule the appointment
+        AppointmentList.add(new Appointment(doctorName, patientName, date, timeSlot, appointmentType));
+        System.out.println("Successfully added appointment. Doctor: " + doctorName + ", Patient: " + patientName
+                + ", Date: " + date + ", Time: " + timeSlot);
+        DataBaseManager.getInstance().getappointmentFileHandler().saveData();
+        return true;
     }
 
     public boolean ReScheduleAppointment(String m_doctorName, String m_patientName, String m_oldDate,
