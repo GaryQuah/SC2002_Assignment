@@ -8,7 +8,8 @@ public enum BloodType {
     AB_POSITIVE("AB+"),
     AB_NEGATIVE("AB-"),
     O_POSITIVE("O+"),
-    O_NEGATIVE("O-");
+    O_NEGATIVE("O-"),
+    UNKNOWN("Unknown"); // Added UNKNOWN value
 
     private final String symbol;
 
@@ -18,7 +19,6 @@ public enum BloodType {
 
     public String getSymbol() {
         return symbol;
-
     }
 
     @Override
@@ -30,9 +30,9 @@ public enum BloodType {
             case B_NEGATIVE: return "B_NEGATIVE";
             case AB_POSITIVE: return "AB_POSITIVE";
             case AB_NEGATIVE: return "AB_NEGATIVE";
-            case O_POSITIVE: return "0_POSITIVE";
+            case O_POSITIVE: return "O_POSITIVE";
             case O_NEGATIVE: return "O_NEGATIVE";
-
+            case UNKNOWN: return "UNKNOWN"; // Handle UNKNOWN
             default: return null;
         }
     }
