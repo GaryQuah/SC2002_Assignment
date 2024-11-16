@@ -1,5 +1,7 @@
 package ServiceClasses.Appointment;
 
+import ServiceClasses.Database.DataBaseManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -212,6 +214,7 @@ public class AppointmentScheduler {
             AppointmentList.add(new Appointment(m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType));
             System.out.println("Successfully Added Appointment. Doctor: " + m_doctorName + ", Patient: " + m_patientName
                     + ", Date: " + m_date + ", Time: " + m_timeSlot);
+            DataBaseManager.getInstance().getappointmentFileHandler().saveData();
             return true;
         }
 
@@ -261,6 +264,7 @@ public class AppointmentScheduler {
         } else {
             AppointmentList.remove(indexChecker);
             System.out.println("Successfully Cancelled Appointment.");
+            DataBaseManager.getInstance().getappointmentFileHandler().saveData();
             return true;
         }
     }

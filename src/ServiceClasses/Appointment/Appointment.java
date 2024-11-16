@@ -1,5 +1,7 @@
 package ServiceClasses.Appointment;
 
+import ServiceClasses.Database.DataBaseManager;
+
 import java.util.HashMap;
 
 /**
@@ -95,52 +97,6 @@ public class Appointment {
         return medicationMap;
     }
 
-    // End of getters
-
-    // Setters
-
-    /**
-     * Sets the dispense status of the appointment.
-     *
-     * @param dispenseStatus the status to set
-     */
-    public void setDispenseStatus(String dispenseStatus) {
-        this.dispenseStatus = dispenseStatus;
-    }
-
-    /**
-     * Sets the consultation notes for the appointment.
-     *
-     * @param consultationNotes the notes to set
-     */
-    public void setConsultationNotes(String consultationNotes) {
-        this.consultationNotes = consultationNotes;
-    }
-
-    /**
-     * Sets the medication map for the appointment.
-     *
-     * @param medicationMap a map of medications and their quantities
-     */
-    public void setMeidcation(HashMap<String, Integer> medicationMap) {
-        this.medicationMap = medicationMap;
-    }
-
-    /**
-     * Sets the status of the appointment.
-     *
-     * @param m_Status the status to set
-     * @return false if the operation is successful (default)
-     */
-    public boolean setAppointmentStatus(AppointmentStatus m_Status) {
-        m_AppointmentStatus = m_Status;
-        return false;
-    }
-
-    // End of setters
-
-    // Getters for basic attributes
-
     /**
      * @return the doctor's name
      */
@@ -191,6 +147,49 @@ public class Appointment {
     }
 
     // End of getters
+
+    // Setters
+
+    /**
+     * Sets the dispense status of the appointment.
+     *
+     * @param dispenseStatus the status to set
+     */
+    public void setDispenseStatus(String dispenseStatus) {
+        this.dispenseStatus = dispenseStatus;
+    }
+
+    /**
+     * Sets the consultation notes for the appointment.
+     *
+     * @param consultationNotes the notes to set
+     */
+    public void setConsultationNotes(String consultationNotes) {
+        this.consultationNotes = consultationNotes;
+    }
+
+    /**
+     * Sets the medication map for the appointment.
+     *
+     * @param medicationMap a map of medications and their quantities
+     */
+    public void setMeidcation(HashMap<String, Integer> medicationMap) {
+        this.medicationMap = medicationMap;
+    }
+
+    /**
+     * Sets the status of the appointment.
+     *
+     * @param m_Status the status to set
+     * @return false if the operation is successful (default)
+     */
+    public boolean setAppointmentStatus(AppointmentStatus m_Status) {
+        m_AppointmentStatus = m_Status;
+        DataBaseManager.getInstance().getappointmentFileHandler().saveData();
+        return false;
+    }
+
+    // End of setters
 
     /**
      * Returns a string representation of the appointment.
