@@ -78,7 +78,7 @@ public class InventoryDisplay {
 
     public void restockHeader() {
         System.out.printf("RESTOCK PRESCRIPTIONS ");
-        for (int i = 0; i < 68; i++)
+        for (int i = 0; i < 80; i++)
             System.out.printf("-");
         System.out.println();
 
