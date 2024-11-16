@@ -83,7 +83,6 @@ public class PatientFileHandler extends FileHandler<Patient>
                         patient.getGender().toString(),
                         bloodTypeString,
                         patient.getContactInfo(),
-                        // patient.getUsername(),
                         patient.getPassword(),
                         patient.getEmergencyContactName(),
                         patient.getEmergencyContactRelation(),
@@ -102,7 +101,7 @@ public class PatientFileHandler extends FileHandler<Patient>
     public void saveData()
     {
         ArrayList <String> data = new ArrayList <String> ();
-        data.add("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password");
+        data.add("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Password,Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number");
     
         // Convert Patient objects to String[] before saving
         for (Patient patient : getDataArray()) {
@@ -113,8 +112,7 @@ public class PatientFileHandler extends FileHandler<Patient>
                 patient.getDateOfBirth() + "," +                       // Date of Birth
                 patient.getGender().toString() + "," +              // Gender
                 patient.getBloodType().toString() + "," +
-                patient.getContactInfo() + "," +             // Contact Info
-                patient.getUserID() + "," +                            // Username
+                patient.getContactInfo() + "," +             // Contact Info  
                 patient.getPassword() + "," +                         // Password
                 patient.getEmergencyContactName() + "," +            // Emergency Contact Name
                 patient.getEmergencyContactRelation() + "," +        // Emergency Contact Relation

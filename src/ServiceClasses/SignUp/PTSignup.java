@@ -102,9 +102,6 @@ public class PTSignup
         System.out.println("Enter your contact information: ");
         String contactInfo = sc.nextLine();
 
-        System.out.println("Enter your username: ");
-        String username = sc.nextLine();
-
         System.out.println("Enter your password: ");
         String password = sc.nextLine();
 
@@ -121,7 +118,8 @@ public class PTSignup
                                 name, DOB, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
         
         DataBaseManager.getInstance().getPatientFileHandler().addPatient(newPatient);
-        System.out.println(DataBaseManager.getInstance().getPatientFileHandler().getDataArray());
+        System.out.println("Account created successfully!");
+        System.out.println("Login with User ID " + newPatient.getUserID() + " and your password.");
 
     }
 
