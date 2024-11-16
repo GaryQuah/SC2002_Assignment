@@ -9,57 +9,91 @@ import models.User;
 import models.enums.Role;
 import models.enums.Status;
 
+/**
+ * The InventoryControl class manages the inventory of prescriptions in the system. It allows
+ * for operations such as creating, adding, editing, deleting, and dispensing prescriptions.
+ * Additionally, it handles operations specific to users based on their roles (Admin, Doctor, Pharmacist).
+ */
 public class InventoryControl implements IControl, IInventory {
+
     private ArrayList<Prescription> inventory = new ArrayList<>();
 
+    /**
+     * Sets the inventory list.
+     *
+     * @param inventory the list of prescriptions to set as inventory
+     */
     public void setInventory(ArrayList<Prescription> inventory) {
         this.inventory = inventory;
     }
 
+    /**
+     * Gets the current inventory list.
+     *
+     * @return the list of prescriptions in the inventory
+     */
     public ArrayList<Prescription> getInventory() {
         return inventory;
     }
 
     private static InventoryControl instance;
 
+    /**
+     * Returns the singleton instance of InventoryControl.
+     *
+     * @return the singleton instance of InventoryControl
+     */
     public static InventoryControl getInstance() {
-
         if (instance == null) {
             instance = new InventoryControl();
         }
         return instance;
     }
 
-    // public void start() {
-    //     inventory.clear();
-    //     inventory.addAll(inventoryParse.parse("src\\data\\Medicine_List.csv"));
-    // }
-
-    // public void close() {
-    //     inventoryParse.write("src\\data\\Medicine_List.csv", inventory);
-    // }
-
+    /**
+     * Verifies if the user has the Doctor role.
+     *
+     * @param user the user to check
+     * @return true if the user is a doctor, otherwise false
+     */
     private Boolean isDoctor(User user) {
         if (user.getRole() == Role.Doctor)
             return true;
-        System.out.println("Only Doctor are permitted to conduct this operation. ");
+        System.out.println("Only Doctor are permitted to conduct this operation.");
         return false;
     }
 
+    /**
+     * Verifies if the user has the Pharmacist role.
+     *
+     * @param user the user to check
+     * @return true if the user is a pharmacist, otherwise false
+     */
     private Boolean isPharmacist(User user) {
         if (user.getRole() == Role.Pharmacist)
             return true;
-        System.out.println("Only Pharmacist are permitted to conduct this operation. ");
+        System.out.println("Only Pharmacist are permitted to conduct this operation.");
         return false;
     }
 
+    /**
+     * Verifies if the user has the Administrator role.
+     *
+     * @param user the user to check
+     * @return true if the user is an administrator, otherwise false
+     */
     private Boolean isAdmin(User user) {
         if (user.getRole() == Role.Administrator)
             return true;
-        System.out.println("Only Admin are permitted to conduct this operation. ");
+        System.out.println("Only Admin are permitted to conduct this operation.");
         return false;
     }
 
+    /**
+     * Creates a new prescription and adds it to the inventory. Only an admin can perform this operation.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void create(User user) {
         if (!isAdmin(user))
@@ -74,9 +108,13 @@ public class InventoryControl implements IControl, IInventory {
         inventory.add(newPrescription);
         inventorySort.sortByAlphabetical(inventory, 0);
         System.out.println("New item added: " + newPrescription.getItemName());
-
     }
 
+    /**
+     * Adds stock to an existing prescription in the inventory. Only an admin can perform this operation.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void add(User user) {
         if (!isAdmin(user))
@@ -106,6 +144,11 @@ public class InventoryControl implements IControl, IInventory {
         }
     }
 
+    /**
+     * Edits an existing prescription in the inventory. Only an admin can perform this operation.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void edit(User user) {
         if (!isAdmin(user))
@@ -145,10 +188,14 @@ public class InventoryControl implements IControl, IInventory {
 
             default:
                 break;
-
         }
     }
 
+    /**
+     * Deletes a prescription from the inventory. Only an admin can perform this operation.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void delete(User user) {
         if (!isAdmin(user))
@@ -158,6 +205,11 @@ public class InventoryControl implements IControl, IInventory {
         inventory.remove(prescription);
     }
 
+    /**
+     * Selects a prescription from the inventory by displaying a list and allowing the user to choose.
+     *
+     * @return the selected prescription, or null if no valid prescription is selected
+     */
     public Prescription select() {
         (new InventoryDisplay()).printPrescriptions(inventory);
         if (inventory.size() == 0)
@@ -172,6 +224,13 @@ public class InventoryControl implements IControl, IInventory {
         return null;
     }
 
+    /**
+     * Dispenses the specified medication based on the provided prescription IDs and quantities.
+     * This operation checks stock levels and updates the status of each prescription.
+     *
+     * @param medicationMap a map of prescription IDs to quantities to be dispensed
+     * @return the status of the dispense operation
+     */
     public Status dispenseMedicine(HashMap<String, Integer> medicationMap) {
         for (String prescriptionID : medicationMap.keySet()) {
             Prescription prescription = getPrescriptionByID(prescriptionID);
@@ -183,7 +242,6 @@ public class InventoryControl implements IControl, IInventory {
                 prescription.setStockStatus(Status.LOWSTOCK);
                 return Status.PENDING;
             }
-
         }
         for (String prescriptionID : medicationMap.keySet()) {
             Prescription prescription = getPrescriptionByID(prescriptionID);
@@ -197,6 +255,12 @@ public class InventoryControl implements IControl, IInventory {
         return Status.DISPENSED;
     }
 
+    /**
+     * Retrieves a prescription by its ID.
+     *
+     * @param prescriptionID the ID of the prescription
+     * @return the matching prescription, or null if not found
+     */
     public Prescription getPrescriptionByID(String prescriptionID) {
         for (Prescription prescription : inventory) {
             if (prescription.getItemID().equalsIgnoreCase(prescriptionID)) {
@@ -206,6 +270,11 @@ public class InventoryControl implements IControl, IInventory {
         return null;
     }
 
+    /**
+     * Retrieves a list of prescriptions that have low stock.
+     *
+     * @return a list of prescriptions with low stock
+     */
     @Override
     public ArrayList<Prescription> getLowStockInventory() {
         ArrayList<Prescription> result = new ArrayList<>();
@@ -221,6 +290,11 @@ public class InventoryControl implements IControl, IInventory {
         }
     }
 
+    /**
+     * Retrieves a list of prescriptions that are flagged for restocking.
+     *
+     * @return a list of prescriptions needing restocking
+     */
     @Override
     public ArrayList<Prescription> getRestockInventory() {
         ArrayList<Prescription> result = new ArrayList<>();
@@ -236,6 +310,12 @@ public class InventoryControl implements IControl, IInventory {
         }
     }
 
+    /**
+     * Allows a doctor to select medications to dispense for a patient.
+     *
+     * @param user the user performing the operation
+     * @return a map of selected medication IDs to quantities
+     */
     @Override
     public HashMap<String, Integer> selectMedication(User user) {
         if(!isDoctor(user)) return null;
@@ -274,6 +354,11 @@ public class InventoryControl implements IControl, IInventory {
         return medicationMap;
     }
 
+    /**
+     * Allows a pharmacist to request replenishment of medications with low stock.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void replenishmentRequest(User user) {
         if (!isPharmacist(user)) return;
@@ -308,6 +393,11 @@ public class InventoryControl implements IControl, IInventory {
         }
     }
 
+    /**
+     * Approves a replenishment request for medications needing restocking. Only an admin can perform this operation.
+     *
+     * @param user the user performing the operation
+     */
     @Override
     public void approveReplenishmentRequest(User user) {
         if (!isAdmin(user)) return;
@@ -315,7 +405,7 @@ public class InventoryControl implements IControl, IInventory {
 
         InventoryDisplay display = new InventoryDisplay();
         if (reStockInventory.size() == 0) {
-            System.out.println("No Replenishment Request. ");
+            System.out.println("No Replenishment Request.");
             return;
         }
 
@@ -347,22 +437,38 @@ public class InventoryControl implements IControl, IInventory {
             }
         }
     }
-    
-    public void showInventory(){
+
+    /**
+     * Displays the entire inventory list.
+     */
+    public void showInventory() {
         inventoryDisplay.printPrescriptions(inventory);
     }
 
-    public void showInventoryDoctor(User user){
-        if(!isDoctor(user)) return;
+    /**
+     * Displays the inventory to a doctor.
+     *
+     * @param user the user performing the operation
+     */
+    public void showInventoryDoctor(User user) {
+        if (!isDoctor(user)) return;
         inventoryDisplay.printPrescriptionsDoctor(inventory);
     }
 
-    public void showInventoryLowStock(){
+    /**
+     * Displays the list of prescriptions with low stock.
+     */
+    public void showInventoryLowStock() {
         inventoryDisplay.printPrescriptions(getLowStockInventory());
     }
-    
-    public void showInventoryReStock(User user){
-        if(!isAdmin(user)) return;
+
+    /**
+     * Displays the list of prescriptions that need restocking.
+     *
+     * @param user the user performing the operation
+     */
+    public void showInventoryReStock(User user) {
+        if (!isAdmin(user)) return;
         inventoryDisplay.printPrescriptions(getRestockInventory());
     }
 }
