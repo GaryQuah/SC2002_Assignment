@@ -14,7 +14,7 @@ import models.enums.Gender;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
-import models.enums.AppointmentStatus;
+import ServiceClasses.Appointment.AppointmentStatus;
 
 public class DoctorMenu implements Menu {
 

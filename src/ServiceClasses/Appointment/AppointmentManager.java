@@ -3,22 +3,34 @@ package ServiceClasses.Appointment;
 import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import java.util.ArrayList;
 
+/**
+ * The AppointmentManager class is responsible for managing and tracking the appointments.
+ * It acts as a singleton and provides methods to manage appointments, generate unique IDs,
+ * and interact with related components such as the AppointmentScheduler, AppointmentViewer,
+ * and AppointmentOutcomeControl, adhering to SRP principle
+ */
 public class AppointmentManager {
-    //Variable Declaration
 
-    private static AppointmentManager instance; //Singleton instance
+    // Singleton instance of AppointmentManager
+    private static AppointmentManager instance;
+
+    // Maximum Appointment ID tracker
     private int MaxID = 1;
 
-    // Appointment-related components
+    // List of all appointments
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
+
+    // Appointment-related components
     private AppointmentScheduler appointmentScheduler = new AppointmentScheduler(AppointmentList);
     private AppointmentViewer appointmentViewer = new AppointmentViewer(AppointmentList);
     private AppoinmentOutcomeControl appointmentOutcomeControl = AppoinmentOutcomeControl.getInstance();
-    //End of variable declaration
+
+    // Private constructor to prevent instantiation from outside
+    private AppointmentManager() {}
 
     /**
      * Returns the singleton instance of the AppointmentManager.
-     * If it doesn't exist, it will initialize it.
+     * If it doesn't exist, it will initialize and return it.
      *
      * @return The singleton instance of AppointmentManager.
      */
@@ -29,13 +41,11 @@ public class AppointmentManager {
         return instance;
     }
 
-    // Private constructor to prevent instantiation from outside
-    private AppointmentManager() {}
-
     /**
      * Returns the AppointmentScheduler instance.
+     * The AppointmentScheduler is responsible for scheduling appointments.
      *
-     * @return AppointmentScheduler
+     * @return The AppointmentScheduler instance.
      */
     public AppointmentScheduler getAppointmentScheduler() {
         return appointmentScheduler;
@@ -43,8 +53,9 @@ public class AppointmentManager {
 
     /**
      * Returns the AppointmentViewer instance.
+     * The AppointmentViewer is responsible for displaying appointments.
      *
-     * @return AppointmentViewer
+     * @return The AppointmentViewer instance.
      */
     public AppointmentViewer getAppointmentViewer() {
         return appointmentViewer;
@@ -52,8 +63,9 @@ public class AppointmentManager {
 
     /**
      * Returns the AppoinmentOutcomeControl instance.
+     * The AppoinmentOutcomeControl manages the outcomes or results of appointments.
      *
-     * @return AppoinmentOutcomeControl
+     * @return The AppoinmentOutcomeControl instance.
      */
     public AppoinmentOutcomeControl getAppointmentOutcomeControl() {
         return appointmentOutcomeControl;
@@ -61,30 +73,30 @@ public class AppointmentManager {
 
     /**
      * Generates and returns a new unique appointment ID.
+     * Each time this method is called, a new ID is generated sequentially.
      *
-     * @return int New unique appointment ID.
+     * @return A new unique appointment ID.
      */
     public int getNewID() {
-        //System.out.println("Getting newID.");
         return MaxID++;
     }
 
     /**
      * Updates the maximum ID if a higher value is provided.
+     * This ensures that appointment IDs continue to increment correctly.
      *
      * @param value The value to update the maximum ID to.
      */
     public void updateMaxID(int value) {
-        //System.out.println("Updating Max ID");
         if (value >= instance.MaxID) {
             instance.MaxID = value + 1;
         }
     }
 
     /**
-     * Returns the list of appointments.
+     * Returns the list of all appointments managed by this AppointmentManager.
      *
-     * @return ArrayList of Appointment objects.
+     * @return An ArrayList containing all Appointment objects.
      */
     public ArrayList<Appointment> getAppointmentList() {
         return AppointmentList;
