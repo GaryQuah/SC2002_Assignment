@@ -63,7 +63,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
         for (AppointmentOutcome outcome : appointmentOutcomes) {
             if (outcome.getAppointmentID() == newOutcome.getAppointmentID()) {
-                System.out.println("This Appoinment existed inside the database.");
+                System.out.println("This Appointment existed inside the database.");
                 return;
             }
         }
