@@ -9,14 +9,37 @@ import models.Patient;
 import models.enums.BloodType;
 import models.enums.Gender;
 
+
+/**
+ * Handles file operations for managing patient data, including reading,
+ * writing, and updating patient information stored in a CSV file.
+ */
+
 public class PatientFileHandler extends FileHandler<Patient>
 {
+    /**
+     * List of patients currently loaded from the file.
+     */
     public ArrayList<Patient> patientList = new ArrayList<>();
+
+
+    /**
+     * Constructor for the PatientFileHandler.
+     * <p>
+     * Initializes the handler with the file path to the patient list.
+     * </p>
+     */
 
     public PatientFileHandler() {
         super("src/data/Patient_List.csv");
     }
 
+
+    /**
+     * Retrieves patient data from the CSV file and returns it as an ArrayList of {@link Patient}.
+     * 
+     * @return a list of patients loaded from the CSV file
+     */
     @Override
     public ArrayList<Patient> retrieveData() {
         ArrayList<Patient> patientList = new ArrayList<>();
@@ -41,6 +64,13 @@ public class PatientFileHandler extends FileHandler<Patient>
         setDataArray(patientList);
         return patientList;
     }
+
+
+    /**
+     * Updates a patient's data in the CSV file.
+     * 
+     * @param updatedPatient the {@link Patient} object with updated information
+     */
 
     public void updatePatientInFile(Patient updatedPatient) {
         ArrayList<Patient> patientList = retrieveData(); // Load current data from CSV
@@ -97,6 +127,9 @@ public class PatientFileHandler extends FileHandler<Patient>
         }
     }
 
+    /**
+     * Saves the patient data to the CSV file.
+     */
     @Override
     public void saveData()
     {
@@ -124,6 +157,14 @@ public class PatientFileHandler extends FileHandler<Patient>
         } catch (Exception e) {}
     }
 
+
+    /**
+     * Verifies the login credentials of a patient.
+     * 
+     * @param currentUserID       the user ID provided for login
+     * @param currentUserPassword the password provided for login
+     * @return {@code true} if the credentials are valid; {@code false} otherwise
+     */
     public boolean checkLogin(String currentUserID, String currentUserPassword)
     {
         ArrayList<Patient> patientList = retrieveData();
@@ -138,6 +179,13 @@ public class PatientFileHandler extends FileHandler<Patient>
         return false;
     }
 
+
+    /**
+     * Adds a new patient to the patient list and updates the CSV file.
+     * 
+     * @param newPatient the {@link Patient} object to be added
+     */
+
     public void addPatient(Patient newPatient) {
         ArrayList<Patient> currentPatientList = getDataArray();
         currentPatientList.add(newPatient);
@@ -145,6 +193,14 @@ public class PatientFileHandler extends FileHandler<Patient>
         saveData();
     }
 
+
+    /**
+     * Retrieves a patient by their user ID.
+     * 
+     * @param userID the user ID of the patient
+     * @return the {@link Patient} object if found, or {@code null} if not found
+     */
+    
     public Patient getUserById(String userID) {
         ArrayList<Patient> patientList = getDataArray();
         for (Patient patient : patientList) {
