@@ -6,11 +6,15 @@ import ServiceClasses.MedicalRecordService;
 import input.IntInput;
 import models.Doctor;
 import models.Patient;
+import models.MedicalRecord;
 import models.User;
+import models.enums.BloodType;
+import models.enums.Gender;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+import models.enums.AppointmentStatus;
 
 public class DoctorMenu implements Menu {
 
@@ -27,13 +31,14 @@ public class DoctorMenu implements Menu {
         System.out.println("8. Logout");
     }
 
-    public void displayMenu(User loggedInUser) {
+    @Override
+    public void displayMenu(User loggedInUser) { // Ensure this matches the interface
         if (!(loggedInUser instanceof Doctor)) {
             System.out.println("Access Denied: Only Doctors can access this menu.");
             return;
         }
 
-        Doctor doctor = (Doctor) loggedInUser; // Casting User to Doctor
+        Doctor doctor = (Doctor) loggedInUser; // Safely cast the logged-in user to Doctor
         int choice;
 
         do {
@@ -41,34 +46,15 @@ public class DoctorMenu implements Menu {
             choice = IntInput.integer("Option");
 
             switch (choice) {
-                case 1:
-                    viewPatientMedicalRecords();
-                    break;
-                case 2:
-                    updatePatientMedicalRecords(doctor);
-                    break;
-                case 3:
-                    viewPersonalSchedule(doctor);
-                    break;
-                case 4:
-                    setAvailability(doctor);
-                    break;
-                case 5:
-                    handleAppointmentRequests(doctor);
-                    break;
-                case 6:
-                    viewUpcomingAppointments(doctor);
-                    break;
-                case 7:
-                    recordAppointmentOutcome(doctor);
-                    break;
-                case 8:
-                    System.out.println("Logout...");
-                    return;
-
-                default:
-                    System.out.println("Invalid Option. Please try again.");
-                    break;
+                case 1 -> viewPatientMedicalRecords();
+                case 2 -> updatePatientMedicalRecords(doctor);
+                case 3 -> viewPersonalSchedule(doctor);
+                case 4 -> setAvailability(doctor);
+                case 5 -> handleAppointmentRequests(doctor);
+                case 6 -> viewUpcomingAppointments(doctor);
+                case 7 -> recordAppointmentOutcome(doctor);
+                case 8 -> System.out.println("Logout...");
+                default -> System.out.println("Invalid Option. Please try again.");
             }
         } while (choice != 8);
     }
@@ -78,11 +64,11 @@ public class DoctorMenu implements Menu {
         System.out.print("Enter patient ID to view records: ");
         String patientId = sc.nextLine();
 
-        // try {
-        //     MedicalRecordService.viewMedicalRecord(new Patient(patientId));
-        // } catch (IOException e) {
-        //     System.out.println("Error fetching medical records: " + e.getMessage());
-        // }
+        try {
+            MedicalRecordService.viewMedicalRecord(patientId);
+        } catch (IOException e) {
+            System.out.println("Error fetching medical records: " + e.getMessage());
+        }
     }
 
     private void updatePatientMedicalRecords(Doctor doctor) {
@@ -90,18 +76,53 @@ public class DoctorMenu implements Menu {
         System.out.print("Enter patient ID to update records: ");
         String patientId = sc.nextLine();
 
-        System.out.print("Enter new diagnosis: ");
-        String diagnosis = sc.nextLine();
+        System.out.print("Enter patient name: ");
+        String name = sc.nextLine();
 
-        System.out.print("Enter new treatment: ");
-        String treatment = sc.nextLine();
+        System.out.print("Enter patient date of birth (dd/mm/yyyy): ");
+        String dateOfBirth = sc.nextLine();
 
-        System.out.print("Enter the date (dd-mm-yyyy): ");
-        String date = sc.nextLine();
+        System.out.print("Enter patient gender (Male/Female/Others): ");
+        String genderInput = sc.nextLine().trim().toUpperCase(); // Convert input to uppercase
+        Gender gender;
+        try {
+            gender = Gender.valueOf(genderInput); // Match input to Gender enum
+        } catch (IllegalArgumentException e) {
+            gender = Gender.UNKNOWN; // Default to UNKNOWN if invalid input
+        }
+
+        System.out.print("Enter patient contact number: ");
+        String contactNumber = sc.nextLine();
+
+        System.out.print("Enter patient email address: ");
+        String emailAddress = sc.nextLine();
+
+        System.out.print("Enter patient blood type (e.g., A_POSITIVE): ");
+        String bloodTypeInput = sc.nextLine().trim().toUpperCase(); // Convert input to uppercase
+        BloodType bloodType;
+        try {
+            bloodType = BloodType.valueOf(bloodTypeInput); // Match input to BloodType enum
+        } catch (IllegalArgumentException e) {
+            bloodType = BloodType.UNKNOWN; // Default to UNKNOWN if invalid input
+        }
+
+        System.out.print("Enter patient past diagnoses: ");
+        String pastDiagnoses = sc.nextLine();
+
+        System.out.print("Enter patient past treatments: ");
+        String pastTreatments = sc.nextLine();
 
         try {
-            MedicalRecordService.updateMedicalRecord(
-                    new models.MedicalRecord(patientId, doctor.getUserID(), diagnosis, treatment, date));
+            MedicalRecordService.updateMedicalRecord(new MedicalRecord(
+                    patientId,
+                    name,
+                    dateOfBirth,
+                    gender,
+                    contactNumber,
+                    emailAddress,
+                    bloodType,
+                    pastDiagnoses,
+                    pastTreatments));
             System.out.println("Medical record updated successfully.");
         } catch (IOException e) {
             System.out.println("Error updating medical records: " + e.getMessage());
@@ -164,23 +185,24 @@ public class DoctorMenu implements Menu {
             }
         }
 
-        // boolean success = AppointmentManager.getInstance()
-        //         .getAppointmentOutcomeControl()
-        //         .create(
-        //                 doctor,
-        //                 new AppointmentOutcome(
-        //                         appointmentId,
-        //                         null,
-        //                         doctor.getName(),
-        //                         serviceType,
-        //                         null,
-        //                         medications,
-        //                         consultationNotes));
+    //     // Adjusted to match the expected signature
+    //     boolean success = AppointmentManager.getInstance()
+    //             .getAppointmentOutcomeControl()
+    //             .create(
+    //                     doctor,
+    //                     new AppointmentOutcome(
+    //                             appointmentId,
+    //                             null, // Adjust as needed for patient name
+    //                             doctor.getName(),
+    //                             serviceType,
+    //                             null, // Adjust as needed for datetime
+    //                             medications,
+    //                             consultationNotes));
 
-        // if (success) {
-        //     System.out.println("Appointment outcome recorded successfully.");
-        // } else {
-        //     System.out.println("Failed to record appointment outcome.");
-        // }
+    //     if (success) {
+    //         System.out.println("Appointment outcome recorded successfully.");
+    //     } else {
+    //         System.out.println("Failed to record appointment outcome.");
+    //     }
     }
 }
