@@ -11,7 +11,9 @@ public class PharmacistMenu implements Menu {
 
     public void header() {
         System.out.println();
-        System.out.println("---------- Pharmacist Menu ----------");
+        System.out.println("=======================================");
+        System.out.println("|           Pharmacist Menu           |");
+        System.out.println("=======================================");
         System.out.println("1. View Appoinment Outcome");
         System.out.println("2. Update Prescription Status");
         System.out.println("3. View Medication Inventory");
