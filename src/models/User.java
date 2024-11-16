@@ -14,18 +14,16 @@ public abstract class User implements IUserManagement{
     private String m_UserID;
     private String m_Name;
     private Gender m_Gender;
-    private String m_UserName;
     private String m_PassWord;
     private Role m_Role;
 
     // Users will have roles such as Patient, Doctor, Pharmacist or Administrator.
 
     //When creating a user, the ID field would be UserIDManager.getInstance().getNewID(m_Role);
-    public User(String userID, String name, Gender gender, String userName, String passWord, Role role) { 
+    public User(String userID, String name, Gender gender, String passWord, Role role) { 
         m_UserID = userID;
         m_Name = name;
         m_Gender = gender;
-        m_UserName = userName;
         m_PassWord = passWord;
         m_Role = role;
 
@@ -36,12 +34,12 @@ public abstract class User implements IUserManagement{
         UserIDManager.getInstance().updateID(m_Role, numericValue);
     }
 
-    public boolean ValidateUser(String m_UserName, String m_PassWord) {
-        if (this.m_UserName.equals(m_UserName) && this.m_PassWord.equals(m_PassWord)) {
-            return true;
-        } else
-            return false;
-    }
+    // public boolean ValidateUser(String m_UserName, String m_PassWord) {
+    //     if (this.m_UserName.equals(m_UserName) && this.m_PassWord.equals(m_PassWord)) {
+    //         return true;
+    //     } else
+    //         return false;
+    // }
 
     public String getName()
     {
@@ -54,10 +52,6 @@ public abstract class User implements IUserManagement{
 
     public String getPassword() {
         return this.m_PassWord;
-    }
-
-    public String getUsername() {
-        return this.m_UserName;
     }
 
     public Role getRole() {

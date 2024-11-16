@@ -12,12 +12,27 @@ import models.enums.Gender;
 import models.enums.Role;
 
 
-
+/**
+ * Handles the sign-up process for patients, collecting necessary information
+ * and creating a new patient record in the system.
+ */
 public class PTSignup 
 {
-    //sign up page for patient 
+    /**
+     * Default constructor for the PTSignup class.
+     */
     public PTSignup() {}
 
+    /**
+     * Executes the sign-up process for a patient.
+     * 
+     * <p>
+     * This method guides the user through entering their personal details,
+     * such as name, date of birth, gender, blood type, contact information,
+     * and emergency contact details. After validation, it creates a new 
+     * {@link Patient} object and saves it in the system database.
+     * </p>
+     */
     public void signUp() {
         Scanner sc = new Scanner(System.in);
         int choice;
@@ -102,9 +117,6 @@ public class PTSignup
         System.out.println("Enter your contact information: ");
         String contactInfo = sc.nextLine();
 
-        System.out.println("Enter your username: ");
-        String username = sc.nextLine();
-
         System.out.println("Enter your password: ");
         String password = sc.nextLine();
 
@@ -118,15 +130,25 @@ public class PTSignup
         String emergencyContactNumber = sc.nextLine().trim();
 
         Patient newPatient = new Patient(UserIDManager.getInstance().generateUniqueID(Role.Patient), 
-                                name, DOB, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+                                name, DOB, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
         
         DataBaseManager.getInstance().getPatientFileHandler().addPatient(newPatient);
-        System.out.println(DataBaseManager.getInstance().getPatientFileHandler().getDataArray());
+        System.out.println("Account created successfully!");
+        System.out.println("Login with User ID " + newPatient.getUserID() + " and your password.");
 
     }
 
+
+    /**
+     * Validates the provided date of birth (DOB) string.
+     * 
+     * @param DOB the date of birth in the format "dd/MM/yyyy"
+     * @return {@code true} if the date is valid; {@code false} otherwise
+     */
+    
     public static boolean validateDate(String DOB)
     {
+        // Format Dates in the format dd/MM/yyyy
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         format.setLenient(false);
         try {

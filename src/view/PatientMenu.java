@@ -10,6 +10,12 @@ import ServiceClasses.Appointment.AppointmentManager;
 import models.Patient;
 import models.User;
 
+/**
+ * The PatientMenu class provides a menu for patients,
+ * <p>
+ * This class implements the Menu interface.
+ * </p>
+ */
 public class PatientMenu implements Menu{
 
     private Patient patient;
@@ -19,24 +25,19 @@ public class PatientMenu implements Menu{
 
         this.patient = patient;
     }
-
+    /**
+     * Displays the patient-specific menu and handles user input to perform various operations.
+     * <p>
+     * The method runs in a loop until the user chooses to log out.
+     * </p>
+     * @param user The user object for whom the menu is displayed.
+     */
     public void displayMenu(User user){ // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);
 
-        // for testing
-        /*String patientID = "P0000";
-        String patientName = "John";
-        String DOB = "01/01/2000";
-        Gender gender = Gender.Male;
-        BloodType bloodType = BloodType.O_POSITIVE;
-        String contactInformation = "123-456-7890";
-        String userName = "john123";
-        String password = "idk";
 
-        Patient patient = new Patient(patientID, patientName, DOB, gender, bloodType, contactInformation, userName,
-                password);*/
 
         AppointmentManager appointmentManager = AppointmentManager.getInstance();
 

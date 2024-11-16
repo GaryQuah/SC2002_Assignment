@@ -9,14 +9,37 @@ import models.Patient;
 import models.enums.BloodType;
 import models.enums.Gender;
 
+
+/**
+ * Handles file operations for managing patient data, including reading,
+ * writing, and updating patient information stored in a CSV file.
+ */
+
 public class PatientFileHandler extends FileHandler<Patient>
 {
+    /**
+     * List of patients currently loaded from the file.
+     */
     public ArrayList<Patient> patientList = new ArrayList<>();
+
+
+    /**
+     * Constructor for the PatientFileHandler.
+     * <p>
+     * Initializes the handler with the file path to the patient list.
+     * </p>
+     */
 
     public PatientFileHandler() {
         super("src/data/Patient_List.csv");
     }
 
+
+    /**
+     * Retrieves patient data from the CSV file and returns it as an ArrayList of {@link Patient}.
+     * 
+     * @return a list of patients loaded from the CSV file
+     */
     @Override
     public ArrayList<Patient> retrieveData() {
         ArrayList<Patient> patientList = new ArrayList<>();
@@ -30,19 +53,24 @@ public class PatientFileHandler extends FileHandler<Patient>
             Gender gender = Gender.valueOf(row[3]);
             BloodType bloodType = BloodType.valueOf(row[4]);
             String contactInfo = row[5];
-            // login username = userID
-            String username = row[0];
-            String password = row[7];
-            String emergencyContactName = row[8];
-            String emergencyContactRelation = row[9]; 
-            String emergencyContactNumber = row[10];
+            String password = row[6];
+            String emergencyContactName = row[7];
+            String emergencyContactRelation = row[8]; 
+            String emergencyContactNumber = row[9];
 
-            Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, username, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
+            Patient patient = new Patient(userID, name, dateOfBirth, gender, bloodType, contactInfo, password, emergencyContactName, emergencyContactRelation, emergencyContactNumber);
             patientList.add(patient);
         }
         setDataArray(patientList);
         return patientList;
     }
+
+
+    /**
+     * Updates a patient's data in the CSV file.
+     * 
+     * @param updatedPatient the {@link Patient} object with updated information
+     */
 
     public void updatePatientInFile(Patient updatedPatient) {
         ArrayList<Patient> patientList = retrieveData(); // Load current data from CSV
@@ -85,7 +113,6 @@ public class PatientFileHandler extends FileHandler<Patient>
                         patient.getGender().toString(),
                         bloodTypeString,
                         patient.getContactInfo(),
-                        patient.getUsername(),
                         patient.getPassword(),
                         patient.getEmergencyContactName(),
                         patient.getEmergencyContactRelation(),
@@ -100,11 +127,14 @@ public class PatientFileHandler extends FileHandler<Patient>
         }
     }
 
+    /**
+     * Saves the patient data to the CSV file.
+     */
     @Override
     public void saveData()
     {
         ArrayList <String> data = new ArrayList <String> ();
-        data.add("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password");
+        data.add("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Password,Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number");
     
         // Convert Patient objects to String[] before saving
         for (Patient patient : getDataArray()) {
@@ -115,8 +145,7 @@ public class PatientFileHandler extends FileHandler<Patient>
                 patient.getDateOfBirth() + "," +                       // Date of Birth
                 patient.getGender().toString() + "," +              // Gender
                 patient.getBloodType().toString() + "," +
-                patient.getContactInfo() + "," +             // Contact Info
-                patient.getUserID() + "," +                            // Username
+                patient.getContactInfo() + "," +             // Contact Info  
                 patient.getPassword() + "," +                         // Password
                 patient.getEmergencyContactName() + "," +            // Emergency Contact Name
                 patient.getEmergencyContactRelation() + "," +        // Emergency Contact Relation
@@ -128,6 +157,14 @@ public class PatientFileHandler extends FileHandler<Patient>
         } catch (Exception e) {}
     }
 
+
+    /**
+     * Verifies the login credentials of a patient.
+     * 
+     * @param currentUserID       the user ID provided for login
+     * @param currentUserPassword the password provided for login
+     * @return {@code true} if the credentials are valid; {@code false} otherwise
+     */
     public boolean checkLogin(String currentUserID, String currentUserPassword)
     {
         ArrayList<Patient> patientList = retrieveData();
@@ -142,6 +179,13 @@ public class PatientFileHandler extends FileHandler<Patient>
         return false;
     }
 
+
+    /**
+     * Adds a new patient to the patient list and updates the CSV file.
+     * 
+     * @param newPatient the {@link Patient} object to be added
+     */
+
     public void addPatient(Patient newPatient) {
         ArrayList<Patient> currentPatientList = getDataArray();
         currentPatientList.add(newPatient);
@@ -149,6 +193,14 @@ public class PatientFileHandler extends FileHandler<Patient>
         saveData();
     }
 
+
+    /**
+     * Retrieves a patient by their user ID.
+     * 
+     * @param userID the user ID of the patient
+     * @return the {@link Patient} object if found, or {@code null} if not found
+     */
+    
     public Patient getUserById(String userID) {
         ArrayList<Patient> patientList = getDataArray();
         for (Patient patient : patientList) {

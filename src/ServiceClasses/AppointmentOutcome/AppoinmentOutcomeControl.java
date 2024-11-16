@@ -63,7 +63,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
         for (AppointmentOutcome outcome : appointmentOutcomes) {
             if (outcome.getAppointmentID() == newOutcome.getAppointmentID()) {
-                System.out.println("This Appoinment existed inside the database.");
+                System.out.println("This Appointment existed inside the database.");
                 return;
             }
         }
@@ -110,7 +110,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         if (!isDoctor(user))
             return;
 
-        AppointmentOutcome appointmentOutcome = select(user);
+        AppointmentOutcome appointmentOutcome = select(user, getOutcomeByDoctorName(user.getName()));
 
         if (appointmentOutcome == null)
             return;
@@ -136,7 +136,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
             case 3:
                 System.out.printf("New Consultation Note: ");
                 String consultationNote = Scan.scan.nextLine();
-                appointmentOutcome.setServiceType(consultationNote);
+                appointmentOutcome.setConsultationNotes(consultationNote);
                 break;
 
             default:
@@ -232,6 +232,10 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         // appointmentOutcomeSort.sortByAppointmentDate(appointmentOutcomes, 0);
         // ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
         ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
+        if(result.size()==0){
+            System.out.println("No Pending Medication dispense request.");
+            return;
+    }
         AppointmentOutcome appointmentOutcome = select(user, result);
         HashMap<String, Integer> medicationMap = appointmentOutcome.getPrescribedMedications();
         Status status = InventoryControl.getInstance().dispenseMedicine(medicationMap);

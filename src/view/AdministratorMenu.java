@@ -16,10 +16,28 @@ import models.UserIDManager;
 import models.enums.Gender;
 import models.enums.Role;
 
+
+/**
+ * AdministratorMenu class implements the Menu interface
+ * and provides various administrative functionalities for managing hospital operations.
+ * This includes managing staff, appointments, medication inventory, and replenishment requests.
+ * 
+ * <p>The class serves as the main entry point for administrators to interact with the system.
+ */
 public class AdministratorMenu implements Menu
 {
-    private static AppointmentManager appointmentManager = AppointmentManager.getInstance(); 
+    /** Singleton instance of AppointmentManager to manage appointments. */
+    private static AppointmentManager appointmentManager = AppointmentManager.getInstance();
+
+    /** Singleton instance of InventoryControl to manage inventory operations. */
     private static InventoryControl inventoryControl = InventoryControl.getInstance();
+
+    /**
+     * Displays the main administrator menu and handles user input to navigate 
+     * between different administrative functionalities.
+     *
+     * @param loggedInUser the currently logged-in administrator {@link User}.
+     */
     public void displayMenu(User loggedInUser)
     {
 
@@ -42,13 +60,13 @@ public class AdministratorMenu implements Menu
             switch(choice)
             {
                 case 1:
-                    AdminManageStaff();
+                    AdminManageStaffMenu();
                     break;
                 case 2:
-                    ViewAppointmentDetails();
+                    ViewAppointmentDetailsMenu();
                     break;
                 case 3:                    
-                    AdminManageInventory(loggedInUser);
+                    AdminManageInventoryMenu(loggedInUser);
                     break;
                 case 4:
                     
@@ -71,7 +89,12 @@ public class AdministratorMenu implements Menu
         }
     }
 
-    public static void AdminManageStaff()
+    /**
+     * Displays the hospital staff management menu and provides options to 
+     * view, add, update, and remove staff members.
+     */
+
+    public static void AdminManageStaffMenu()
     {
         int choice;
         Scanner sc = new Scanner(System.in);
@@ -112,13 +135,13 @@ public class AdministratorMenu implements Menu
                         switch(roleChoice)
                         {
                             case 1:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Doctor");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Doctor");
                                 break;
                             case 2:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Pharmacist");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Pharmacist");
                                 break;
                             case 3:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByRole("Administrator");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Administrator");
                             break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -135,10 +158,10 @@ public class AdministratorMenu implements Menu
                         switch(genderChoice)
                         {
                             case 1:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Male");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Male");
                                 break;
                             case 2:
-                                DataBaseManager.getInstance().getStaffFileHandler().printFilterByGender("Female");
+                                DataBaseManager.getInstance().getStaffFileHandler().printFilterBy("Female");
                                 break;
                             default:
                                 System.out.println("Invalid Choice");
@@ -150,7 +173,7 @@ public class AdministratorMenu implements Menu
                         System.out.println("Enter Age");
                         System.out.println("--------------------------------");
                         int age = sc.nextInt();
-                        DataBaseManager.getInstance().getStaffFileHandler().printFilterByAge(Integer.toString(age));
+                        DataBaseManager.getInstance().getStaffFileHandler().printFilterBy(Integer.toString(age));
                         break;
                     default:
                         System.out.println("Invalid Choice");
@@ -167,19 +190,24 @@ public class AdministratorMenu implements Menu
             System.out.println("=================================");
             System.out.println("Update Staff Members");
                 System.out.println("=================================");
-                AdminUpdateMember();
+                AdminUpdateMemberMenu();
                 break;
             case 4:
                 System.out.println("=================================");
                 System.out.println("Remove Staff Members");
                 System.out.println("=================================");
-                AdminRemoveMember();
+                AdminRemoveMemberMenu();
                 break;
             default:
                 System.out.println("Invalid Choice");
                 break;
         }
     }
+
+
+    /**
+     * Adds a new staff member to the system with details such as role, gender, age, and name.
+     */
 
     public static void AdminAddMember()
     {
@@ -281,23 +309,28 @@ public class AdministratorMenu implements Menu
         Staff newStaff = null;
         switch (role) {
             case "Doctor":
-                newStaff = new Doctor(UserIDManager.getInstance().generateUniqueID(Role.Doctor), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");  // Assuming the password is "password"
+                newStaff = new Doctor(UserIDManager.getInstance().generateUniqueID(Role.Doctor), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");
                 break;
             case "Pharmacist":
-                newStaff = new Pharmacist(UserIDManager.getInstance().generateUniqueID(Role.Pharmacist), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Pharmacist(UserIDManager.getInstance().generateUniqueID(Role.Pharmacist), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");
                 break;
             case "Administrator":
-                newStaff = new Administrator(UserIDManager.getInstance().generateUniqueID(Role.Administrator), name, Role.valueOf(role), Gender.valueOf(gender), age, id, "password");
+                newStaff = new Administrator(UserIDManager.getInstance().generateUniqueID(Role.Administrator), name, Role.valueOf(role), Gender.valueOf(gender), age, "password");
                 break;
             default:
                 System.out.println("Invalid role selected.");
-                return;  // Exit if invalid role
+                return; 
         }
         DataBaseManager.getInstance().getStaffFileHandler().addStaff(newStaff);
         System.out.println("Staff " + id + " has been added.");
     }
 
-    public static void AdminUpdateMember() {
+
+    /**
+     * Displays the staff update menu, allowing administrators to modify 
+     * staff details such as name, role, gender, age, and password.
+     */
+    public static void AdminUpdateMemberMenu() {
         Scanner sc = new Scanner(System.in);
         String id = "";
         boolean found = false;
@@ -321,14 +354,12 @@ public class AdministratorMenu implements Menu
         System.out.printf("%-15s | " ,"Role: " + currentStaff.getRole());
         System.out.printf("%-15s | " ,"Gender: " + currentStaff.getGender());
         System.out.printf("%-5s | " ,"Age: " + currentStaff.getAge());
-        System.out.printf("%-5s | " ,"Username: " + currentStaff.getPassword());
+        System.out.printf("%-5s | " ,"Password: " + currentStaff.getPassword());
         System.out.println("");
     
-        // Create a copy of the current staff to modify
         updatedStaff = new Staff(currentStaff.getUserID(), currentStaff.getName(), currentStaff.getRole(),
-                                 currentStaff.getGender(), currentStaff.getAge(), currentStaff.getUsername(), currentStaff.getPassword());
+                                 currentStaff.getGender(), currentStaff.getAge(), currentStaff.getPassword());
     
-        // Request which detail to update
         System.out.println("Select Details To Update:");
         System.out.println("1. Staff Name");
         System.out.println("2. Staff Role");
@@ -338,7 +369,7 @@ public class AdministratorMenu implements Menu
         int updateChoice = sc.nextInt();
         sc.nextLine();
     
-        // Update based on choice
+        
         switch (updateChoice) {
             case 1:
                 System.out.println("Enter New Staff Name: ");
@@ -411,7 +442,13 @@ public class AdministratorMenu implements Menu
     }
     
 
-    public static void AdminRemoveMember()
+
+    /**
+     * Provides functionality to remove a staff member from the system
+     * by specifying their unique staff ID.
+     */
+
+    public static void AdminRemoveMemberMenu()
     {
         int choice;  
         String id = "";
@@ -458,7 +495,13 @@ public class AdministratorMenu implements Menu
         }
     }       
 
-    public static void ViewAppointmentDetails()
+
+    /**
+     * Displays the appointment details menu, allowing administrators to view
+     * appointments by various statuses such as accepted, declined, or pending.
+     */
+
+    public static void ViewAppointmentDetailsMenu()
     {   
         System.out.println("--------------------------------");
         System.out.println("View Appointment Details");
@@ -494,7 +537,15 @@ public class AdministratorMenu implements Menu
         }
     }
 
-    public static void AdminManageInventory(User loggedInUser)
+
+    /**
+     * Displays the inventory management menu, providing options to view,
+     * edit, and manage inventory levels and replenishment requests.
+     *
+     * @param loggedInUser the currently logged-in administrator {@link User}.
+     */
+
+    public static void AdminManageInventoryMenu(User loggedInUser)
     {
         System.out.println("--------------------------------");
         System.out.println("View And Manage Inventory");
@@ -517,9 +568,6 @@ public class AdministratorMenu implements Menu
             case 3:
                 inventoryControl.edit(loggedInUser);
                 break;
-            // case 4:
-            //     inventoryControl.removeMedicine();
-            //     break;
             default:
                 System.out.println("Invalid Choice");
                 break;

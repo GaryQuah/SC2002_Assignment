@@ -3,8 +3,12 @@ package models;
 import models.enums.Gender;
 import models.enums.Role;
 import models.enums.BloodType;
-
-//implements PatientInfo Interface
+/**
+ * Represents a patient in the HMS.
+ * <p>
+ * The Patient class extends the User class and implements the PatientAction interface.
+ * </p>
+ */
 public class Patient extends User implements PatientAction {
     // ------------------ variables -----------------------------
     private String contactInformation;
@@ -21,8 +25,8 @@ public class Patient extends User implements PatientAction {
     // "password", default role is "Patient"
 
     public Patient(String patientID, String patientName, String DOB,
-            Gender gender, BloodType bloodType, String contactInformation, String userName, String password) {
-        super(patientID, patientName, gender, userName , password , Role.Patient);
+            Gender gender, BloodType bloodType, String contactInformation, String password) {
+        super(patientID, patientName, gender, password , Role.Patient);
         this.contactInformation = contactInformation;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
@@ -48,9 +52,9 @@ public class Patient extends User implements PatientAction {
      * @param emergencyContactNumber    The patient's emergency contact phone number
      */
     public Patient(String patientID, String patientName, String DOB, 
-            Gender gender, BloodType bloodType, String contactInformation,  String userName, String password, 
+            Gender gender, BloodType bloodType, String contactInformation, String password, 
             String emergencyContactName, String emergencyContactRelation, String emergencyContactNumber) {
-        super(patientID, patientName, gender, userName , password , Role.Patient);
+        super(patientID, patientName, gender, password , Role.Patient);
         this.contactInformation = contactInformation;
         this.dateOfBirth = DOB;
         this.bloodType = bloodType;
