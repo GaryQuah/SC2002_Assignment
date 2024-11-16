@@ -78,15 +78,19 @@ public class MedicalRecordService {
     
             for (MedicalRecord record : records) {
                 if (record.getPatientId().equals(updatedRecord.getPatientId())) {
+                    // Validate Gender and BloodType before updating
+                    Gender gender = validateGender(updatedRecord.getGender());
+                    BloodType bloodType = validateBloodType(updatedRecord.getBloodType());
+    
                     // Write updated record
                     writer.write(String.join(",",
                             updatedRecord.getPatientId(),
                             updatedRecord.getName(),
                             updatedRecord.getDateOfBirth(),
-                            updatedRecord.getGender().toString(),
+                            gender.toString(),
                             updatedRecord.getContactNumber(),
                             updatedRecord.getEmailAddress(),
-                            updatedRecord.getBloodType().toString(),
+                            bloodType.toString(),
                             updatedRecord.getPastDiagnoses(),
                             updatedRecord.getPastTreatments()
                     ) + "\n");
@@ -108,6 +112,14 @@ public class MedicalRecordService {
         }
     }
     
+    private static Gender validateGender(Gender inputGender) {
+        return (inputGender != null) ? inputGender : Gender.UNKNOWN;
+    }
+    
+    private static BloodType validateBloodType(BloodType inputBloodType) {
+        return (inputBloodType != null) ? inputBloodType : BloodType.UNKNOWN;
+    }
+        
     // Delete a medical record
     public static void deleteMedicalRecord(String patientId) throws IOException {
         List<MedicalRecord> records = getAllMedicalRecords();

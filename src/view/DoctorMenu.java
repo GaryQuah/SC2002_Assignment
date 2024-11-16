@@ -83,12 +83,13 @@ public class DoctorMenu implements Menu {
         String dateOfBirth = sc.nextLine();
 
         System.out.print("Enter patient gender (Male/Female/Others): ");
-        String genderInput = sc.nextLine().trim().toUpperCase(); // Convert input to uppercase
+        String genderInput = sc.nextLine().trim();
         Gender gender;
         try {
-            gender = Gender.valueOf(genderInput); // Match input to Gender enum
+            gender = Gender.valueOf(genderInput); // Enum expects uppercase
         } catch (IllegalArgumentException e) {
-            gender = Gender.UNKNOWN; // Default to UNKNOWN if invalid input
+            System.out.println("Invalid gender input. Defaulting to UNKNOWN.");
+            gender = Gender.UNKNOWN;
         }
 
         System.out.print("Enter patient contact number: ");
@@ -185,24 +186,24 @@ public class DoctorMenu implements Menu {
             }
         }
 
-    //     // Adjusted to match the expected signature
-    //     boolean success = AppointmentManager.getInstance()
-    //             .getAppointmentOutcomeControl()
-    //             .create(
-    //                     doctor,
-    //                     new AppointmentOutcome(
-    //                             appointmentId,
-    //                             null, // Adjust as needed for patient name
-    //                             doctor.getName(),
-    //                             serviceType,
-    //                             null, // Adjust as needed for datetime
-    //                             medications,
-    //                             consultationNotes));
+        // // Adjusted to match the expected signature
+        // boolean success = AppointmentManager.getInstance()
+        // .getAppointmentOutcomeControl()
+        // .create(
+        // doctor,
+        // new AppointmentOutcome(
+        // appointmentId,
+        // null, // Adjust as needed for patient name
+        // doctor.getName(),
+        // serviceType,
+        // null, // Adjust as needed for datetime
+        // medications,
+        // consultationNotes));
 
-    //     if (success) {
-    //         System.out.println("Appointment outcome recorded successfully.");
-    //     } else {
-    //         System.out.println("Failed to record appointment outcome.");
-    //     }
+        // if (success) {
+        // System.out.println("Appointment outcome recorded successfully.");
+        // } else {
+        // System.out.println("Failed to record appointment outcome.");
+        // }
     }
 }
