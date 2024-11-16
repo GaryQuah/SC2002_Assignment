@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
@@ -16,28 +18,29 @@ import models.User;
  * This class implements the Menu interface.
  * </p>
  */
-public class PatientMenu implements Menu{
+public class PatientMenu implements Menu {
 
     private Patient patient;
-    private PatientFileHandler patientFileHandler=DataBaseManager.getInstance().getPatientFileHandler();
+    private PatientFileHandler patientFileHandler = DataBaseManager.getInstance().getPatientFileHandler();
 
-    public PatientMenu(Patient patient){
+    public PatientMenu(Patient patient) {
 
         this.patient = patient;
     }
+
     /**
-     * Displays the patient-specific menu and handles user input to perform various operations.
+     * Displays the patient-specific menu and handles user input to perform various
+     * operations.
      * <p>
      * The method runs in a loop until the user chooses to log out.
      * </p>
+     * 
      * @param user The user object for whom the menu is displayed.
      */
-    public void displayMenu(User user){ // rename function
+    public void displayMenu(User user) { // rename function
 
         int choice;
         Scanner sc = new Scanner(System.in);
-
-
 
         AppointmentManager appointmentManager = AppointmentManager.getInstance();
 
@@ -56,7 +59,6 @@ public class PatientMenu implements Menu{
             System.out.println("9. Logout");
 
             choice = IntInput.integer("Option");
-            
 
             switch (choice) {
                 case 1:
@@ -70,12 +72,14 @@ public class PatientMenu implements Menu{
                     System.out.println("Contact Information: " + patient.getContactInfo());
                     System.out.println("Emergency Contact:" + patient.getEmergencyContactInfo());
                     System.out.println("Blood Type: " + patient.getBloodType());
-                    /*try {
-                        MedicalRecordService.viewMedicalRecord(patient);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }*/
+                    /*
+                     * try {
+                     * MedicalRecordService.viewMedicalRecord(patient);
+                     * } catch (IOException e) {
+                     * // TODO Auto-generated catch block
+                     * e.printStackTrace();
+                     * }
+                     */
                     break;
 
                 case 2: {
@@ -92,7 +96,7 @@ public class PatientMenu implements Menu{
                         String newContactInfo = sc.nextLine();
                         patient.updateContactInfo(newContactInfo);
                         System.out.println("Personal information updated successfully.");
-                        patientFileHandler.updatePatientInFile(patient); //update csv
+                        patientFileHandler.updatePatientInFile(patient); // update csv
 
                     } else if (updateChoice == 2) {
                         System.out.println("Please enter emergency contact name: ");
@@ -102,7 +106,7 @@ public class PatientMenu implements Menu{
                         System.out.println("Please enter emergency contact number: ");
                         String emergencyNumber = sc.nextLine();
                         patient.updateEmergencyContact(emergencyName, emergencyRelation, emergencyNumber);
-                        patientFileHandler.updatePatientInFile(patient); //update csv
+                        patientFileHandler.updatePatientInFile(patient); // update csv
                     } else {
                         System.out.println("Invalid choice. Returning to main menu.");
                     }
@@ -110,9 +114,51 @@ public class PatientMenu implements Menu{
                 }
 
                 case 3: {
-                    System.out.print("Enter doctor name: ");
-                    String doctorName = sc.nextLine();
-                    appointmentManager.getAppointmentViewer().ViewAvailableDates(doctorName);
+                    // System.out.print("Enter doctor name: ");
+                    // String doctorName = sc.nextLine();
+
+                    // System.out.print("Enter date (dd-mm-yyyy): ");
+                    // String date = sc.nextLine();
+
+                    // // Retrieve available slots for the specified doctor and date
+                    // ArrayList<String> availableSlots =
+                    // appointmentManager.getAppointmentScheduler()
+                    // .GetDoctorAvailableSlots(doctorName, date);
+
+                    // if (availableSlots.isEmpty()) {
+                    // System.out.println("No available slots for Dr. " + doctorName + " on " +
+                    // date);
+                    // } else {
+                    // System.out.println("Available slots for Dr. " + doctorName + " on " + date +
+                    // ":");
+                    // for (String slot : availableSlots) {
+                    // System.out.println("Time: " + slot);
+                    // }
+                    // }
+                    // break;
+                    HashMap<String, HashMap<String, ArrayList<String>>> availability = AppointmentManager.getInstance()
+                            .getAppointmentScheduler().getAllDoctorAvailabilities();
+
+                    System.out.println("Available Appointment Slots:");
+                    System.out.println("--------------------------------------------------");
+
+                    if (availability.isEmpty()) {
+                        System.out.println("No doctors have set their availability yet.");
+                        break;
+                    }
+
+                    for (String doctorName : availability.keySet()) {
+                        System.out.println("Doctor: " + doctorName);
+                        HashMap<String, ArrayList<String>> dates = availability.get(doctorName);
+                        for (String date : dates.keySet()) {
+                            ArrayList<String> slots = dates.get(date);
+                            if (!slots.isEmpty()) {
+                                System.out.println("  Date: " + date);
+                                System.out.println("  Available Times: " + String.join(", ", slots));
+                            }
+                        }
+                        System.out.println("--------------------------------------------------");
+                    }
                     break;
                 }
 
@@ -120,7 +166,7 @@ public class PatientMenu implements Menu{
 
                     System.out.print("Enter doctor name: ");
                     String doctorName = sc.nextLine();
-                    //System.out.print("Enter appointment date (yyyy-mm-dd): ");
+                    // System.out.print("Enter appointment date (yyyy-mm-dd): ");
                     System.out.print("Enter appointment date (dd-mm-yyyy): ");
                     String date = sc.nextLine();
                     System.out.print("Enter time slot (HH:mm) in 30 minute intervals: ");

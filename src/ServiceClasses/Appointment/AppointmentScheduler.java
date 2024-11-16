@@ -10,11 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-/**
- * The AppointmentScheduler class is responsible for scheduling, managing, and rescheduling
- * appointments for doctors and patients. It supports functionalities such as managing doctor
- * availability, checking for conflicts in scheduling, and handling appointment requests.
- */
 public class AppointmentScheduler {
 
     // List of all appointments
@@ -25,23 +20,12 @@ public class AppointmentScheduler {
     private final String timeFormat = "HH:mm";
 
     // Doctor availability mapping
-    private HashMap<String, ArrayList<String>> doctorAvailability = new HashMap<>();
+    private HashMap<String, HashMap<String, ArrayList<String>>> doctorAvailability = new HashMap<>();
 
-    /**
-     * Constructor for initializing AppointmentScheduler with an existing list of appointments.
-     *
-     * @param AppointmentList List of appointments to manage.
-     */
     public AppointmentScheduler(ArrayList<Appointment> AppointmentList) {
         this.AppointmentList = AppointmentList;
     }
 
-    /**
-     * Manages appointments for a given doctor. Displays a list of appointments and allows
-     * the doctor to accept or decline them.
-     *
-     * @param doctorName The name of the doctor whose appointments are to be managed.
-     */
     public void ManageDoctorAppointments(String doctorName) {
         Scanner sc = new Scanner(System.in);
         boolean hasAppointments = false;
@@ -93,82 +77,125 @@ public class AppointmentScheduler {
         }
     }
 
-    /**
-     * Checks for an existing appointment for a specific doctor on a given date and time.
-     * If an appointment exists, its index is returned; otherwise, -1 is returned.
-     *
-     * @param m_doctorName The name of the doctor.
-     * @param m_date The date of the appointment.
-     * @param m_timeSlot The time of the appointment.
-     * @return The index of the existing appointment, or -1 if no appointment is found.
-     */
     private int CheckForExistingAppointment(String m_doctorName, String m_date, String m_timeSlot) {
-        System.out.println("Checking for : Doctor " + m_doctorName + " Date : " + m_date + " Time : " + m_timeSlot);
         for (int i = 0; i < AppointmentList.size(); ++i) {
-            System.out.println("Comparing against : Doctor " + AppointmentList.get(i).getDoctorName()
-                    + " Date : " + AppointmentList.get(i).getAppointmentDate()
-                    + " Time : " + AppointmentList.get(i).getTimeSlot());
-
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getTimeSlot().equals(m_timeSlot)
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
-                // If the appointment exists in the system but was declined, return -1
                 if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.DECLINED)
                     return -1;
-
-                return i; // Appointment exists
+                return i;
             }
         }
-        return -1; // No appointment found
+        return -1;
     }
 
-    /**
-     * Sets the availability for a doctor, specifying a time range during which the doctor is available.
-     *
-     * @param doctorName The name of the doctor.
-     * @param startTime The start time of the doctor's availability.
-     * @param endTime The end time of the doctor's availability.
-     * @return true if the availability was successfully set, false if the time format was invalid.
-     */
-    public boolean SetDoctorAvailability(String doctorName, String startTime, String endTime) {
-        // Validate input time formats
-        if (!isValidTime(startTime) || !isValidTime(endTime)) {
-            System.out.println("Invalid time format! Please use " + timeFormat);
+    public boolean SetDoctorAvailability(String doctorName, String date, String startTime, String endTime) {
+        if (!isValidDate(date) || !isValidTime(startTime) || !isValidTime(endTime)) {
+            System.out.println("Invalid date or time format!");
             return false;
         }
 
-        // Initialize or update the availability list for the doctor
-        ArrayList<String> availability = doctorAvailability.getOrDefault(doctorName, new ArrayList<>());
-        availability.add("From: " + startTime + " To: " + endTime);
-        doctorAvailability.put(doctorName, availability);
+        HashMap<String, ArrayList<String>> availabilityByDate = doctorAvailability.getOrDefault(doctorName,
+                new HashMap<>());
+        ArrayList<String> slots = generateTimeSlots(startTime, endTime);
+        availabilityByDate.put(date, slots);
+        doctorAvailability.put(doctorName, availabilityByDate);
 
-        System.out.println("Availability updated for Dr. " + doctorName);
+        System.out.println("Availability updated for Dr. " + doctorName + " on " + date);
         return true;
     }
 
-    /**
-     * Validates if the given date input is in the correct format (dd-MM-yyyy) and is in the future.
-     *
-     * @param input The date string to validate.
-     * @return true if the date is valid and in the future, false otherwise.
-     */
+    public HashMap<String, ArrayList<String>> GetDoctorAvailability(String doctorName) {
+        return doctorAvailability.getOrDefault(doctorName, new HashMap<>());
+    }
+
+    public ArrayList<String> GetDoctorAvailability(String doctorName, String date) {
+        HashMap<String, ArrayList<String>> availabilityByDate = doctorAvailability.getOrDefault(doctorName,
+                new HashMap<>());
+        return availabilityByDate.getOrDefault(date, new ArrayList<>());
+    }
+
+    public ArrayList<String> GetDoctorAvailableSlots(String doctorName, String date) {
+        ArrayList<String> availableSlots = new ArrayList<>();
+        ArrayList<String> slotsForDate = GetDoctorAvailability(doctorName, date);
+
+        for (String slot : slotsForDate) {
+            if (!isSlotBooked(doctorName, date, slot)) {
+                availableSlots.add(slot);
+            }
+        }
+        return availableSlots;
+    }
+
+    public HashMap<String, HashMap<String, ArrayList<String>>> getAllDoctorAvailabilities() {
+        HashMap<String, HashMap<String, ArrayList<String>>> filteredAvailability = new HashMap<>();
+
+        for (String doctorName : doctorAvailability.keySet()) {
+            HashMap<String, ArrayList<String>> dates = doctorAvailability.get(doctorName);
+            HashMap<String, ArrayList<String>> availableDates = new HashMap<>();
+
+            for (String date : dates.keySet()) {
+                ArrayList<String> allSlots = new ArrayList<>(dates.get(date)); // Copy all slots
+                ArrayList<String> availableSlots = new ArrayList<>();
+
+                for (String slot : allSlots) {
+                    if (!isSlotBooked(doctorName, date, slot)) {
+                        availableSlots.add(slot); // Add only unbooked slots
+                    }
+                }
+
+                if (!availableSlots.isEmpty()) {
+                    availableDates.put(date, availableSlots);
+                }
+            }
+
+            if (!availableDates.isEmpty()) {
+                filteredAvailability.put(doctorName, availableDates);
+            }
+        }
+
+        return filteredAvailability;
+    }
+
+    private boolean isSlotBooked(String doctorName, String date, String slot) {
+        for (Appointment appointment : AppointmentList) {
+            if (appointment.getDoctorName().equals(doctorName) &&
+                    appointment.getAppointmentDate().equals(date) &&
+                    appointment.getTimeSlot().equals(slot)) {
+                return true; // Slot is booked
+            }
+        }
+        return false; // Slot is available
+    }
+
+    private ArrayList<String> generateTimeSlots(String startTime, String endTime) {
+        ArrayList<String> timeSlots = new ArrayList<>();
+        try {
+            LocalTime start = LocalTime.parse(startTime);
+            LocalTime end = LocalTime.parse(endTime);
+
+            while (!start.isAfter(end)) {
+                timeSlots.add(start.toString());
+                start = start.plusMinutes(30);
+            }
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid time format: " + e.getMessage());
+        }
+        return timeSlots;
+    }
+
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
             LocalDate parsedDate = LocalDate.parse(input, formatter);
-            LocalDate today = LocalDate.now(); // Get today's date
-            return parsedDate.isAfter(today); // Ensure the date is in the future
+            LocalDate today = LocalDate.now();
+            return parsedDate.isAfter(today);
         } catch (DateTimeParseException e) {
             return false;
         }
     }
 
-    /**
-     * Validates if the given time input is in the correct format (HH:mm).
-     *
-     * @param input The time string to validate.
-     * @return true if the time is valid, false otherwise.
-     */
     private boolean isValidTime(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
         try {
@@ -179,128 +206,59 @@ public class AppointmentScheduler {
         }
     }
 
-    /**
-     * Retrieves the availability of a doctor, including all scheduled time slots.
-     *
-     * @param doctorName The name of the doctor.
-     * @return A list of availability time slots for the doctor.
-     */
-    public ArrayList<String> GetDoctorAvailability(String doctorName) {
-        return doctorAvailability.getOrDefault(doctorName, new ArrayList<>());
-    }
-
-    /**
-     * Schedules a new appointment for a doctor and a patient, ensuring there are no conflicts with
-     * existing appointments.
-     *
-     * @param m_doctorName The name of the doctor.
-     * @param m_patientName The name of the patient.
-     * @param m_date The date of the appointment.
-     * @param m_timeSlot The time of the appointment.
-     * @param m_appointmentType The type of the appointment.
-     * @return true if the appointment was successfully scheduled, false if there was a conflict.
-     */
     public boolean ScheduleAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot,
-                                       String m_appointmentType) {
+            String m_appointmentType) {
         if (!isValidDate(m_date) || !isValidTime(m_timeSlot)) {
-            System.out.println("Invalid date and time format input! Please provide a proper format : " + dateFormat
-                    + " " + timeFormat);
+            System.out.println("Invalid date and time format input! Please use " + dateFormat + " " + timeFormat);
             return false;
         }
 
-        // Check for existing appointments
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
         if (indexChecker == -1) {
             AppointmentList.add(new Appointment(m_doctorName, m_patientName, m_date, m_timeSlot, m_appointmentType));
-            System.out.println("Successfully Added Appointment. Doctor: " + m_doctorName + ", Patient: " + m_patientName
-                    + ", Date: " + m_date + ", Time: " + m_timeSlot);
+            System.out.println("Appointment successfully scheduled!");
             DataBaseManager.getInstance().getappointmentFileHandler().saveData();
             return true;
         }
 
-        System.out.println("Failed to add appointment. Conflict exists.");
+        System.out.println("Failed to schedule appointment. Conflict exists.");
         return false;
     }
 
-    /**
-     * Reschedules an existing appointment by removing the old appointment and scheduling a new one.
-     *
-     * @param m_doctorName The name of the doctor.
-     * @param m_patientName The name of the patient.
-     * @param m_oldDate The original date of the appointment.
-     * @param m_oldTimeSlot The original time of the appointment.
-     * @param m_appointmentType The type of the appointment.
-     * @param m_newDate The new date of the appointment.
-     * @param m_newTimeSlot The new time of the appointment.
-     * @return true if the appointment was successfully rescheduled, false otherwise.
-     */
     public boolean ReScheduleAppointment(String m_doctorName, String m_patientName, String m_oldDate,
-                                         String m_oldTimeSlot, String m_appointmentType, String m_newDate, String m_newTimeSlot) {
+            String m_oldTimeSlot, String m_appointmentType, String m_newDate, String m_newTimeSlot) {
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_oldDate, m_oldTimeSlot);
         if (indexChecker != -1) {
             AppointmentList.remove(indexChecker);
             return ScheduleAppointment(m_doctorName, m_patientName, m_newDate, m_newTimeSlot, m_appointmentType);
-        } else {
-            System.out.println("Unable to re-schedule appointment. Appointment does not exist.");
-            return false;
         }
+
+        System.out.println("Unable to reschedule. Appointment does not exist.");
+        return false;
     }
 
-    /**
-     * Cancels an existing appointment.
-     *
-     * @param m_doctorName The name of the doctor.
-     * @param m_patientName The name of the patient.
-     * @param m_date The date of the appointment.
-     * @param m_timeSlot The time of the appointment.
-     * @return true if the appointment was successfully canceled, false otherwise.
-     */
     public boolean CancelAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot) {
         int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
-
-        if (indexChecker == -1) {
-            System.out.println("Unable to cancel appointment. Appointment does not exist.");
-            return false;
-        } else {
+        if (indexChecker != -1) {
             AppointmentList.remove(indexChecker);
-            System.out.println("Successfully Cancelled Appointment.");
+            System.out.println("Appointment successfully cancelled.");
             DataBaseManager.getInstance().getappointmentFileHandler().saveData();
             return true;
         }
+
+        System.out.println("Unable to cancel. Appointment does not exist.");
+        return false;
     }
 
     /**
-     * Updates the status of an appointment request.
+     * Retrieves an Appointment by its ID.
      *
-     * @param m_doctorName The name of the doctor.
-     * @param m_appointmentID The ID of the appointment.
-     * @param m_AppointmentStatus The new status of the appointment.
-     * @return true if the status was successfully updated, false otherwise.
+     * @param appointmentID The ID of the appointment to retrieve.
+     * @return The Appointment object if found; otherwise, null.
      */
-    public boolean updateAppointmentRequestStatus(String m_doctorName, int m_appointmentID,
-                                                  AppointmentStatus m_AppointmentStatus) {
-        for (int i = 0; i < AppointmentList.size(); ++i) {
-            if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
-                    && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
-                AppointmentList.get(i).setAppointmentStatus(m_AppointmentStatus);
-                System.out.println("Doctor: " + m_doctorName + " successfully updated appointment ID " + m_appointmentID);
-                DataBaseManager.getInstance().getappointmentFileHandler().saveData();
-                return true;
-            }
-        }
-
-        System.out.println("Unable to update appointment request - Invalid doctor or appointment ID");
-        return false;
-    }
-    
-    /*
-     * takes in the input of Appoinment's ID and return the specific Appoinment Object
-     *
-     * @return appoinment object.
-     */
-    public Appointment getAppointmentByID (int appointmentID){
-        for(Appointment appointment : AppointmentList){
-            if(appointment.getAppointmentID() == appointmentID){
+    public Appointment getAppointmentByID(int appointmentID) {
+        for (Appointment appointment : AppointmentList) {
+            if (appointment.getAppointmentID() == appointmentID) {
                 return appointment;
             }
         }

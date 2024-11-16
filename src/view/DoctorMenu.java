@@ -84,13 +84,15 @@ public class DoctorMenu implements Menu {
 
     private void setAvailability(Doctor doctor) {
         Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the date (dd-MM-yyyy): ");
+        String date = sc.nextLine();
         System.out.print("Enter your available start time (HH:mm): ");
         String startTime = sc.nextLine();
         System.out.print("Enter your available end time (HH:mm): ");
         String endTime = sc.nextLine();
 
         boolean success = AppointmentManager.getInstance().getAppointmentScheduler()
-                .SetDoctorAvailability(doctor.getName(), startTime, endTime);
+                .SetDoctorAvailability(doctor.getName(), date, startTime, endTime);
 
         if (success) {
             System.out.println("Availability updated successfully.");
@@ -111,7 +113,8 @@ public class DoctorMenu implements Menu {
 
     private void recordAppointmentOutcome(Doctor doctor) {
         int appointmentId = IntInput.integer("Enter Appointment ID");
-        Appointment appointment = AppointmentManager.getInstance().getAppointmentScheduler().getAppointmentByID(appointmentId);
+        Appointment appointment = AppointmentManager.getInstance().getAppointmentScheduler()
+                .getAppointmentByID(appointmentId);
         if (appointment == null) {
             System.out.println("Invalid Appoinment ID.");
         } else {
