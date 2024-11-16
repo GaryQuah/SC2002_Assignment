@@ -140,7 +140,7 @@ public class PatientMenu implements Menu {
                             .getAppointmentScheduler().getAllDoctorAvailabilities();
 
                     System.out.println("Available Appointment Slots:");
-                    System.out.println("--------------------------------------------------");
+                    // System.out.println("--------------------------------------------------");
 
                     if (availability.isEmpty()) {
                         System.out.println("No doctors have set their availability yet.");
@@ -153,11 +153,19 @@ public class PatientMenu implements Menu {
                         for (String date : dates.keySet()) {
                             ArrayList<String> slots = dates.get(date);
                             if (!slots.isEmpty()) {
-                                System.out.println("  Date: " + date);
-                                System.out.println("  Available Times: " + String.join(", ", slots));
+                                System.out.println("Date: " + date);
+                                System.out.println("Available Times: ");
+                                for (int i = 0; i < slots.size(); i++) {
+                                    System.out.print(slots.get(i));
+                                    if ((i + 1) % 5 == 0 || i == slots.size() - 1) {
+                                        System.out.println(); // Move to the next line after every 5 slots or at the end
+                                    } else {
+                                        System.out.print(", "); // Separate time slots with commas
+                                    }
+                                }
                             }
                         }
-                        System.out.println("--------------------------------------------------");
+                        // System.out.println("--------------------------------------------------");
                     }
                     break;
                 }
