@@ -76,7 +76,7 @@ public class AppointmentManager {
     public void updateMaxID(int value) {
         System.out.println("Updating Max ID");
         if (value >= instance.MaxID) {
-            instance.MaxID = value;
+            instance.MaxID = value + 1;
         }
     }
 
