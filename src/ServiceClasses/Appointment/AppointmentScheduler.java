@@ -284,6 +284,7 @@ public class AppointmentScheduler {
                     && AppointmentList.get(i).getAppointmentID() == m_appointmentID) {
                 AppointmentList.get(i).setAppointmentStatus(m_AppointmentStatus);
                 System.out.println("Doctor: " + m_doctorName + " successfully updated appointment ID " + m_appointmentID);
+                DataBaseManager.getInstance().getappointmentFileHandler().saveData();
                 return true;
             }
         }
