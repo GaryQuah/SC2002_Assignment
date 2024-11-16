@@ -12,12 +12,27 @@ import models.enums.Gender;
 import models.enums.Role;
 
 
-
+/**
+ * Handles the sign-up process for patients, collecting necessary information
+ * and creating a new patient record in the system.
+ */
 public class PTSignup 
 {
-    //sign up page for patient 
+    /**
+     * Default constructor for the PTSignup class.
+     */
     public PTSignup() {}
 
+    /**
+     * Executes the sign-up process for a patient.
+     * 
+     * <p>
+     * This method guides the user through entering their personal details,
+     * such as name, date of birth, gender, blood type, contact information,
+     * and emergency contact details. After validation, it creates a new 
+     * {@link Patient} object and saves it in the system database.
+     * </p>
+     */
     public void signUp() {
         Scanner sc = new Scanner(System.in);
         int choice;
@@ -123,8 +138,17 @@ public class PTSignup
 
     }
 
+
+    /**
+     * Validates the provided date of birth (DOB) string.
+     * 
+     * @param DOB the date of birth in the format "dd/MM/yyyy"
+     * @return {@code true} if the date is valid; {@code false} otherwise
+     */
+    
     public static boolean validateDate(String DOB)
     {
+        // Format Dates in the format dd/MM/yyyy
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         format.setLenient(false);
         try {
