@@ -11,6 +11,28 @@ public class AppointmentViewer {
         this.AppointmentList = AppointmentList;
     }
 
+    public void ViewUpcomingAppointments(String doctorName) {
+        boolean hasAppointments = false;
+
+        System.out.println("Upcoming Appointments for Dr. " + doctorName + ":");
+        for (Appointment appointment : AppointmentList) {
+            if (appointment.getDoctorName().equals(doctorName)
+                && (appointment.getAppointmentStatus() == AppointmentStatus.UNACCEPTED
+                    || appointment.getAppointmentStatus() == AppointmentStatus.ACCEPTED)) {
+                hasAppointments = true;
+                System.out.println("Appointment ID: " + appointment.getAppointmentID());
+                System.out.println("Patient Name: " + appointment.getPatientName());
+                System.out.println("Date: " + appointment.getAppointmentDate());
+                System.out.println("Time: " + appointment.getTimeSlot());
+                System.out.println("-------------------------------------");
+            }
+        }
+
+        if (!hasAppointments) {
+            System.out.println("No upcoming appointments found for Dr. " + doctorName);
+        }
+    }
+
     public void ViewAllAppointmentsByStatus(AppointmentStatus m_AppointmentStatus) { //Sort by appointment status - for admin : Appointment Outcome Record (for completed appointments)
         for (int i = 0; i < AppointmentList.size(); ++i) // Check through all the appointments, make sure the doctor
         // doesn't have an appointment on the date and
