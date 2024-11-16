@@ -3,6 +3,7 @@ package ServiceClasses.Appointment;
 import java.util.HashMap;
 
 public class Appointment {
+    // Variable Declaration
     private String m_DoctorName;
     private String m_PatientName;
     private String m_AppointmentDate; // String keep it as DDMMYY
@@ -16,37 +17,22 @@ public class Appointment {
     private String dispenseStatus;
     private String consultationNotes;
 
-    public String getDispenseStatus() {
-        return dispenseStatus;
-    }
+    // End of variable declaration
 
-    public void setDispenseStatus(String dispenseStatus) {
-        this.dispenseStatus = dispenseStatus;
-    }
-
-    public String getConsultationNotes() {
-        return consultationNotes;
-    }
-
-    public void setConsultationNotes(String consultationNotes) {
-        this.consultationNotes = consultationNotes;
-    }
-
-    // Constructor
-
+    //Constructors
     //When creating a new appointment, get the AppointmentManager to provide the new MaxID. - status by default is unaccepted
     //For creating new appointments through the CLI
     public Appointment(/*int m_AppointmentID,*/ String m_DoctorName, String m_PatientName, String m_AppointmentDate, String m_TimeSlot,
-            String m_AppointmentType) {
+                                                String m_AppointmentType) {
         this.m_AppointmentDate = m_AppointmentDate;
         this.m_DoctorName = m_DoctorName;
         this.m_TimeSlot = m_TimeSlot;
         this.m_PatientName = m_PatientName;
         this.m_AppointmentType = m_AppointmentType;
         m_AppointmentStatus = AppointmentStatus.UNACCEPTED;
-        // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
-        // 128 bit ID we can use this, for simplicity we shall use int values.
-        this.m_AppointmentID = AppointmentManager.getInstance().getNewID(); // Gets new ID on creation
+
+        // Gets new ID on creation
+        this.m_AppointmentID = AppointmentManager.getInstance().getNewID();
     }
 
     //For CSV creation - need to init with status
@@ -58,15 +44,20 @@ public class Appointment {
         this.m_PatientName = m_PatientName;
         this.m_AppointmentType = m_AppointmentType;
         this.m_AppointmentStatus = m_AppointmentStatus;
-        // this.m_AppointmentID = UUID.randomUUID().toString(); - If we want a unique
-        // 128 bit ID we can use this, for simplicity we shall use int values.
         this.m_AppointmentID = m_AppointmentID;
-        AppointmentManager.getInstance().updateMaxID(m_AppointmentID); // Updates the max ID upon retrieving data from CSV
+
+        // Updates the max ID upon retrieving data from CSV
+        AppointmentManager.getInstance().updateMaxID(m_AppointmentID);
+    }
+    //End of constructors
+
+    //Getters
+    public String getDispenseStatus() {
+        return dispenseStatus;
     }
 
-    public void setMeidcation(HashMap<String, Integer> medicationMap)
-    {
-        this.medicationMap = medicationMap;
+    public String getConsultationNotes() {
+        return consultationNotes;
     }
 
     public HashMap<String, Integer> getMedicationMap() {
@@ -74,20 +65,31 @@ public class Appointment {
     }
 
     // Methods
-    public boolean UpdateAppointmentStatus(AppointmentStatus m_Status) 
-    {
-        if (this.m_DoctorName.equals(m_DoctorName)) {
-            m_AppointmentStatus = m_Status;
-            System.out.println(
-                    "Successfully updated the appointment of ID " + this.m_AppointmentID + " to " + m_AppointmentStatus);
-            return true;
-        }
-        System.out.println("Failed to update the appointment of ID " + this.m_AppointmentID + " to " + m_AppointmentStatus
-                + " -- Wrong doctor name for this appointment.");
-        return false;
+
+    //End of getters
+
+    //Setters
+    public void setDispenseStatus(String dispenseStatus) {
+        this.dispenseStatus = dispenseStatus;
     }
 
-    // Getters
+    public void setConsultationNotes(String consultationNotes) {
+        this.consultationNotes = consultationNotes;
+    }
+
+    public void setMeidcation(HashMap<String, Integer> medicationMap)
+    {
+        this.medicationMap = medicationMap;
+    }
+
+    public boolean setAppointmentStatus(AppointmentStatus m_Status)
+    {
+        m_AppointmentStatus = m_Status;
+        return false;
+    }
+    //End of Setters
+
+    //Getters
     public String getDoctorName() {
         return m_DoctorName;
     }
@@ -115,8 +117,7 @@ public class Appointment {
     public String getAppointmentType() {
         return m_AppointmentType;
     }
-
-    // Setters here
+    //End of Getters
 
     // Override print
     @Override
