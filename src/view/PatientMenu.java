@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import input.IntInput;
@@ -185,6 +186,7 @@ public class PatientMenu implements Menu{
 
                 case 8:
                     // update to past patient appoointment records
+                    AppoinmentOutcomeControl.getInstance().viewAppoinmentOutcomes(patient);
                     break;
 
                 case 9:
