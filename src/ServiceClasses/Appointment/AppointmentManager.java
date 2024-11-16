@@ -23,6 +23,7 @@ public class AppointmentManager {
 
     private ArrayList<Appointment> AppointmentList = new ArrayList<>();
 
+
     private AppointmentScheduler appointmentScheduler = new AppointmentScheduler(AppointmentList);
     private AppointmentStatusUpdater appointmentStatusUpdater = new AppointmentStatusUpdater(AppointmentList);
     private AppointmentViewer appointmentViewer = new AppointmentViewer(AppointmentList);
@@ -56,7 +57,7 @@ public class AppointmentManager {
 
     public void updateMaxID(int comp)
     {
-        System.out.println("Updating Max ID");
+        // System.out.println("Updating Max ID");
         if (comp >= instance.MaxID)
             instance.MaxID = comp;
     }
@@ -65,5 +66,10 @@ public class AppointmentManager {
     {
         return AppointmentList;
     }
+    
+    public void setAppointmentList(ArrayList<Appointment> appointmentList) {
+        AppointmentList = appointmentList;
+    }
+
 
 }

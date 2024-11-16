@@ -12,7 +12,7 @@ public class MenuFactory {
             Staff staffUser = (Staff) user;
             switch (staffUser.getRole()) {
                 case Doctor:
-                    //return new DoctorMenu();
+                    return new DoctorMenu();
                 case Pharmacist:
                     return new PharmacistMenu();
                 case Administrator:

@@ -7,7 +7,6 @@ import ServiceClasses.Appointment.AppointmentStatus;
 import input.CSVParse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AppointmentFileHandler extends FileHandler<Appointment> {
     public AppointmentFileHandler() {
@@ -20,15 +19,16 @@ public class AppointmentFileHandler extends FileHandler<Appointment> {
         ArrayList<Appointment> appointmentList = AppointmentManager.getInstance().getAppointmentList();
 
         ArrayList<String[]> fileData = CSVParse.read(getFilePath(), true);
+        appointmentList.clear();
 
         for (String[] row : fileData) {
-            System.out.println(Arrays.toString(row));
-            System.out.println("Processing appointment Data data");
+            // System.out.println(Arrays.toString(row));
+            // System.out.println("Processing appointment Data data");
 
             Appointment apt = new Appointment(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4], row[5],
                     AppointmentStatus.valueOf(row[6]));
             appointmentList.add(apt);
-            System.out.println("Created Appointment : " + apt.toString());
+            // System.out.println("Created Appointment : " + apt.toString());
         }
         return null;
     }
