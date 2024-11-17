@@ -9,10 +9,6 @@ public interface IAppoinmentOutcome {
 
     public AppointmentOutcomeSort appointmentOutcomeSort = new AppointmentOutcomeSort();
 
-    //add new outcome by doctor
-    // public void add(User user);
-
-
     //edit existing outcome by doctor
     public void edit(User user);
 

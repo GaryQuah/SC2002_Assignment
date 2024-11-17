@@ -7,7 +7,6 @@ import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.inventory.InventoryControl;
 import input.IntInput;
 import input.Scan;
-import models.Patient;
 import models.User;
 import models.enums.Role;
 import models.enums.Status;
@@ -16,16 +15,13 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     private ArrayList<AppointmentOutcome> appointmentOutcomes = new ArrayList<>();
 
-    public ArrayList<AppointmentOutcome> getAppointmentOutcomes() {
-        return appointmentOutcomes;
-    }
-
-    public void setAppointmentOutcomes(ArrayList<AppointmentOutcome> appointmentOutcomes) {
-        this.appointmentOutcomes = appointmentOutcomes;
-    }
-
     private static AppoinmentOutcomeControl instance;
 
+    /**
+     * Provides a singleton instance of AppointmentOutcomeControl.
+     *
+     * @return the singleton instance of AppointmentOutcomeControl
+     */
     public static AppoinmentOutcomeControl getInstance() {
         if (instance == null) {
             instance = new AppoinmentOutcomeControl();
@@ -33,6 +29,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return instance;
     }
 
+    /**
+     * Checks if the user has the role of Doctor.
+     *
+     * @param user the user to check
+     * @return true if the user is a Doctor, otherwise false
+     */
     private Boolean isDoctor(User user) {
         if (user.getRole() == Role.Doctor)
             return true;
@@ -40,6 +42,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return false;
     }
 
+    /**
+     * Checks if the user has the role of Pharmacist.
+     *
+     * @param user the user to check
+     * @return true if the user is a Pharmacist, otherwise false
+     */
     private Boolean isPharmacist(User user) {
         if (user.getRole() == Role.Pharmacist)
             return true;
@@ -47,6 +55,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return false;
     }
 
+    /**
+     * Checks if the user has the role of Administrator.
+     *
+     * @param user the user to check
+     * @return true if the user is an Administrator, otherwise false
+     */
     private Boolean isAdmin(User user) {
         if (user.getRole() == Role.Administrator)
             return true;
@@ -54,6 +68,32 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return false;
     }
 
+    /**
+     * Gets the list of all appointment outcomes.
+     *
+     * @return the list of appointment outcomes
+     */
+    public ArrayList<AppointmentOutcome> getAppointmentOutcomes() {
+        return appointmentOutcomes;
+    }
+
+    /**
+     * Sets a new list of appointment outcomes.
+     *
+     * @param appointmentOutcomes the new list of appointment outcomes
+     */
+
+    public void setAppointmentOutcomes(ArrayList<AppointmentOutcome> appointmentOutcomes) {
+        this.appointmentOutcomes = appointmentOutcomes;
+    }
+
+    /**
+     * Creates a new appointment outcome if the user is a Doctor and the appointment
+     * does not already exist.
+     *
+     * @param user        the user creating the appointment
+     * @param appointment the appointment details
+     */
     @Override
     public void create(User user, Appointment appointment) {
         if (!isDoctor(user))
@@ -72,6 +112,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         System.out.println("New Appointment added.");
     }
 
+    /**
+     * Selects an appointment outcome for the user by displaying all outcomes.
+     *
+     * @param user the user selecting the appointment
+     * @return the selected appointment outcome, or null if invalid
+     */
     public AppointmentOutcome select(User user) {
         (new AppointmentOutcomeDisplay()).printOutcomes(appointmentOutcomes, user);
         if (appointmentOutcomes.size() == 0) {
@@ -88,6 +134,13 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return null;
     }
 
+    /**
+     * Selects an appointment outcome from a specified list for the user.
+     *
+     * @param user     the user selecting the appointment
+     * @param outcomes the list of outcomes to choose from
+     * @return the selected appointment outcome, or null if invalid
+     */
     public AppointmentOutcome select(User user, ArrayList<AppointmentOutcome> outcomes) {
         (new AppointmentOutcomeDisplay()).printOutcomes(outcomes, user);
         if (outcomes.size() == 0) {
@@ -105,6 +158,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         return null;
     }
 
+    /**
+     * Allows a doctor to edit an existing appointment outcome by updating service
+     * type, medication, or consultation note.
+     *
+     * @param user the doctor editing the appointment outcome
+     */
     @Override
     public void edit(User user) {
         if (!isDoctor(user))
@@ -145,6 +204,11 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     }
 
+    /**
+     * Allows an admin to delete an appointment outcome.
+     *
+     * @param user the admin deleting the outcome
+     */
     @Override
     public void delete(User user) {
         if (!isAdmin(user))
@@ -156,29 +220,58 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         appointmentOutcomes.remove(appointmentOutcome);
     }
 
+    /**
+     * Displays all appointment outcomes for a user.
+     *
+     * @param user the user viewing the outcomes
+     */
     @Override
     public void viewAppoinmentOutcomes(User user) {
         appointmentOutcomeSort.sortByAppointmentDate(appointmentOutcomes, 0);
         appointmentOutcomeDisplay.printOutcomes(appointmentOutcomes, user);
     }
 
+    /**
+     * Displays a doctor's medical records based on patient name.
+     *
+     * @param user the doctor viewing medical records
+     */
     @Override
     public void viewMedicalRecordsByDoctor(User user) {
-        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort.sortByPatientName(getOutcomeByDoctorName(user.getName()), 0);
+        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort
+                .sortByPatientName(getOutcomeByDoctorName(user.getName()), 0);
         appointmentOutcomeDisplay.printOutcomes(SortedOutcome, user);
     }
 
+    /**
+     * Displays a patient's medical records based on doctor name.
+     *
+     * @param user the patient viewing medical records
+     */
     @Override
     public void viewMedicalRecordsByPatient(User user) {
-        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort.sortByDoctorName(getOutcomeByPatientName(user), 0);
+        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort
+                .sortByDoctorName(getOutcomeByPatientName(user), 0);
         appointmentOutcomeDisplay.printOutcomes(SortedOutcome, user);
     }
 
+    /**
+     * Displays a pharmacist's pending medical records, sorted by appointment date.
+     *
+     * @param user the pharmacist viewing medical records
+     */
     public void viewMedicalRecordsByPharmacist(User user) {
-        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort.sortByAppointmentDate(getOutcomeByPharmacist(), 0);
+        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort
+                .sortByAppointmentDate(getOutcomeByPharmacist(), 0);
         appointmentOutcomeDisplay.printOutcomes(SortedOutcome, user);
     }
 
+    /**
+     * Retrieves outcomes based on a specific doctor’s name.
+     *
+     * @param name the doctor's name
+     * @return a list of appointment outcomes for that doctor
+     */
     public ArrayList<AppointmentOutcome> getOutcomeByDoctorName(String name) {
         ArrayList<AppointmentOutcome> result = new ArrayList<>();
         for (AppointmentOutcome outcome : appointmentOutcomes) {
@@ -194,6 +287,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     }
 
+    /**
+     * Retrieves outcomes based on a specific patient’s name.
+     *
+     * @param user the patient user
+     * @return a list of appointment outcomes for that patient
+     */
     public ArrayList<AppointmentOutcome> getOutcomeByPatientName(User user) {
         ArrayList<AppointmentOutcome> result = new ArrayList<>();
         for (AppointmentOutcome outcome : appointmentOutcomes) {
@@ -208,6 +307,12 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         }
 
     }
+
+    /**
+     * Retrieves outcomes pending for a pharmacist.
+     *
+     * @return a list of pending appointment outcomes
+     */
     public ArrayList<AppointmentOutcome> getOutcomeByPharmacist() {
         ArrayList<AppointmentOutcome> result = new ArrayList<>();
         for (AppointmentOutcome outcome : appointmentOutcomes) {
@@ -224,18 +329,22 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
     }
 
+    /**
+     * Updates the prescription status if the user is a pharmacist.
+     *
+     * @param user the pharmacist updating the status
+     */
     @Override
     public void updatePrescriptionStatus(User user) {
         if (!isPharmacist(user))
             return;
-        
-        // appointmentOutcomeSort.sortByAppointmentDate(appointmentOutcomes, 0);
-        // ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
+
         ArrayList<AppointmentOutcome> result = getOutcomeByPharmacist();
-        if(result.size()==0){
+        if (result.size() == 0) {
             System.out.println("No Pending Medication dispense request.");
             return;
-    }
+        }
+        
         AppointmentOutcome appointmentOutcome = select(user, result);
         HashMap<String, Integer> medicationMap = appointmentOutcome.getPrescribedMedications();
         Status status = InventoryControl.getInstance().dispenseMedicine(medicationMap);
