@@ -8,10 +8,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code MedicalRecordService} class provides utility methods for managing medical records,
+ * including adding, updating, deleting, viewing, and retrieving all records. 
+ * Medical records are stored and retrieved from a CSV file.
+ */
 public class MedicalRecordService {
-    private static final String FILE_PATH = "src/data/MedicalRecord_List.csv"; // Update the file path
 
-    // Create a new medical record
+    private static final String FILE_PATH = "src/data/MedicalRecord_List.csv"; // Path to the CSV file
+
+    /**
+     * Adds a new medical record to the CSV file.
+     *
+     * @param record The {@code MedicalRecord} object to be added.
+     * @throws IOException If there is an error writing to the file.
+     */
     public static void addMedicalRecord(MedicalRecord record) throws IOException {
         try (FileWriter writer = new FileWriter(FILE_PATH, true)) {
             writer.write(String.join(",",
@@ -28,7 +39,12 @@ public class MedicalRecordService {
         }
     }
 
-    // Read all medical records
+    /**
+     * Retrieves all medical records from the CSV file.
+     *
+     * @return A list of {@code MedicalRecord} objects.
+     * @throws IOException If there is an error reading the file.
+     */
     public static List<MedicalRecord> getAllMedicalRecords() throws IOException {
         List<MedicalRecord> records = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -69,20 +85,21 @@ public class MedicalRecordService {
         return records;
     }
 
-    // Update a medical record
+    /**
+     * Updates an existing medical record in the CSV file.
+     *
+     * @param updatedRecord The updated {@code MedicalRecord} object.
+     * @throws IOException If there is an error reading or writing to the file.
+     */
     public static void updateMedicalRecord(MedicalRecord updatedRecord) throws IOException {
         List<MedicalRecord> records = getAllMedicalRecords();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            // Write the header
             writer.write("Patient ID,Name,Date of Birth,Gender,Contact Number,Email Address,Blood Type,Past Diagnoses,Past Treatments\n");
     
             for (MedicalRecord record : records) {
                 if (record.getPatientId().equals(updatedRecord.getPatientId())) {
-                    // Validate Gender and BloodType before updating
                     Gender gender = validateGender(updatedRecord.getGender());
                     BloodType bloodType = validateBloodType(updatedRecord.getBloodType());
-    
-                    // Write updated record
                     writer.write(String.join(",",
                             updatedRecord.getPatientId(),
                             updatedRecord.getName(),
@@ -95,7 +112,6 @@ public class MedicalRecordService {
                             updatedRecord.getPastTreatments()
                     ) + "\n");
                 } else {
-                    // Write original record back
                     writer.write(String.join(",",
                             record.getPatientId(),
                             record.getName(),
@@ -111,16 +127,13 @@ public class MedicalRecordService {
             }
         }
     }
-    
-    private static Gender validateGender(Gender inputGender) {
-        return (inputGender != null) ? inputGender : Gender.UNKNOWN;
-    }
-    
-    private static BloodType validateBloodType(BloodType inputBloodType) {
-        return (inputBloodType != null) ? inputBloodType : BloodType.UNKNOWN;
-    }
-        
-    // Delete a medical record
+
+    /**
+     * Deletes a medical record from the CSV file.
+     *
+     * @param patientId The ID of the patient whose record is to be deleted.
+     * @throws IOException If there is an error reading or writing to the file.
+     */
     public static void deleteMedicalRecord(String patientId) throws IOException {
         List<MedicalRecord> records = getAllMedicalRecords();
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
@@ -142,7 +155,12 @@ public class MedicalRecordService {
         }
     }
 
-    // View medical records for a specific patient
+    /**
+     * Displays the medical records for a specific patient.
+     *
+     * @param patientId The ID of the patient whose medical record is to be viewed.
+     * @throws IOException If there is an error reading the file.
+     */
     public static void viewMedicalRecord(String patientId) throws IOException {
         List<MedicalRecord> records = getAllMedicalRecords();
         System.out.println("------ Medical Records ------");
@@ -161,7 +179,11 @@ public class MedicalRecordService {
         }
     }
 
-    // Print a single medical record
+    /**
+     * Prints the details of a single medical record.
+     *
+     * @param record The {@code MedicalRecord} object to be printed.
+     */
     private static void printRecord(MedicalRecord record) {
         System.out.println("Patient ID: " + record.getPatientId());
         System.out.println("Name: " + record.getName());
@@ -173,5 +195,25 @@ public class MedicalRecordService {
         System.out.println("Past Diagnoses: " + record.getPastDiagnoses());
         System.out.println("Past Treatments: " + record.getPastTreatments());
         System.out.println("----------------------------");
+    }
+
+    /**
+     * Validates and returns a valid {@code Gender} value.
+     *
+     * @param inputGender The input gender value.
+     * @return A valid {@code Gender} value.
+     */
+    private static Gender validateGender(Gender inputGender) {
+        return (inputGender != null) ? inputGender : Gender.UNKNOWN;
+    }
+
+    /**
+     * Validates and returns a valid {@code BloodType} value.
+     *
+     * @param inputBloodType The input blood type value.
+     * @return A valid {@code BloodType} value.
+     */
+    private static BloodType validateBloodType(BloodType inputBloodType) {
+        return (inputBloodType != null) ? inputBloodType : BloodType.UNKNOWN;
     }
 }
