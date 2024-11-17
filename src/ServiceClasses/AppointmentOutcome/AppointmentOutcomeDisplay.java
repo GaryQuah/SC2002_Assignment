@@ -33,13 +33,13 @@ public class AppointmentOutcomeDisplay {
         }
 
         else if (user.getRole() == Role.Doctor) {
-            System.out.printf("DOCTOR APPOINTMENT OUTCOMES");
-            System.out.println();
+            // System.out.printf("MEDICAL RECORDS");
+            // System.out.println();
             System.out.printf("%-5s |", "No."); // New index column
             System.out.printf("%-15s |", "Appointment ID");
             System.out.printf(" %-16s |", "Appointment Date");
             System.out.printf(" %-15s |", "Patient Name");
-            System.out.printf(" %-15s |", "Type of Service");
+            System.out.printf(" %-25s |", "Type of Service");
             System.out.printf(" %-30s |", "Medication");
             System.out.printf(" %-15s\n", "Consultation Notes");
         }
@@ -90,7 +90,7 @@ public class AppointmentOutcomeDisplay {
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
             System.out.printf(" %-15s |", appointmentOutcome.getPatientName());
-            System.out.printf(" %-15s |", appointmentOutcome.getServiceType());
+            System.out.printf(" %-25s |", appointmentOutcome.getServiceType());
             System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
             System.out.printf(" %-15s\n", appointmentOutcome.getConsultationNotes());
         }

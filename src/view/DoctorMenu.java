@@ -29,7 +29,9 @@ public class DoctorMenu implements Menu {
      */
     public void header() {
         System.out.println();
-        System.out.println("---------- Doctor Menu ----------");
+        System.out.println("=======================================");
+        System.out.println("|             Doctor Menu             |");
+        System.out.println("=======================================");
         System.out.println("1. View Patient Medical Records");
         System.out.println("2. Update Patient Medical Records");
         System.out.println("3. View Personal Schedule");

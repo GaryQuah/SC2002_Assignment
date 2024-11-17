@@ -168,8 +168,9 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
     public void edit(User user) {
         if (!isDoctor(user))
             return;
-
-        AppointmentOutcome appointmentOutcome = select(user, getOutcomeByDoctorName(user.getName()));
+        ArrayList<AppointmentOutcome> medicalRecords =  patientSelect( getOutcomeByDoctorName(user.getName()));
+        System.out.println("Medical Records Of " + medicalRecords.get(0).getPatientName());
+        AppointmentOutcome appointmentOutcome = select(user, medicalRecords);
 
         if (appointmentOutcome == null)
             return;
@@ -241,6 +242,22 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         ArrayList<AppointmentOutcome> sortedOutcomes = appointmentOutcomeSort
                 .sortByPatientName(getOutcomeByDoctorName(user.getName()), 0);
                 
+        ArrayList<AppointmentOutcome> selectedPatientOutcomes = patientSelect(sortedOutcomes);
+        if (selectedPatientOutcomes == null) return;
+        
+        System.out.println("Medical Records Of " + selectedPatientOutcomes.get(0).getPatientName());
+        appointmentOutcomeDisplay.printOutcomes(selectedPatientOutcomes, user);
+    }
+
+    /**
+     * Allows a doctor to select a specific patient from a list of patients under their care.
+     * Displays a list of unique patient names and prompts the doctor to choose one.
+     * Returns an ArrayList of AppointmentOutcome records for the selected patient.
+     *
+     * @param sortedOutcomes the list of appointment outcomes sorted by patient name
+     * @return a list of AppointmentOutcome records for the selected patient, or null if an invalid index is entered
+     */
+    private ArrayList<AppointmentOutcome> patientSelect(ArrayList<AppointmentOutcome> sortedOutcomes){
         ArrayList<String> uniquePatientNames = new ArrayList<>();
         for (AppointmentOutcome outcome : sortedOutcomes) {
             String patientName = outcome.getPatientName();
@@ -255,8 +272,8 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
 
         int patientIndex = IntInput.integer("Option");
         if (patientIndex < 1 || patientIndex > uniquePatientNames.size()) {
-            System.out.println("Invalid index. Returning to main menu.");
-            return;
+            System.out.println("Invalid index.");
+            return null;
         }
 
         String patientName = uniquePatientNames.get(patientIndex - 1);
@@ -265,9 +282,9 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
             if (outcome.getPatientName().equals(patientName)) {
                 selectedPatientOutcomes.add(outcome);
             }
-        }  
-        
-        appointmentOutcomeDisplay.printOutcomes(selectedPatientOutcomes, user);
+        }
+
+        return selectedPatientOutcomes;
     }
 
     /**
