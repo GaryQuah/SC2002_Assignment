@@ -37,6 +37,7 @@ public class InventoryFileHandler extends FileHandler<Prescription> {
      */
     @Override
     public ArrayList<Prescription> retrieveData() {
+        InventoryControl.getInstance().getInventory().clear();
         ArrayList<Prescription> results = new ArrayList<>();
         try {
             // Reading the CSV file to get raw inventory data
@@ -71,7 +72,7 @@ public class InventoryFileHandler extends FileHandler<Prescription> {
                             prescription.getRestockAmount()
             );
         }
-
+        InventoryControl.getInstance().getInventory().clear();
         try {
             // Writing the data back to the CSV file
             CSVParse.write(getFilePath(), data);

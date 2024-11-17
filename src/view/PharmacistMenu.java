@@ -11,10 +11,10 @@ import models.User;
  * <p>
  * It allows pharmacists to:
  * <ul>
- *     <li>View appointment outcomes</li>
- *     <li>Update prescription statuses</li>
- *     <li>View and manage medication inventory</li>
- *     <li>Submit replenishment requests</li>
+ * <li>View appointment outcomes</li>
+ * <li>Update prescription statuses</li>
+ * <li>View and manage medication inventory</li>
+ * <li>Submit replenishment requests</li>
  * </ul>
  * This class implements the {@code Menu} interface.
  */
@@ -54,17 +54,17 @@ public class PharmacistMenu implements Menu {
     public void displayMenu(User loggedInUser) {
 
         int choice;
-        DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
-        DataBaseManager.getInstance().getOutcomeFileHandler().retrieveData();
 
         do {
             header();
             choice = IntInput.integer("Option");
+            DataBaseManager.getInstance().getOutcomeFileHandler().retrieveData();
+            DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
             switch (choice) {
                 case 1:
                     System.out.println("1. View All Appointment Outcome");
                     System.out.println("2. View Pending Appointment Outcome");
-                    choice = IntInput.integer("Option");    
+                    choice = IntInput.integer("Option");
                     switch (choice) {
                         case 1:
                             AppoinmentOutcomeControl.getInstance().viewAppoinmentOutcomes(loggedInUser);
@@ -73,11 +73,11 @@ public class PharmacistMenu implements Menu {
                         case 2:
                             AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByPharmacist(loggedInUser);
                             break;
-                    
-                        default:
-                            System.out.println("Invalid Option.");                    
-                    }
 
+                        default:
+                            System.out.println("Invalid Option.");
+                            break;
+                    }
                     break;
 
                 case 2:
@@ -94,14 +94,14 @@ public class PharmacistMenu implements Menu {
 
                 case 5:
                     System.out.println("Logout...");
-                    DataBaseManager.getInstance().getInventoryFileHandler().saveData();
-                    DataBaseManager.getInstance().getOutcomeFileHandler().saveData();
-                    return;
+                    break;
 
                 default:
                     System.out.println("Invalid Choice");
                     break;
             }
+            DataBaseManager.getInstance().getOutcomeFileHandler().saveData();
+            DataBaseManager.getInstance().getInventoryFileHandler().saveData();
 
         } while (choice != 5);
 

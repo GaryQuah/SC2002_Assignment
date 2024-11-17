@@ -7,6 +7,7 @@ import ServiceClasses.Appointment.AppointmentManager;
 import ServiceClasses.Appointment.AppointmentStatus;
 import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.inventory.InventoryControl;
+import input.IntInput;
 import models.Administrator;
 import models.Doctor;
 import models.Pharmacist;
@@ -54,8 +55,7 @@ public class AdministratorMenu implements Menu
             System.out.println("3. View & Manage Medication Inventory");
             System.out.println("4. Approve Replenishment Requests");
             System.out.println("5. Logout");
-            System.out.println("Enter your choice: ");
-            choice = sc.nextInt();
+            choice = IntInput.integer("Enter your choice");
             DataBaseManager.getInstance().getInventoryFileHandler().retrieveData();
             switch(choice)
             {
@@ -106,7 +106,7 @@ public class AdministratorMenu implements Menu
         System.out.println("2. Add Staff Members");
         System.out.println("3. Update Staff Members");
         System.out.println("4. Remove Staff Members");
-        choice = sc.nextInt();
+        choice = IntInput.integer("Option");
 
         switch(choice)
         {
@@ -118,7 +118,7 @@ public class AdministratorMenu implements Menu
                 System.out.println("2. View Staff Members By Role");
                 System.out.println("3. View Staff Members By Gender");
                 System.out.println("4. View Staff Members By Age");
-                int filterChoice = sc.nextInt();
+                int filterChoice = IntInput.integer("Option");
                 switch(filterChoice)
                 {
                     case 1:
@@ -131,7 +131,7 @@ public class AdministratorMenu implements Menu
                         System.out.println("1. Doctor");
                         System.out.println("2. Pharmacist");
                         System.out.println("3. Administrator");
-                        int roleChoice = sc.nextInt();
+                        int roleChoice = IntInput.integer("Option");
                         switch(roleChoice)
                         {
                             case 1:
@@ -154,7 +154,7 @@ public class AdministratorMenu implements Menu
                         System.out.println("--------------------------------");
                         System.out.println("1. Male");
                         System.out.println("2. Female");
-                        int genderChoice = sc.nextInt();
+                        int genderChoice = IntInput.integer("Option");
                         switch(genderChoice)
                         {
                             case 1:
@@ -172,7 +172,7 @@ public class AdministratorMenu implements Menu
                         System.out.println("--------------------------------");
                         System.out.println("Enter Age");
                         System.out.println("--------------------------------");
-                        int age = sc.nextInt();
+                        int age = IntInput.integer("Age");
                         DataBaseManager.getInstance().getStaffFileHandler().printFilterBy(Integer.toString(age));
                         break;
                     default:
