@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
 import ServiceClasses.Database.DataBaseManager;
+import ServiceClasses.Database.OutcomeFileHandler;
 import ServiceClasses.Database.PatientFileHandler;
 import input.IntInput;
 import ServiceClasses.Appointment.AppointmentManager;
@@ -20,6 +21,7 @@ public class PatientMenu implements Menu {
 
     private Patient patient;
     private PatientFileHandler patientFileHandler = DataBaseManager.getInstance().getPatientFileHandler();
+    private OutcomeFileHandler outcomeFileHandler = DataBaseManager.getInstance().getOutcomeFileHandler();
 
     /**
      * Constructor for the PatientMenu.
@@ -43,6 +45,7 @@ public class PatientMenu implements Menu {
         int choice;
         Scanner sc = new Scanner(System.in);
         AppointmentManager appointmentManager = AppointmentManager.getInstance();
+        outcomeFileHandler.retrieveData();
 
         do {
             System.out.println("--------------------------------");
@@ -100,6 +103,7 @@ public class PatientMenu implements Menu {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
+            outcomeFileHandler.saveData();
         } while (choice != 9);
     }
 

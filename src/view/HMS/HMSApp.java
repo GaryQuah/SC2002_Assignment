@@ -1,33 +1,13 @@
 package view.HMS;
 
-import javax.xml.crypto.Data;
-
-import ServiceClasses.Appointment.AppointmentManager;
-import ServiceClasses.Appointment.AppointmentStatus;
-import ServiceClasses.AppointmentOutcome.AppoinmentOutcomeControl;
-import ServiceClasses.MedicalRecordService;
-import ServiceClasses.Appointment.Appointment;
 import ServiceClasses.Database.DataBaseManager;
 import ServiceClasses.Database.PatientFileHandler;
 import ServiceClasses.Database.StaffFileHandler;
 import ServiceClasses.SignUp.PTSignup;
-import ServiceClasses.inventory.InventoryControl;
-import models.Doctor;
-import models.MedicalRecord;
-import models.Patient;
-import models.Pharmacist;
 import models.Staff;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.InputMismatchException;
-import java.util.List;
-
 import models.User;
-import models.enums.BloodType;
-import models.enums.Gender;
-import models.enums.Role;
 import view.*;
 
 import java.util.Scanner;
