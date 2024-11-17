@@ -7,9 +7,14 @@ import models.enums.Role;
 
 public class AppointmentOutcomeDisplay {
 
+    /**
+     * Prints a header row customized based on the role of the user.
+     * 
+     * @param user the user whose role determines the displayed columns
+     */
     public void header(User user) {
 
-        if (user.getRole() == Role.Administrator){
+        if (user.getRole() == Role.Administrator) {
             System.out.printf("APPOINTMENT OUTCOMES");
             for (int i = 0; i < 111; i++)
                 System.out.printf("-");
@@ -27,10 +32,8 @@ public class AppointmentOutcomeDisplay {
 
         }
 
-        else if (user.getRole() == Role.Doctor){
-            System.out.printf("APPOINTMENT OUTCOME BY DOCTOR "+user.getName());
-            // for (int i = 0; i < 96; i++)
-            //     System.out.printf("-");
+        else if (user.getRole() == Role.Doctor) {
+            System.out.printf("DOCTOR APPOINTMENT OUTCOMES");
             System.out.println();
             System.out.printf("%-5s |", "No."); // New index column
             System.out.printf("%-15s |", "Appointment ID");
@@ -41,7 +44,7 @@ public class AppointmentOutcomeDisplay {
             System.out.printf(" %-15s\n", "Consultation Notes");
         }
 
-        else if (user.getRole() == Role.Patient){
+        else if (user.getRole() == Role.Patient) {
             System.out.printf("MEDICAL RECORDS");
             for (int i = 0; i < 94; i++)
                 System.out.printf("-");
@@ -54,12 +57,10 @@ public class AppointmentOutcomeDisplay {
             // System.out.printf(" %-30s |", "Medication");
             System.out.printf(" %-15s\n", "Consultation Notes");
         }
-    
 
-        else if (user.getRole() == Role.Pharmacist){
+        else if (user.getRole() == Role.Pharmacist) {
             System.out.printf("APPOINTMENT OUTCOMES");
-            // for (int i = 0; i < 106; i++)
-            //     System.out.printf("-");
+
             System.out.println();
 
             System.out.printf("%-5s |", "No."); // New index column
@@ -73,21 +74,18 @@ public class AppointmentOutcomeDisplay {
 
     }
 
+    /**
+     * Prints a single appointment outcome, formatted based on the user’s role.
+     * 
+     * @param appointmentOutcome the outcome to display
+     * @param index              the index to label the row in the display
+     * @param user               the user whose role determines displayed details
+     */
     public void printOutcome(AppointmentOutcome appointmentOutcome, int index, User user) {
-        if (appointmentOutcome == null) return;
+        if (appointmentOutcome == null)
+            return;
 
-        // if(user.getRole() == Role.Administrator or ){
-        //     System.out.printf("%-5d |", index); // Print the index number
-        //     System.out.printf("%-5s |", appointmentOutcome.getAppointmentID());
-        //     System.out.printf(" %-10s |", appointmentOutcome.getDateTime());
-        //     System.out.printf(" %-10d |", appointmentOutcome.getPatientName());
-        //     System.out.printf(" %-10d |", appointmentOutcome.getDoctorName());
-        //     System.out.printf(" %-15d |", appointmentOutcome.getServiceType());
-        //     System.out.printf(" %-15d |", appointmentOutcome.getPrescribedMedications());
-        //     System.out.printf(" %-15s\n", appointmentOutcome.getConsultationNotes());
-        // }
-
-        if(user.getRole() == Role.Doctor){
+        if (user.getRole() == Role.Doctor) {
             System.out.printf("%-5d |", index); // Print the index number
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
@@ -95,9 +93,9 @@ public class AppointmentOutcomeDisplay {
             System.out.printf(" %-15s |", appointmentOutcome.getServiceType());
             System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
             System.out.printf(" %-15s\n", appointmentOutcome.getConsultationNotes());
-            }
+        }
 
-        else if(user.getRole() == Role.Patient){
+        else if (user.getRole() == Role.Patient) {
             System.out.printf("%-5d |", index); // Print the index number
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
@@ -105,9 +103,8 @@ public class AppointmentOutcomeDisplay {
             System.out.printf(" %-25s |", appointmentOutcome.getServiceType());
             // System.out.printf(" %-30s |", appointmentOutcome.getPrescribedMedications());
             System.out.printf(" %-15s\n", appointmentOutcome.getConsultationNotes());
-            
-        } 
-        else if (user.getRole() == Role.Administrator){
+
+        } else if (user.getRole() == Role.Administrator) {
             System.out.printf("%-5d |", index); // Print the index number
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
@@ -120,7 +117,7 @@ public class AppointmentOutcomeDisplay {
 
         }
 
-        else if (user.getRole() == Role.Pharmacist){
+        else if (user.getRole() == Role.Pharmacist) {
             System.out.printf("%-5d |", index); // Print the index number
             System.out.printf("%-15d |", appointmentOutcome.getAppointmentID());
             System.out.printf(" %-16s |", appointmentOutcome.getDateTime());
@@ -130,20 +127,24 @@ public class AppointmentOutcomeDisplay {
             System.out.printf(" %-10s\n", appointmentOutcome.getStatus());
         }
     }
-    
 
+    /**
+     * Displays all appointment outcomes for the specified user.
+     * 
+     * @param appointmentOutcomes list of outcomes to display
+     * @param user                the user viewing the outcomes
+     */
     public void printOutcomes(ArrayList<AppointmentOutcome> appointmentOutcomes, User user) {
-        if (appointmentOutcomes.size() == 0) { 
+        if (appointmentOutcomes.size() == 0) {
             System.out.println("Not Outcomes found in database");
             return;
         }
 
         header(user);
-        for (int i = 0; i < appointmentOutcomes.size(); i++){
-            printOutcome(appointmentOutcomes.get(i), i+1, user);
+        for (int i = 0; i < appointmentOutcomes.size(); i++) {
+            printOutcome(appointmentOutcomes.get(i), i + 1, user);
         }
 
-    
     }
 
 }
