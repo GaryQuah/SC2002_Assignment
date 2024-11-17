@@ -117,6 +117,7 @@ public class PatientMenu implements Menu {
         System.out.println("Contact Information: " + patient.getContactInfo());
         System.out.println("Emergency Contact: " + patient.getEmergencyContactInfo());
         System.out.println("Blood Type: " + patient.getBloodType());
+        AppoinmentOutcomeControl.getInstance().viewMedicalRecordsByPatient(patient);
     }
 
     /**
