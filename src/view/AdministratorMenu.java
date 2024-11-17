@@ -546,7 +546,6 @@ public class AdministratorMenu implements Menu
         System.out.println("1. View Inventory");
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
-        System.out.println("4. Approve Replenishment Requests");
         int choice = IntInput.integer("Option");
         switch(choice)
         {
