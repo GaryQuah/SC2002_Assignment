@@ -322,7 +322,7 @@ public class AdministratorMenu implements Menu
                 return; 
         }
         DataBaseManager.getInstance().getStaffFileHandler().addStaff(newStaff);
-        System.out.println("Staff " + id + " has been added.");
+        System.out.println("Staff " + newStaff.getUserID() + " has been added.");
     }
 
 

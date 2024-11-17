@@ -10,6 +10,7 @@ import models.UserIDManager;
 import models.enums.BloodType;
 import models.enums.Gender;
 import models.enums.Role;
+import input.IntInput;
 
 
 /**
@@ -81,8 +82,7 @@ public class PTSignup
             System.out.println("6. AB-");
             System.out.println("7. O+");
             System.out.println("8. O-");
-            choice = sc.nextInt();
-            sc.nextLine();
+            choice = IntInput.integer("Option");
 
             switch (choice) {
                 case 1:
