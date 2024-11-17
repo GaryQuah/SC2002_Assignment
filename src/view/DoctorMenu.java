@@ -167,7 +167,7 @@ public class DoctorMenu implements Menu {
         if (appointment == null) {
             System.out.println("Invalid Appointment ID.");
         } else {
-            System.out.println("Found." + appointment.getDoctorName());
+            System.out.println("Found appointment for " + appointment.getDoctorName());
             AppoinmentOutcomeControl.getInstance().create(doctor, appointment);
         }
     }
