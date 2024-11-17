@@ -109,7 +109,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         }
         appointmentOutcomes.add(newOutcome);
         appointmentOutcomeSort.sortByAppointmentDate(appointmentOutcomes, 0);
-        System.out.println("New Appointment added.");
+        System.out.println("New Appointment Outcome added.");
     }
 
     /**
