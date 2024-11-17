@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * The AppointmentScheduler class manages appointment scheduling,
+ * rescheduling, cancellations, and doctor availability.
+ */
 public class AppointmentScheduler {
 
     // List of all appointments
@@ -22,18 +26,26 @@ public class AppointmentScheduler {
     // Doctor availability mapping
     private HashMap<String, HashMap<String, ArrayList<String>>> doctorAvailability = new HashMap<>();
 
+    /**
+     * Constructor to initialize the AppointmentScheduler with an existing list of appointments.
+     *
+     * @param AppointmentList The list of existing appointments.
+     */
     public AppointmentScheduler(ArrayList<Appointment> AppointmentList) {
         this.AppointmentList = AppointmentList;
     }
 
+    /**
+     * Manages appointment requests for a specific doctor.
+     *
+     * @param doctorName The name of the doctor whose appointments are being managed.
+     */
     public void ManageDoctorAppointments(String doctorName) {
         Scanner sc = new Scanner(System.in);
         boolean hasAppointments = false;
 
         System.out.println("Managing appointments for Dr. " + doctorName);
-        for (int i = 0; i < AppointmentList.size(); i++) {
-            Appointment appointment = AppointmentList.get(i);
-
+        for (Appointment appointment : AppointmentList) {
             if (appointment.getDoctorName().equals(doctorName)) {
                 hasAppointments = true;
                 System.out.println("Appointment ID: " + appointment.getAppointmentID());
@@ -51,23 +63,16 @@ public class AppointmentScheduler {
                 sc.nextLine(); // Consume newline
 
                 switch (choice) {
-                    case 1:
+                    case 1 -> {
                         appointment.setAppointmentStatus(AppointmentStatus.ACCEPTED);
                         System.out.println("Appointment Accepted.");
-                        break;
-
-                    case 2:
+                    }
+                    case 2 -> {
                         appointment.setAppointmentStatus(AppointmentStatus.DECLINED);
                         System.out.println("Appointment Declined.");
-                        break;
-
-                    case 3:
-                        System.out.println("Skipping Appointment.");
-                        break;
-
-                    default:
-                        System.out.println("Invalid Choice. Skipping Appointment.");
-                        break;
+                    }
+                    case 3 -> System.out.println("Skipping Appointment.");
+                    default -> System.out.println("Invalid Choice. Skipping Appointment.");
                 }
             }
         }
@@ -77,19 +82,37 @@ public class AppointmentScheduler {
         }
     }
 
+    /**
+     * Checks for an existing appointment for a specific doctor on a given date and time.
+     *
+     * @param m_doctorName The name of the doctor.
+     * @param m_date       The date of the appointment.
+     * @param m_timeSlot   The time slot of the appointment.
+     * @return The index of the appointment if found, otherwise -1.
+     */
     private int CheckForExistingAppointment(String m_doctorName, String m_date, String m_timeSlot) {
         for (int i = 0; i < AppointmentList.size(); ++i) {
             if (AppointmentList.get(i).getDoctorName().equals(m_doctorName)
                     && AppointmentList.get(i).getTimeSlot().equals(m_timeSlot)
                     && AppointmentList.get(i).getAppointmentDate().equals(m_date)) {
-                if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.DECLINED)
+                if (AppointmentList.get(i).getAppointmentStatus() == AppointmentStatus.DECLINED) {
                     return -1;
+                }
                 return i;
             }
         }
         return -1;
     }
 
+    /**
+     * Sets the availability of a doctor for a specific date and time range.
+     *
+     * @param doctorName The name of the doctor.
+     * @param date       The date of availability.
+     * @param startTime  The start time of availability.
+     * @param endTime    The end time of availability.
+     * @return true if availability is successfully set, false otherwise.
+     */
     public boolean SetDoctorAvailability(String doctorName, String date, String startTime, String endTime) {
         if (!isValidDate(date) || !isValidTime(startTime) || !isValidTime(endTime)) {
             System.out.println("Invalid date or time format!");
@@ -106,28 +129,34 @@ public class AppointmentScheduler {
         return true;
     }
 
+    /**
+     * Retrieves the availability of a doctor.
+     *
+     * @param doctorName The name of the doctor.
+     * @return A map of dates and available time slots.
+     */
     public HashMap<String, ArrayList<String>> GetDoctorAvailability(String doctorName) {
         return doctorAvailability.getOrDefault(doctorName, new HashMap<>());
     }
 
+    /**
+     * Retrieves the available time slots for a doctor on a specific date.
+     *
+     * @param doctorName The name of the doctor.
+     * @param date       The date of availability.
+     * @return A list of available time slots for the specified date.
+     */
     public ArrayList<String> GetDoctorAvailability(String doctorName, String date) {
         HashMap<String, ArrayList<String>> availabilityByDate = doctorAvailability.getOrDefault(doctorName,
                 new HashMap<>());
         return availabilityByDate.getOrDefault(date, new ArrayList<>());
     }
 
-    public ArrayList<String> GetDoctorAvailableSlots(String doctorName, String date) {
-        ArrayList<String> availableSlots = new ArrayList<>();
-        ArrayList<String> slotsForDate = GetDoctorAvailability(doctorName, date);
-
-        for (String slot : slotsForDate) {
-            if (!isSlotBooked(doctorName, date, slot)) {
-                availableSlots.add(slot);
-            }
-        }
-        return availableSlots;
-    }
-
+    /**
+     * Retrieves the available appointment slots for all doctors.
+     *
+     * @return A map containing doctors' names, dates, and available time slots.
+     */
     public HashMap<String, HashMap<String, ArrayList<String>>> getAllDoctorAvailabilities() {
         HashMap<String, HashMap<String, ArrayList<String>>> filteredAvailability = new HashMap<>();
 
@@ -136,12 +165,12 @@ public class AppointmentScheduler {
             HashMap<String, ArrayList<String>> availableDates = new HashMap<>();
 
             for (String date : dates.keySet()) {
-                ArrayList<String> allSlots = new ArrayList<>(dates.get(date)); // Copy all slots
+                ArrayList<String> allSlots = new ArrayList<>(dates.get(date));
                 ArrayList<String> availableSlots = new ArrayList<>();
 
                 for (String slot : allSlots) {
                     if (!isSlotBooked(doctorName, date, slot)) {
-                        availableSlots.add(slot); // Add only unbooked slots
+                        availableSlots.add(slot);
                     }
                 }
 
@@ -158,17 +187,32 @@ public class AppointmentScheduler {
         return filteredAvailability;
     }
 
+    /**
+     * Checks if a specific time slot is already booked.
+     *
+     * @param doctorName The name of the doctor.
+     * @param date       The date of the slot.
+     * @param slot       The time slot.
+     * @return true if the slot is booked, false otherwise.
+     */
     private boolean isSlotBooked(String doctorName, String date, String slot) {
         for (Appointment appointment : AppointmentList) {
             if (appointment.getDoctorName().equals(doctorName) &&
                     appointment.getAppointmentDate().equals(date) &&
                     appointment.getTimeSlot().equals(slot)) {
-                return true; // Slot is booked
+                return true;
             }
         }
-        return false; // Slot is available
+        return false;
     }
 
+    /**
+     * Generates a list of time slots between a start time and an end time.
+     *
+     * @param startTime The start time.
+     * @param endTime   The end time.
+     * @return A list of time slots in 30-minute intervals.
+     */
     private ArrayList<String> generateTimeSlots(String startTime, String endTime) {
         ArrayList<String> timeSlots = new ArrayList<>();
         try {
@@ -185,6 +229,12 @@ public class AppointmentScheduler {
         return timeSlots;
     }
 
+    /**
+     * Validates if the given date is in the correct format and in the future.
+     *
+     * @param input The date string to validate.
+     * @return true if the date is valid and in the future, false otherwise.
+     */
     private boolean isValidDate(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
         try {
@@ -196,6 +246,12 @@ public class AppointmentScheduler {
         }
     }
 
+    /**
+     * Validates if the given time is in the correct format.
+     *
+     * @param input The time string to validate.
+     * @return true if the time is valid, false otherwise.
+     */
     private boolean isValidTime(String input) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(timeFormat);
         try {
@@ -206,8 +262,18 @@ public class AppointmentScheduler {
         }
     }
 
+    /**
+     * Schedules a new appointment for a doctor and a patient.
+     *
+     * @param doctorName     The name of the doctor.
+     * @param patientName    The name of the patient.
+     * @param date           The date of the appointment.
+     * @param timeSlot       The time slot of the appointment.
+     * @param appointmentType The type of the appointment.
+     * @return true if the appointment was successfully scheduled, false otherwise.
+     */
     public boolean ScheduleAppointment(String doctorName, String patientName, String date, String timeSlot,
-            String appointmentType) {
+                                       String appointmentType) {
         // Validate date and time format
         if (!isValidDate(date) || !isValidTime(timeSlot)) {
             System.out.println("Invalid date or time format input! Please use the correct format.");
@@ -241,20 +307,41 @@ public class AppointmentScheduler {
         return true;
     }
 
-    public boolean ReScheduleAppointment(String m_doctorName, String m_patientName, String m_oldDate,
-            String m_oldTimeSlot, String m_appointmentType, String m_newDate, String m_newTimeSlot) {
-        int indexChecker = CheckForExistingAppointment(m_doctorName, m_oldDate, m_oldTimeSlot);
+    /**
+     * Reschedules an existing appointment.
+     *
+     * @param doctorName     The name of the doctor.
+     * @param patientName    The name of the patient.
+     * @param oldDate        The original date of the appointment.
+     * @param oldTimeSlot    The original time slot of the appointment.
+     * @param appointmentType The type of the appointment.
+     * @param newDate        The new date of the appointment.
+     * @param newTimeSlot    The new time slot of the appointment.
+     * @return true if the appointment was successfully rescheduled, false otherwise.
+     */
+    public boolean ReScheduleAppointment(String doctorName, String patientName, String oldDate,
+                                         String oldTimeSlot, String appointmentType, String newDate, String newTimeSlot) {
+        int indexChecker = CheckForExistingAppointment(doctorName, oldDate, oldTimeSlot);
         if (indexChecker != -1) {
             AppointmentList.remove(indexChecker);
-            return ScheduleAppointment(m_doctorName, m_patientName, m_newDate, m_newTimeSlot, m_appointmentType);
+            return ScheduleAppointment(doctorName, patientName, newDate, newTimeSlot, appointmentType);
         }
 
         System.out.println("Unable to reschedule. Appointment does not exist.");
         return false;
     }
 
-    public boolean CancelAppointment(String m_doctorName, String m_patientName, String m_date, String m_timeSlot) {
-        int indexChecker = CheckForExistingAppointment(m_doctorName, m_date, m_timeSlot);
+    /**
+     * Cancels an existing appointment.
+     *
+     * @param doctorName  The name of the doctor.
+     * @param patientName The name of the patient.
+     * @param date        The date of the appointment.
+     * @param timeSlot    The time slot of the appointment.
+     * @return true if the appointment was successfully canceled, false otherwise.
+     */
+    public boolean CancelAppointment(String doctorName, String patientName, String date, String timeSlot) {
+        int indexChecker = CheckForExistingAppointment(doctorName, date, timeSlot);
         if (indexChecker != -1) {
             AppointmentList.remove(indexChecker);
             System.out.println("Appointment successfully cancelled.");
@@ -267,10 +354,10 @@ public class AppointmentScheduler {
     }
 
     /**
-     * Retrieves an Appointment by its ID.
+     * Retrieves an appointment by its ID.
      *
      * @param appointmentID The ID of the appointment to retrieve.
-     * @return The Appointment object if found; otherwise, null.
+     * @return The Appointment object if found, otherwise null.
      */
     public Appointment getAppointmentByID(int appointmentID) {
         for (Appointment appointment : AppointmentList) {
