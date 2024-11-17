@@ -226,8 +226,8 @@ public class AdministratorMenu implements Menu
                 System.out.println("2. Pharmacist");
                 System.out.println("3. Administrator");
                 System.out.println("4. Exit");
-                choice = sc.nextInt();
-                sc.nextLine();
+                choice = IntInput.integer("Enter your choice");
+
 
                 switch (choice) {
                     case 1:
@@ -259,8 +259,8 @@ public class AdministratorMenu implements Menu
                 System.out.println("1. Male");
                 System.out.println("2. Female");
                 System.out.println("3. Exit");
-                choice = sc.nextInt();
-                sc.nextLine();
+                choice = IntInput.integer("Enter your choice");
+
 
                 switch (choice) {
                     case 1:
@@ -366,10 +366,8 @@ public class AdministratorMenu implements Menu
         System.out.println("3. Staff Gender");
         System.out.println("4. Staff Age");
         System.out.println("5. Staff Password");
-        int updateChoice = sc.nextInt();
-        sc.nextLine();
-    
-        
+        int updateChoice = IntInput.integer("Option");
+
         switch (updateChoice) {
             case 1:
                 System.out.println("Enter New Staff Name: ");
@@ -450,15 +448,12 @@ public class AdministratorMenu implements Menu
 
     public static void AdminRemoveMemberMenu()
     {
-        int choice;  
         String id = "";
         Scanner sc = new Scanner(System.in);
 
         System.out.println("1. Enter Staff ID");
         System.out.println("2. Exit");
-        choice = sc.nextInt();
-        sc.nextLine();
-
+        int choice = IntInput.integer("Option");
         switch(choice)
         {
             case 1:
@@ -511,9 +506,7 @@ public class AdministratorMenu implements Menu
         System.out.println("3. View Declined Appointments");
         System.out.println("4. View Pending Appointments");
         System.out.println("4. View Completed Appointments");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = IntInput.integer("Option");
         switch(choice)
         {
             case 1:
@@ -554,9 +547,7 @@ public class AdministratorMenu implements Menu
         System.out.println("2. Edit Medication");
         System.out.println("3. Edit Low Stock Alert Level");
         System.out.println("4. Approve Replenishment Requests");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        sc.nextLine();
+        int choice = IntInput.integer("Option");
         switch(choice)
         {
             case 1:

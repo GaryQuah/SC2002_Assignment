@@ -238,9 +238,36 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
      */
     @Override
     public void viewMedicalRecordsByDoctor(User user) {
-        ArrayList<AppointmentOutcome> SortedOutcome = appointmentOutcomeSort
+        ArrayList<AppointmentOutcome> sortedOutcomes = appointmentOutcomeSort
                 .sortByPatientName(getOutcomeByDoctorName(user.getName()), 0);
-        appointmentOutcomeDisplay.printOutcomes(SortedOutcome, user);
+                
+        ArrayList<String> uniquePatientNames = new ArrayList<>();
+        for (AppointmentOutcome outcome : sortedOutcomes) {
+            String patientName = outcome.getPatientName();
+            if (!uniquePatientNames.contains(patientName)) {
+                uniquePatientNames.add(patientName);
+            }
+        }
+        System.out.println("Patients under your care:");
+        for (int i = 0; i < uniquePatientNames.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, uniquePatientNames.get(i));
+        }
+
+        int patientIndex = IntInput.integer("Option");
+        if (patientIndex < 1 || patientIndex > uniquePatientNames.size()) {
+            System.out.println("Invalid index. Returning to main menu.");
+            return;
+        }
+
+        String patientName = uniquePatientNames.get(patientIndex - 1);
+        ArrayList<AppointmentOutcome> selectedPatientOutcomes = new ArrayList<>();
+        for (AppointmentOutcome outcome : sortedOutcomes) {
+            if (outcome.getPatientName().equals(patientName)) {
+                selectedPatientOutcomes.add(outcome);
+            }
+        }  
+        
+        appointmentOutcomeDisplay.printOutcomes(selectedPatientOutcomes, user);
     }
 
     /**

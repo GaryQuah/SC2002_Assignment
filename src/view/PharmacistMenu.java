@@ -29,7 +29,7 @@ public class PharmacistMenu implements Menu {
     /**
      * Displays the header for the pharmacist menu.
      */
-    public void header() {
+    public static void header() {
         System.out.println();
         System.out.println("=======================================");
         System.out.println("|           Pharmacist Menu           |");
