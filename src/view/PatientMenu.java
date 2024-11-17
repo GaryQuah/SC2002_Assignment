@@ -59,7 +59,8 @@ public class PatientMenu implements Menu {
             System.out.println("6. Cancel an Appointment");
             System.out.println("7. View Scheduled Appointments");
             System.out.println("8. View Past Appointment Outcome Records");
-            System.out.println("9. Logout");
+            System.out.println("9: Change Password");
+            System.out.println("10. Logout");
 
             choice = IntInput.integer("Option");
 
@@ -97,6 +98,10 @@ public class PatientMenu implements Menu {
                     break;
 
                 case 9:
+                    changePassword(sc);
+                    break;
+
+                case 10:
                     System.out.println("Logging out...");
                     break;
 
@@ -104,7 +109,7 @@ public class PatientMenu implements Menu {
                     System.out.println("Invalid choice. Please try again.");
             }
             outcomeFileHandler.saveData();
-        } while (choice != 9);
+        } while (choice != 10);
     }
 
     /**
@@ -286,5 +291,16 @@ public class PatientMenu implements Menu {
      */
     private void viewPastAppointmentOutcomes() {
         AppoinmentOutcomeControl.getInstance().viewAppoinmentOutcomes(patient);
+    }
+
+    /**
+     * Changes the patient's password.
+     */
+    private void changePassword(Scanner sc) {
+        System.out.println("Enter new password: ");
+        String newPassword = sc.nextLine();
+        patient.setPassword(newPassword);
+        patientFileHandler.updatePatientInFile(patient);
+        System.out.println("Password changed successfully.");
     }
 }

@@ -80,6 +80,7 @@ public class PatientFileHandler extends FileHandler<Patient>
             if (patient.getUserID().equals(updatedPatient.getUserID())) {
                 patient.updateContactInfo(updatedPatient.getContactInfo());
                 patient.updateEmergencyContact(updatedPatient.getEmergencyContactName(), updatedPatient.getEmergencyContactRelation(), updatedPatient.getEmergencyContactNumber());
+                patient.setPassword(updatedPatient.getPassword());
                 break;
             }
         }
@@ -87,7 +88,7 @@ public class PatientFileHandler extends FileHandler<Patient>
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFilePath()))) {
             // Write the header
             // added emergency contact info
-            writer.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Username,Password," +
+            writer.write("Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information,Password," +
                     "Emergency Contact Name,Emergency Contact Relation,Emergency Contact Number\n");
 
             // Write updated patient data

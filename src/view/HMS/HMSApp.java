@@ -17,6 +17,8 @@ public class HMSApp {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
         dbManager.getappointmentFileHandler().retrieveData();
+        dbManager.getPatientFileHandler().retrieveData();
+        dbManager.getStaffFileHandler().retrieveData();
 
         String currentUserID;
         String currentUserPassword;
