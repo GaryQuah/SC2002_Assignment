@@ -33,72 +33,10 @@ import view.*;
 import java.util.Scanner;
 
 public class HMSApp {
-
-        
-    // DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-
-    // dataBaseManager.getappointmentFileHandler().retrieveData();
-    // dataBaseManager.getOutcomeFileHandler().retrieveData();
-    // dataBaseManager.getInventoryFileHandler().retrieveData();
-
-    // AppoinmentOutcomeControl appoinmentOutcomeControl = AppoinmentOutcomeControl.getInstance();
-    // AppointmentManager appointmentManager = AppointmentManager.getInstance();
-    // User loggedInUser = null;
-
-    // /*
-    // * User input ==> logged in user, check wether is doctor
-    // * selected appoinment and update it to complete and fill up the outcome
-    // */
-    // appoinmentOutcomeControl.create(null, null);
-
-    // /*
-    // * Sample usage for creating a new outcome by Doctor.
-    // * Please a create a function to Complete Appointment.
-    // */
-    // Appointment appointment = appointmentManager.getAppointmentScheduler().getAppointmentByID(2);
-    // if (appointment == null) {
-    //     System.out.println("Invalid Appoinment ID");
-    // } else {
-    //     appoinmentOutcomeControl.create(loggedInUser, appointment);
-    // }
-    // /*
-    // * View All AppointmentOutcome. 
-    // * For Admin or Everyone.
-    // */
-    // appoinmentOutcomeControl.viewAppoinmentOutcomes(null);
-    // /*
-    // * View all the Medical Records under this particular Doctor supervision.
-    // */
-    // appoinmentOutcomeControl.viewMedicalRecordsByDoctor(null);
-    // /*
-    // * View all the Medical Records of this particular Patient.
-    // */
-    // appoinmentOutcomeControl.viewMedicalRecordsByPatient(null);
-    // /*
-    // * View all the Pending Medical Records.
-    // * For Dispense Purpose.
-    // */
-    // appoinmentOutcomeControl.viewMedicalRecordsByPharmacist(null);
-
-    // // delete appointment, for admin only. not necessary but leave it here first
-    // appoinmentOutcomeControl.delete(loggedInUser);
-
-    // // edit appointment, can be used by doctor.
-    // appoinmentOutcomeControl.edit(loggedInUser);
-
-    // // for pharmacist to update the dispesnse status from pending to completed 
-    // appoinmentOutcomeControl.updatePrescriptionStatus(loggedInUser);
-
-    // dataBaseManager.getOutcomeFileHandler().saveData();
-    // dataBaseManager.getInventoryFileHandler().saveData();
-    // dataBaseManager.getappointmentFileHandler().saveData();
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         DataBaseManager dbManager = DataBaseManager.getInstance();
         dbManager.getappointmentFileHandler().retrieveData();
-
-        ArrayList<Patient> patientsData = dbManager.getPatientFileHandler().retrieveData();
-        ArrayList<Staff> staffData = dbManager.getStaffFileHandler().retrieveData();
 
         String currentUserID;
         String currentUserPassword;
