@@ -177,7 +177,7 @@ public class AppoinmentOutcomeControl implements IAppoinmentOutcome, IAppoinment
         System.out.println("Select Attribute to Edit:");
         System.out.println("1 - Type of Service");
         System.out.println("2 - Medication");
-        System.out.println("3 - Consulatation Note");
+        System.out.println("3 - Consultation Note");
 
         int option = IntInput.integer("Option");
 
