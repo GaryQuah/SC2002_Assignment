@@ -4,3 +4,4 @@ PT0002,Bob Stone,11/22/1975,Male,B_POSITIVE,bob.stone@example.com,password,hende
 PT0003,Charlie White,7/8/1990,Male,O_NEGATIVE,charlie.white@example.com,password,alice,mother,1122334455
 PT0004,Gerald,13/09/2001,Male,B_NEGATIVE,999,a,1,1,1
 PT0005,john,13/09/2001,Male,B_POSITIVE,1,1,1,1,1
+PT0006,NEw,21/03/2000,Female,A_NEGATIVE,f,f,f,f,f
