@@ -398,6 +398,7 @@ public class AdministratorMenu implements Menu
                 }
                 updatedStaff.setRole(newRole); // Update role
                 updatedStaff.setUserID(UserIDManager.getInstance().generateUniqueID(newRole));  // Update the user ID
+                System.out.println("Staff role updated successfully. Staff ID: " + updatedStaff.getUserID());
                 break;
             case 3:
                 System.out.println("Select New Staff Gender: ");
@@ -505,7 +506,7 @@ public class AdministratorMenu implements Menu
         System.out.println("2. View Accepted Appointments");
         System.out.println("3. View Declined Appointments");
         System.out.println("4. View Pending Appointments");
-        System.out.println("4. View Completed Appointments");
+        System.out.println("5. View Completed Appointments");
         int choice = IntInput.integer("Option");
         switch(choice)
         {

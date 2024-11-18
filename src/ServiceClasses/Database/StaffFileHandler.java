@@ -208,7 +208,7 @@ public class StaffFileHandler extends FileHandler<Staff> {
         if (staffFound) {
             setDataArray(currentStaffList); // Update the list
             saveData(); // Save the updated data to CSV
-            System.out.println("Staff with ID " + userID + " has been updated.");
+            System.out.println("Staff with ID " + updatedStaff.getUserID() + " has been updated.");
         } else {
             System.out.println("Staff with ID " + userID + " not found.");
         }
